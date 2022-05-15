@@ -1,0 +1,142 @@
+﻿@model BLL.DTO.GameDTO
+@using System.Security.Claims;
+
+<head>
+    <link rel="stylesheet" href="/css/comments.css" />
+    <link rel="stylesheet" href="/css/gameCard.css" />
+</head>
+
+<div class="card">
+    <h5 class="card-header">@ViewBag.game.Name</h5>
+    <div class="card-body">
+        @*<h5 class="card-title">Special title treatment</h5>*@
+        @*<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>*@
+        <div class="row g-0">
+            <td><img src="@ViewBag.game.HeaderImage"></td>
+            <div class="col-md-8">
+                <table>
+                    <tr>
+                        <th>Rating:</th>
+                        <td>@ViewBag.game.Rating</td>
+                    </tr>
+                    <tr>
+                        <th>Genre:</th>
+                        <td>@ViewBag.game.Genre</td>
+                    </tr>
+                    <tr>
+                        <th>Release Date:</th>
+                        @*<td>@ViewBag.game.ReleaseDate</td>*@
+                        <td>@Html.DisplayFor(x => x.ReleaseDate)</td>
+                    </tr>
+                    <tr>
+                        <th>Developer:</th>
+                        <td>@ViewBag.game.Developer</td>
+                    </tr>
+                </table>
+            </div>
+            @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+            @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+            {
+                <div class="GameDescription">
+                    <h4>Description:</h4>
+                    <p>@ViewBag.game.Description</p>
+                </div>
+            }
+            <div><h4>Trailer:</h4></div>
+            <div class="Trailer">
+                <iframe width="560" height="315" src="@ViewBag.game.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+</div>
+<a class="btn btn-outline-primary btn-lg" asp-controller="Game" asp-action="Comment" asp-route-id="@ViewBag.game.Id">Write Comment</a> <!--Added-->
+<!-- Contenedor Principal -->
+<div class="comments-container">
+    @*<div class="mb-3">
+            <label asp-for="bl" class="form-label">Add Comment</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>*@
+    <ul id="comments-list" class="comments-list">
+        @foreach (var item in ViewBag.game.Comments)
+        {
+            <li>
+                @if (item.ReplyToCommentId == null)
+                {
+                    <div class="comment-main-level">
+                        <div class="comment-avatar"><img src="https://i.ibb.co/vd41yqn/default-user-image.png" alt=""></div>
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name by-author"><a href="">@item.ApplicationUser.Nickname</a></h6>
+                                <span>@item.Date</span>
+                                <div class="comment-btn-link">
+                                    <a Class="btn btn-link" asp-controller="Comment" asp-action="Reply" asp-route-id="@item.Id" asp-route-gameId="@item.GameId" asp-route-nickname="@item.ApplicationUser.Nickname">Reply</a>
+                                    @if (item.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    {
+                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
+                                        @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
+                                    }
+                                    else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                                    {
+                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
+                                        @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
+                                    }
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <p>@item.Content</p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+                @foreach (var reply in item.Replies)
+                {
+                    <ul class="comments-list reply-list">
+                        <li>
+                            <div class="comment-avatar"><img src="https://i.ibb.co/vd41yqn/default-user-image.png" alt=""></div>
+                            <div class="comment-box">
+                                <div class="comment-head">
+                                    <h6 class="comment-name"><a href="">@reply.ApplicationUser.Nickname</a></h6>
+                                    <span>@reply.Date</span>
+                                    <div class="comment-btn-link">
+                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="ReplyToSecondTier" asp-route-replyToCommentId="@reply.ReplyToCommentId" asp-route-gameId="@reply.GameId" , asp-route-nickname="@reply.ApplicationUser.Nickname">Reply</a>
+                                        @if (reply.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                        {
+                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
+                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
+                                        }
+                                        else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                                        {
+                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
+                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
+                                        }
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <p><a href="">@@@reply.NicknameToReply</a> @reply.Content</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+</div>
+
+@*<div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>*@

@@ -1,0 +1,79 @@
+﻿.body {
+    background: #dee1e3;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.btn-in-card > .btn-primary {
+    min-width: 111px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 50px 0;
+}
+
+td {
+    padding: 5px 0;
+}
+
+.form-check-label {
+    position: relative;
+    left: 20px;
+    top: 1px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 348px;
+    object-fit: cover;
+    padding: 5px;
+    /*border: 1px solid #ddd;*/
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.btn-glyphicon {
+    padding: 8px;
+    background: #ffffff;
+    margin-right: 4px;
+}
+
+.icon-btn {
+    padding: 1px 15px 3px 2px;
+    border-radius: 50px;
+    position: absolute;
+    top: 299px;
+    left: 159px;
+}
+
+.btn-warning {
+    padding: 1px 15px 3px 2px;
+    border-radius: 50px;
+    position: absolute;
+    bottom: 138px;
+    left: 131px;
+}
+
+.a {
+    margin: 0;
+}
+
+.btn-info {
+    position: relative;
+    bottom: 5px;
+    padding: 0,5px;
+    font-size: 13px;
+}
+
+.btn-in-card>.btn-info {
+    min-width: 112px;
+}

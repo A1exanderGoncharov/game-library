@@ -1,0 +1,23 @@
+﻿@model BLL.DTO.UserLoginModel
+
+<h2>Login</h2>
+<form method="post" asp-controller="Account" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div style="margin-top: 15px">
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div style="margin-top: 15px">
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div style="margin-top: 15px">
+        <label asp-for="RememberMe"></label><br />
+        <input asp-for="RememberMe" />
+    </div>
+    <div style="margin-top: 15px">
+        <input type="submit" value="Login" />
+    </div>
+</form>

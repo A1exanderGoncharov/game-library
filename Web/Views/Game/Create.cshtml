@@ -1,0 +1,30 @@
+﻿@model BLL.DTO.GameDTO
+
+<h2>Game Creating</h2>
+
+<form asp-action="Create" asp-controller="Game" asp-antiforgery="true">
+    <div>
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="mb-3 mt-3">
+            <label asp-for="Name"></label>
+            <input class="form-control" asp-for="Name" placeholder="Enter name">
+            <label asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+            <label asp-for="HeaderImage"></label>
+            <input class="form-control" asp-for="HeaderImage" placeholder="Enter link">
+            <label asp-for="ReleaseDate"></label>
+            <input class="form-control" asp-for="ReleaseDate" placeholder="Enter release date">
+            <label asp-for="Rating"></label>
+            <input class="form-control" asp-for="Rating" placeholder="Enter rating">
+            <label asp-for="Genre"></label>
+            <input class="form-control" asp-for="Genre" placeholder="Enter genre">
+            <label asp-for="Trailer"></label>
+            <input class="form-control" asp-for="Trailer" placeholder="Enter link">
+            <label asp-for="Developer"></label>
+            <input class="form-control" asp-for="Developer" placeholder="Enter link">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success">Add</button>
+        </div>
+    </div>
+</form>

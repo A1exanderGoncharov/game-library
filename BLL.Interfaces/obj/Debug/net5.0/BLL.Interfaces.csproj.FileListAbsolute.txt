@@ -1,0 +1,15 @@
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.csproj.AssemblyReference.cache
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.AssemblyInfoInputs.cache
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.AssemblyInfo.cs
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.csproj.CoreCompileInputs.cache
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\bin\Debug\net5.0\BLL.Interfaces.deps.json
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\bin\Debug\net5.0\BLL.Interfaces.dll
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\bin\Debug\net5.0\ref\BLL.Interfaces.dll
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\bin\Debug\net5.0\BLL.Interfaces.pdb
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\bin\Debug\net5.0\BLL.DTO.dll
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\bin\Debug\net5.0\BLL.DTO.pdb
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.csproj.CopyComplete
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.dll
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\ref\BLL.Interfaces.dll
+D:\Programming\Csharp\GameLibrary\BLL.Interfaces\obj\Debug\net5.0\BLL.Interfaces.pdb

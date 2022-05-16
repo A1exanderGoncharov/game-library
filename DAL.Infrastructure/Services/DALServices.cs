@@ -25,7 +25,7 @@ namespace DAL.Infrastructure.Services
             .AddEntityFrameworkStores<GameLibraryDbContext>()
             .AddSignInManager();
 
-            services.AddDbContext<GameLibraryDbContext>(options => options.UseInMemoryDatabase(connectionString).LogTo(Console.WriteLine));
+            services.AddDbContext<GameLibraryDbContext>(options => options.UseNpgsql(connectionString)/*.LogTo(Console.WriteLine)*/);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGameRepository, GameRepository>();
             //services.AddScoped<ICommentRepository, CommentRepository>();

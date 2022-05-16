@@ -39,7 +39,7 @@ namespace Web.Controllers
 
             return View(model);
         }
-        [Authorize(Policy = "RequireAdministratorRole")]
+        
         public IActionResult Create()
         {
             return View();

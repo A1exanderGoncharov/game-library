@@ -35,13 +35,12 @@
                 </table>
             </div>
             @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
-            @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-            {
-                <div class="GameDescription">
-                    <h4>Description:</h4>
-                    <p>@ViewBag.game.Description</p>
-                </div>
-            }
+
+            <div class="GameDescription">
+                <h4>Description:</h4>
+                <p>@ViewBag.game.Description</p>
+            </div>
+
             <div><h4>Trailer:</h4></div>
             <div class="Trailer">
                 <iframe width="560" height="315" src="@ViewBag.game.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

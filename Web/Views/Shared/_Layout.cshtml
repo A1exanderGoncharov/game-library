@@ -14,16 +14,16 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Game Library</a>
+                <a style="font-size: 20px" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Game Library</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div style="font-size: 14px" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Games</a>
                         </li>
@@ -57,27 +57,29 @@
                         }
                     </ul>
                 </div>
-            </div>
 
-            <ul class="flex-grow"></ul>
-            @if (User is not null && !User.Identity.IsAuthenticated)
-            {
-                <div style="list-style-type: none">
-                    <a class="btn btn-primary mr-2" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                </div>
-                <div style="list-style-type: none">
-                    <a class="btn btn-success" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                </div>
-            }
-            else
-            {
-                <div class="text-dark" style="list-style-type: none">
-                    <h5>@User.Identity.Name</h5>
-                </div>
-                <form method="post" asp-controller="Account" asp-action="Logout">
-                    <button class="mx-2 btn btn-secondary btn-sm" style="align-self: flex-end" type="submit">Logout</button>
-                </form>
-            }
+                @*<ul class="flex-grow"></ul>*@
+                @if (User is not null && !User.Identity.IsAuthenticated)
+                {
+                    <div style="list-style-type: none">
+                        <a class="btn btn-primary mr-2" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                    </div>
+                    <div style="list-style-type: none">
+                        <a class="btn btn-success" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    </div>
+                }
+                else
+                {
+                    <div style="display: flex; align-items: center; gap: 20px">
+                        <div style="font-size: 14px" class="text-dark" style="list-style-type: none">
+                            <span>@User.Identity.Name</span>
+                        </div>
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <button class="mx-2 btn btn-secondary btn-sm" style="align-self: flex-end" type="submit">Logout</button>
+                        </form>
+                    </div>
+                }
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -87,10 +89,10 @@
     </div>
 
     @*<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
+            <div class="container">
+                &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

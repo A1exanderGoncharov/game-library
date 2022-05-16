@@ -124,10 +124,15 @@ td {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    left: 122px;
-    margin-left: 65px;
+/*    left: 122px;
+    margin-left: 65px;*/
 }
 
 /*h4 {
     font-size: 14px;
 }*/
+
+html {
+    width: 100vw;
+    overflow-x:hidden;
+}

@@ -48,7 +48,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(GameDTO gameDTO)
         {
-            //if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 gameDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await _gameService.AddAsync(gameDTO);

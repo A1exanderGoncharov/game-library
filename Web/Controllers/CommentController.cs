@@ -30,7 +30,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CommentDTO commentDTO, int? ReplyToCommentId, int GameId, string NicknameToReply)
         {
-            //if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 commentDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

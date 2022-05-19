@@ -32,6 +32,8 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserRegisterModel model)
         {
+            model.UserRole = "user";
+
             if (!ModelState.IsValid)
             {
                 model.AllRoles = _service.GetRoles().ToList();

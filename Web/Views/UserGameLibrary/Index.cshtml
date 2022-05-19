@@ -8,8 +8,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="/css/gameList.css" />
     <style>
@@ -36,9 +36,11 @@
 @*<a class="btn btn-outline-secondary btn-lg" asp-controller="Consultation" asp-action="Index">Back</a>*@
 <!--</p>-->
 <body>
-    <h2>My Library</h2>
+    @if (User.Identity.IsAuthenticated)
+    {
+    <h2>My Library</h2> 
     @*<div class="container">*@
-    <div class="row">
+        <div class="row">
         @foreach (var item in Model)
         {
         <div class="col-sm-3">
@@ -69,7 +71,11 @@
             </div>
         </div>
         }
-    </div>
-    @*</div><br>*@
+    </div> @*</div><br>*@
+    }
+    else
+    {
+        <h2>Please, login or register to get the full user experience</h2>
+    }
 </body>
 </html>

@@ -49,8 +49,18 @@
     </div>
 
 </div>
-<a class="btn btn-outline-primary btn-lg" asp-controller="Game" asp-action="Comment" asp-route-id="@ViewBag.game.Id">Write Comment</a> <!--Added-->
-<!-- Contenedor Principal -->
+
+@if (User.Identity.IsAuthenticated)
+{
+    <a class="btn btn-primary" asp-controller="Game" asp-action="Comment" asp-route-id="@ViewBag.game.Id">Write Comment</a>
+}
+else
+{
+    <h5 class="forbidden">
+        <a class="btn-link" asp-controller="Account" asp-action="Login">Sign in</a> or <a class="btn-link" asp-controller="Account" asp-action="Register">sign up</a> to comment
+    </h5>
+}
+
 <div class="comments-container">
     @*<div class="mb-3">
             <label asp-for="bl" class="form-label">Add Comment</label>
@@ -68,19 +78,22 @@
                             <div class="comment-head">
                                 <h6 class="comment-name by-author"><a href="">@item.ApplicationUser.Nickname</a></h6>
                                 <span>@item.Date</span>
-                                <div class="comment-btn-link">
-                                    <a Class="btn btn-link" asp-controller="Comment" asp-action="Reply" asp-route-id="@item.Id" asp-route-gameId="@item.GameId" asp-route-nickname="@item.ApplicationUser.Nickname">Reply</a>
-                                    @if (item.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                    {
-                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
-                                        @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
-                                    }
-                                    else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-                                    {
-                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
-                                        @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
-                                    }
-                                </div>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="comment-btn-link">
+                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="Reply" asp-route-id="@item.Id" asp-route-gameId="@item.GameId" asp-route-nickname="@item.ApplicationUser.Nickname">Reply</a>
+                                        @if (item.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                        {
+                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
+                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
+                                        }
+                                        else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                                        {
+                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
+                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
+                                        }
+                                    </div>
+                                }
                             </div>
                             <div class="comment-content">
                                 <p>@item.Content</p>
@@ -99,19 +112,22 @@
                                 <div class="comment-head">
                                     <h6 class="comment-name"><a href="">@reply.ApplicationUser.Nickname</a></h6>
                                     <span>@reply.Date</span>
-                                    <div class="comment-btn-link">
-                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="ReplyToSecondTier" asp-route-replyToCommentId="@reply.ReplyToCommentId" asp-route-gameId="@reply.GameId" , asp-route-nickname="@reply.ApplicationUser.Nickname">Reply</a>
-                                        @if (reply.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                        {
-                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
-                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
-                                        }
-                                        else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-                                        {
-                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
-                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
-                                        }
-                                    </div>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <div class="comment-btn-link">
+                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="ReplyToSecondTier" asp-route-replyToCommentId="@reply.ReplyToCommentId" asp-route-gameId="@reply.GameId" , asp-route-nickname="@reply.ApplicationUser.Nickname">Reply</a>
+                                            @if (reply.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                            {
+                                                <a Class="btn btn-link" disabled asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
+                                                @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
+                                            }
+                                            else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                                            {
+                                                <a Class="btn btn-link" asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
+                                                @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
+                                            }
+                                        </div>
+                                    }
                                 </div>
                                 <div class="comment-content">
                                     <p><a href="">@@@reply.NicknameToReply</a> @reply.Content</p>

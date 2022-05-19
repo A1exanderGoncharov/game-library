@@ -21,7 +21,7 @@ namespace BLL.DTO
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "User Role")]
         public string UserRole { get; set; }
 

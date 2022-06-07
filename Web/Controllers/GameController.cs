@@ -16,11 +16,13 @@ namespace Web.Controllers
     {
         IGameService _gameService;
         ICommentService _commentService;
+        IGenreService _genreService;
 
-        public GameController(IGameService gameService, ICommentService commentService)
+        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService)
         {
             _gameService = gameService;
             _commentService = commentService;
+            _genreService = genreService;
         }
 
         public async Task<IActionResult> Index()
@@ -36,27 +38,41 @@ namespace Web.Controllers
             var model = games.FirstOrDefault(g => g.Id == id);
 
             ViewBag.game = model;
+            ViewBag.comment = new CommentDTO();
 
             return View(model);
         }
-        
-        public IActionResult Create()
+
+        public async Task<IActionResult> Create()
         {
+            var genres = await _genreService.GetAllAsync();
+            ViewBag.genres = genres.OrderBy(g => g.Name).ToList();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(GameDTO gameDTO)
+        public async Task<IActionResult> Create(GameDTO gameDTO, List<string> selectedGenres)
         {
-            if (ModelState.IsValid)
+            if (selectedGenres != null)
             {
-                gameDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                await _gameService.AddAsync(gameDTO);
-                return RedirectToAction(nameof(Index));
-            }
+                var genresEntities = await _genreService.GetAllAsync();
 
-            var games = await _gameService.GetAllAsync();
-            return View(gameDTO);
+                gameDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                await _gameService.AddGameWithGenreAsync(gameDTO, selectedGenres);
+
+
+                //for (int i = 0; i < selectedGenres.Count; i++)
+                //{
+                //    int GenreId = int.Parse(selectedGenres[i]);
+                //    var genreToAdd = genresEntities.FirstOrDefault(g => g.Id == GenreId);
+                //    _gameService.AddGenreToGame(gameDTO.Id, genreToAdd.Id);
+                //}
+            }
+            return RedirectToAction(nameof(Index));
+
+
+            //var games = await _gameService.GetAllAsync();
+            //return View(gameDTO);
         }
 
         public IActionResult Comment(int? Id)
@@ -79,7 +95,7 @@ namespace Web.Controllers
             if (!String.IsNullOrEmpty(gameGenre))
             {
                 var games = await _gameService.FilterByGenre(gameGenre);
-                
+
                 return View("Index", games);
             }
             return BadRequest();

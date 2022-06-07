@@ -37,13 +37,17 @@ namespace DAL.Infrastructure
         public ICommentRepository CommentRepository =>
             _commentRepository ??= new CommentRepository(_context);
 
+        IRepository<Genre> _genreRepository;
+        public IRepository<Genre> GenreRepository =>
+            _genreRepository ??= new Repository<Genre>(_context);
+
+        IRepository<GameGenre> _gameGenresRepository;
+        public IRepository<GameGenre> GameGenresRepository =>
+            _gameGenresRepository ??= new Repository<GameGenre>(_context);
+
         //IUserRepository _userRepository;
         //public IUserRepository UserRepository =>
         //    _userRepository ??= new UserRepository(_context);
-
-        //IRepository<Comment> _commentRepository;
-        //public IRepository<Comment> CommentRepository =>
-        //    _commentRepository ??= new Repository<Comment>(_context);
 
         public SignInManager<ApplicationUser> SignInManager { get; }
 

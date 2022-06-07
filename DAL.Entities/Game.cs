@@ -13,10 +13,8 @@ namespace DAL.Entities
         public string HeaderImage { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string Rating { get; set; }
-        public string Genre { get; set; }
         public string Trailer { get; set; }
         public string Developer { get; set; }
-        //public string Composers { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
         //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
@@ -24,5 +22,8 @@ namespace DAL.Entities
 
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
+
+        //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+        public List<GameGenre> GameGenres { get; set; }
     }
 }

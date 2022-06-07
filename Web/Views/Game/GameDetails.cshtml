@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <th>Genre:</th>
-                        <td>@ViewBag.game.Genre</td>
+                        <td>@string.Join(", ", Model.GameGenres.Select(g => g.Genre.Name).ToArray())</td>
                     </tr>
                     <tr>
                         <th>Release Date:</th>

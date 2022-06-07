@@ -453,3 +453,5 @@ D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Comment\Edit.
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\Npgsql.dll
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Web.MvcApplicationPartsAssemblyInfo.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Genre\Create.cshtml.g.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Genre\Index.cshtml.g.cs

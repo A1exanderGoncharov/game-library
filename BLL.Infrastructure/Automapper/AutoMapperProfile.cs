@@ -24,6 +24,8 @@ namespace BLL.Infrastructure.Automapper
                 .ReverseMap();
 
             CreateMap<ApplicationUser, ApplicationUserDTO>().ReverseMap();
+            CreateMap<Genre, GenreDTO>().ReverseMap();
+            CreateMap<GameGenre, GameGenreDTO>().ReverseMap();
         }
     }
 }

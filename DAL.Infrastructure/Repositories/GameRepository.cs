@@ -29,8 +29,8 @@ namespace DAL.Infrastructure.Repositories
 
             return entities
                 .Include(c => c.Comments).ThenInclude(u => u.ApplicationUser).AsSplitQuery()
-                .Include(c => c.Comments).ThenInclude(r => r.Replies).AsSplitQuery();
-
+                .Include(c => c.Comments).ThenInclude(r => r.Replies).AsSplitQuery()
+                .Include(c => c.GameGenres).ThenInclude(g => g.Genre).AsSplitQuery();
         }
 
     }

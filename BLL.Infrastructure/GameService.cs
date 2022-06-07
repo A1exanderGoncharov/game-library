@@ -82,5 +82,33 @@ namespace BLL.Infrastructure
             return result;
         }
 
+        public async Task AddGameWithGenreAsync(GameDTO game, List<string> selectedGenres)
+        {
+            var gameEntity = _mapper.Map<GameDTO, Game>(game);
+
+            await _unitOfWork.GameRepository.InsertAsync(gameEntity);
+            await _unitOfWork.SaveChangesAsync();
+
+            for (int i = 0; i < selectedGenres.Count; i++)
+            {
+                int GenreId = int.Parse(selectedGenres[i]);
+                AddGenreToGame(gameEntity.Id, GenreId);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async void AddGenreToGame(int GameId, int GenreId)
+        {
+            GameDTO game = await GetByIdAsync(GameId);
+            GameGenreDTO gameGenre = new();
+
+            gameGenre.GameId = GameId;
+            gameGenre.GenreId = GenreId;
+
+            var gameGenreEntity = _mapper.Map<GameGenreDTO, GameGenre>(gameGenre);
+            await _unitOfWork.GameGenresRepository.InsertAsync(gameGenreEntity);
+        }
+
     }
 }

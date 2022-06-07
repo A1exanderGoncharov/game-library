@@ -16,8 +16,38 @@
             <input class="form-control" asp-for="ReleaseDate" placeholder="Enter release date">
             <label asp-for="Rating"></label>
             <input class="form-control" asp-for="Rating" placeholder="Enter rating">
-            <label asp-for="Genre"></label>
-            <input class="form-control" asp-for="Genre" placeholder="Enter genre">
+            <label>Genre</label>
+            @*<input class="form-control" asp-for="Genre" placeholder="Enter genre">*@
+
+            @*<div class="checkbox" style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
+                <div class="form-check">
+                    @for (int i = 0; i < ViewBag.genres.Count; i++)
+                    {
+                        <input class="form-check-input" name="selectedGenres" type="checkbox" value="@ViewBag.genres[i].Id" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            @ViewBag.genres[i].Name
+                        </label>
+                    }
+                </div>
+            </div>*@
+
+            <div class="form-group">
+                <div style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
+                    @for (int i = 0; i < ViewBag.genres.Count; i++)
+                    {
+                        <input type="checkbox" name="selectedGenres" value="@ViewBag.genres[i].Id" />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            @ViewBag.genres[i].Name
+                        </label>
+                    }
+                    @*Action<input type="checkbox" name="GenresList" value="Action" />
+        Adventure<input type="checkbox" name="GenresList" value="Adventure" />
+        Thriller<input type="checkbox" name="GenresList" value="Thriller" />
+        Horror<input type="checkbox" name="GenresList" value="Horror" />*@
+                </div>
+                @*<span asp-validation-for="Genres" class="text-danger"></span>*@
+            </div>
+
             <label asp-for="Trailer"></label>
             <input class="form-control" asp-for="Trailer" placeholder="Enter link">
             <label asp-for="Developer"></label>

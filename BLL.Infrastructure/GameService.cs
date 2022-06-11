@@ -110,5 +110,13 @@ namespace BLL.Infrastructure
             await _unitOfWork.GameGenresRepository.InsertAsync(gameGenreEntity);
         }
 
+        public async Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionId(int CollectionId)
+        {
+            var userCollectionsEntities = await _unitOfWork.UserCollectionRepository.GetAllAsync().ToListAsync();
+            var userCollectionGames = userCollectionsEntities.Where(g => g.CollectionId == CollectionId).ToList();
+            
+            return _mapper.Map<IEnumerable<UserCollection>, IEnumerable<UserCollectionDTO>>(userCollectionGames);
+        }
+
     }
 }

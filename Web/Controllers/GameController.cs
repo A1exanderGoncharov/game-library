@@ -59,14 +59,6 @@ namespace Web.Controllers
 
                 gameDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await _gameService.AddGameWithGenreAsync(gameDTO, selectedGenres);
-
-
-                //for (int i = 0; i < selectedGenres.Count; i++)
-                //{
-                //    int GenreId = int.Parse(selectedGenres[i]);
-                //    var genreToAdd = genresEntities.FirstOrDefault(g => g.Id == GenreId);
-                //    _gameService.AddGenreToGame(gameDTO.Id, genreToAdd.Id);
-                //}
             }
             return RedirectToAction(nameof(Index));
 
@@ -99,6 +91,14 @@ namespace Web.Controllers
                 return View("Index", games);
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGamesByCollectionId(int CollectionId)
+        {
+            var collection = await _gameService.GetGamesByCollectionId(CollectionId);
+
+            return View("GameCollection", collection);
         }
 
         public async Task<IActionResult> Edit(int id)

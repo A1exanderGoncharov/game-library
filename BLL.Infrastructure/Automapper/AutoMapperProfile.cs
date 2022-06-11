@@ -10,7 +10,7 @@ namespace BLL.Infrastructure.Automapper
         {
             CreateMap<Game, GameDTO>().ReverseMap();
             CreateMap<Comment, CommentDTO>().ReverseMap();
-            CreateMap<UserGameLibrary, UserGameLibraryDTO>().ReverseMap();
+            CreateMap<UserGame, UserGameDTO>().ReverseMap();
             CreateMap<UserRegisterModel, ApplicationUser>().ReverseMap()
                 .ForMember(
                     dest => dest.Email,
@@ -26,6 +26,8 @@ namespace BLL.Infrastructure.Automapper
             CreateMap<ApplicationUser, ApplicationUserDTO>().ReverseMap();
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<GameGenre, GameGenreDTO>().ReverseMap();
+            CreateMap<Collection, CollectionDTO>().ReverseMap();
+            CreateMap<UserCollection, UserCollectionDTO>().ReverseMap();
         }
     }
 }

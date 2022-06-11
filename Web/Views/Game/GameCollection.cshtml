@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BLL.DTO.UserCollectionDTO>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My Collection</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/gameList.css" />
+        <link rel="stylesheet" href="/css/site.css" />
+    </head>
+    <body>
+    <h2>@Model.Select(uc => uc.Collection.Name).ToArray().FirstOrDefault()</h2>
+        @*<form class="form-inline my-2 my-lg-0" asp-action="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+        </form>*@
+
+        <div class="gameCards">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                <div class="col-sm-3">
+                    <div class="card @*border-0*@">
+                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.UserGame.Game.Id">
+                            <img class="card-img-top" src="@item.UserGame.Game.HeaderImage" alt="Card image" style="width:100%">
+                        </a>
+                        <div class="card-body">
+                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.UserGame.Id">
+                                <h4 class="card-title">@item.UserGame.Game.Name</h4>
+                            </a>
+                            <p class="card-text">
+                            <p>Release Date: @item.UserGame.Game.ReleaseDate.ToShortDateString()</p>
+                            @*<p>Rating: @item.Rating</p>*@
+
+                            @*@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                            {
+                        <div class="btn-in-card" style="width:100%">
+                            <a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.UserGame.Id">Edit</a>
+                            <a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.UserGame.Id">Delete</a>
+                        </div>}
+                            @if (User.Identity.IsAuthenticated)
+                            {                             
+                        <a class="btn icon-btn btn-warning" asp-action="Delete" asp-route-id="@item.UserGame.Id">
+                            <span class="glyphicon btn-glyphicon glyphicon-minus img-circle text-warning"></span>
+                            Remove
+                        </a>
+                            }*@
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </body>
+</html>

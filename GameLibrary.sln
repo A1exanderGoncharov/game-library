@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Infrastructure", "BLL.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{DA87810D-58BE-40BA-91EA-D2F9C0584E44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary.UnitTests", "GameLibrary.UnitTests\GameLibrary.UnitTests.csproj", "{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

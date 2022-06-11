@@ -18,6 +18,8 @@ namespace DAL.Interfaces
         ICommentRepository CommentRepository { get; }
         IRepository<Genre> GenreRepository { get; }
         IRepository<GameGenre> GameGenresRepository { get; }
+        ICollectionRepository CollectionRepository { get; }
+        IUserCollectionRepository UserCollectionRepository { get; }
         //IUserRepository UserRepository { get; }
 
         Task SaveChangesAsync();

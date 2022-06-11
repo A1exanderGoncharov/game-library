@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BLL.DTO.UserGameDTO>
+    @*<h2>Game Library</h2>*@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Game Library</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/gameList.css" />
+        <link rel="stylesheet" href="/css/site.css" />
+    </head>
+    <body>
+        <form class="form-inline my-2 my-lg-0" asp-action="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <form asp-action="Create" asp-controller="Collection" asp-antiforgery="true">
+            <div class="gameCards">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+        <div class="col-sm-3">
+            <div class="card @*border-0*@">
+                <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Game.Id">
+                    <img class="card-img-top" src="@item.Game.HeaderImage" alt="Card image" style="width:100%">
+                </a>
+                <div class="card-body">
+                    <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                        <h4 class="card-title">@item.Game.Name</h4>
+                    </a>
+                    <p class="card-text">
+                    <p>Release Date: @item.Game.ReleaseDate.ToShortDateString()</p>
+
+                    <div class="form-group">
+                        <div style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
+                            <input type="checkbox" name="selectedGames" value="@item.Id" />
+                        </div>
+                    </div>
+
+                    @*@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                        {
+                <div class="btn-in-card" style="width:100%">
+                    <a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>}
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                <a class="btn icon-btn btn-success" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+                    <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                    Add
+                </a>}*@
+                </div>
+            </div>
+        </div>}
+                </div>
+                <div>
+                    <button type="submit" asp-action="AddGamesToCollection" asp-route-collectionId="@ViewBag.CollectionId" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+            </form>
+</body>
+</html>

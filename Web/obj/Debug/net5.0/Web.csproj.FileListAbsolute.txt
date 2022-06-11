@@ -455,3 +455,7 @@ D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\Npgsql.EntityFrameworkCor
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Web.MvcApplicationPartsAssemblyInfo.cs
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Genre\Create.cshtml.g.cs
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Genre\Index.cshtml.g.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\Create.cshtml.g.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\Index.cshtml.g.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Game\GameCollection.cshtml.g.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\SelectGamesToCollection.cshtml.g.cs

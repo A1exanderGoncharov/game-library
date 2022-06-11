@@ -45,6 +45,14 @@ namespace DAL.Infrastructure
         public IRepository<GameGenre> GameGenresRepository =>
             _gameGenresRepository ??= new Repository<GameGenre>(_context);
 
+        ICollectionRepository _collectionRepository;
+        public ICollectionRepository CollectionRepository =>
+            _collectionRepository ??= new CollectionRepository(_context);
+
+        IUserCollectionRepository _userCollectionRepository;
+        public IUserCollectionRepository UserCollectionRepository =>
+            _userCollectionRepository ??= new UserCollectionRepository(_context);
+
         //IUserRepository _userRepository;
         //public IUserRepository UserRepository =>
         //    _userRepository ??= new UserRepository(_context);

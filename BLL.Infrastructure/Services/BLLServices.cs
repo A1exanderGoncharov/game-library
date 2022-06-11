@@ -18,6 +18,7 @@ namespace BLL.Infrastructure.Services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<ICollectionService, CollectionService>();
 
             return services;
         }

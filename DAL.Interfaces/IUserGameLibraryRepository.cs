@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IUserGameLibraryRepository : IRepository<UserGameLibrary>
+    public interface IUserGameLibraryRepository : IRepository<UserGame>
     {
-        IQueryable<UserGameLibrary> GetAllAsync(Expression<Func<UserGameLibrary, bool>> filter = null);
+        IQueryable<UserGame> GetAllAsync(Expression<Func<UserGame, bool>> filter = null);
     }
 }

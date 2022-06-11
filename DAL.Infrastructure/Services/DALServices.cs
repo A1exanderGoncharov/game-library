@@ -25,10 +25,13 @@ namespace DAL.Infrastructure.Services
             .AddEntityFrameworkStores<GameLibraryDbContext>()
             .AddSignInManager();
 
-            services.AddDbContext<GameLibraryDbContext>(options => options.UseSqlServer(connectionString)/*.LogTo(Console.WriteLine)*/);
+            services.AddDbContext<GameLibraryDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGameRepository, GameRepository>();
-            //services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUserGameLibraryRepository, UserGameLibraryRepository>();
+            services.AddScoped<ICollectionRepository, CollectionRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUserCollectionRepository, UserCollectionRepository>();
 
             return services;
         }

@@ -9,14 +9,14 @@ namespace BLL.Interfaces
 {
     public interface IUserGameLibraryService
     {
-        Task<IEnumerable<UserGameLibraryDTO>> GetAllAsync();
-        Task<IEnumerable<UserGameLibraryDTO>> GetAllByUserIdAsync(string id);
-        Task AddAsync(UserGameLibraryDTO userGameLibrary);
+        Task<IEnumerable<UserGameDTO>> GetAllAsync();
+        Task<IEnumerable<UserGameDTO>> GetAllByUserIdAsync(string id);
+        Task AddAsync(UserGameDTO userGameLibrary);
         Task AddGameToUserLibrary(int gameId, string userId);
         Task DeleteByIdAsync(int id);
-        Task RemoveAsync(UserGameLibraryDTO userGameLibrary);
-        Task<UserGameLibraryDTO> GetByIdAsync(int id);
-        Task UpdateAsync(UserGameLibraryDTO userGameLibrary);
+        Task RemoveAsync(UserGameDTO userGameLibrary);
+        Task<UserGameDTO> GetByIdAsync(int id);
+        Task UpdateAsync(UserGameDTO userGameLibrary);
         Task IsPassed(int id, bool isPassed);
     }
 }

@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace DAL.Infrastructure.Repositories
 {
-    public class UserGameLibraryRepository : Repository<UserGameLibrary>, IUserGameLibraryRepository
+    public class UserGameLibraryRepository : Repository<UserGame>, IUserGameLibraryRepository
     {
         GameLibraryDbContext _context;
-        DbSet<UserGameLibrary> _dbSet;
+        DbSet<UserGame> _dbSet;
 
         public UserGameLibraryRepository(GameLibraryDbContext context)
             : base(context)
         {
             _context = context;
-            _dbSet = context.Set<UserGameLibrary>();
+            _dbSet = context.Set<UserGame>();
         }
-        public IQueryable<UserGameLibrary> GetAllAsync(Expression<Func<UserGameLibrary, bool>> filter)
+        public IQueryable<UserGame> GetAllAsync(Expression<Func<UserGame, bool>> filter)
         {
-            IQueryable<UserGameLibrary> entities = _dbSet;
+            IQueryable<UserGame> entities = _dbSet;
 
             if (filter != null) entities = entities.Where(filter);
 

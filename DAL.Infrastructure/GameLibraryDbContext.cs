@@ -14,14 +14,15 @@ namespace DAL.Infrastructure
     {
         public DbSet<Game> Games { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<UserGameLibrary> UserGamesLibrary { get; set; }
+        public DbSet<UserGame> UserGames { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<GameGenre> GameGenre { get; set; }
+        public DbSet<UserCollection> UserCollection { get; set; }
 
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -29,6 +30,7 @@ namespace DAL.Infrastructure
         {
             base.OnModelCreating(builder);
             builder.Entity<GameGenre>().HasKey(gg => new { gg.GameId , gg.GenreId });
+            builder.Entity<UserCollection>().HasKey(uc => new { uc.UserGameId, uc.CollectionId });
 
             string adminId = Guid.NewGuid().ToString();
             string roleId = Guid.NewGuid().ToString();

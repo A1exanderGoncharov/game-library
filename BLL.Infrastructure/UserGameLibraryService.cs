@@ -24,9 +24,9 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task AddAsync(UserGameLibraryDTO userGameLibrary)
+        public async Task AddAsync(UserGameDTO userGameLibrary)
         {
-            var userGameLibraryEntity = _mapper.Map<UserGameLibraryDTO, UserGameLibrary>(userGameLibrary);
+            var userGameLibraryEntity = _mapper.Map<UserGameDTO, UserGame>(userGameLibrary);
 
             await _unitOfWork.UserGameLibraryRepository.InsertAsync(userGameLibraryEntity);
             await _unitOfWork.SaveChangesAsync();
@@ -40,38 +40,38 @@ namespace BLL.Infrastructure
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(UserGameLibraryDTO userGameLibrary)
+        public async Task RemoveAsync(UserGameDTO userGameLibrary)
         {
-            var userGameLibraryEntity = _mapper.Map<UserGameLibraryDTO, UserGameLibrary>(userGameLibrary);
+            var userGameLibraryEntity = _mapper.Map<UserGameDTO, UserGame>(userGameLibrary);
 
             _unitOfWork.UserGameLibraryRepository.Delete(userGameLibraryEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<UserGameLibraryDTO>> GetAllAsync()
+        public async Task<IEnumerable<UserGameDTO>> GetAllAsync()
         {
             var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllAsync().ToListAsync();
 
-            return _mapper.Map<IEnumerable<UserGameLibrary>, IEnumerable<UserGameLibraryDTO>>(userGameLibraries);
+            return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(userGameLibraries);
         }
 
-        public async Task<IEnumerable<UserGameLibraryDTO>> GetAllByUserIdAsync(string id)
+        public async Task<IEnumerable<UserGameDTO>> GetAllByUserIdAsync(string id)
         {
             var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllAsync(ugl => ugl.ApplicationUserId == id).ToListAsync();
 
-            return _mapper.Map<IEnumerable<UserGameLibrary>, IEnumerable<UserGameLibraryDTO>>(userGameLibraries);
+            return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(userGameLibraries);
         }
 
-        public async Task<UserGameLibraryDTO> GetByIdAsync(int id)
+        public async Task<UserGameDTO> GetByIdAsync(int id)
         {
             var userGameLibrary = await _unitOfWork.UserGameLibraryRepository.GetByIdAsync(id);
 
-            return _mapper.Map<UserGameLibrary, UserGameLibraryDTO>(userGameLibrary);
+            return _mapper.Map<UserGame, UserGameDTO>(userGameLibrary);
         }
 
-        public async Task UpdateAsync(UserGameLibraryDTO userGameLibrary)
+        public async Task UpdateAsync(UserGameDTO userGameLibrary)
         {
-            var userGameLibraryEntity = _mapper.Map<UserGameLibraryDTO, UserGameLibrary>(userGameLibrary);
+            var userGameLibraryEntity = _mapper.Map<UserGameDTO, UserGame>(userGameLibrary);
             _unitOfWork.UserGameLibraryRepository.Update(userGameLibraryEntity);
             await _unitOfWork.SaveChangesAsync();
         }
@@ -83,7 +83,7 @@ namespace BLL.Infrastructure
 
             if (gameCheck == null)
             {
-                UserGameLibraryDTO userGameLibrary = new();
+                UserGameDTO userGameLibrary = new();
                 userGameLibrary.GameId = gameId;
                 userGameLibrary.ApplicationUserId = userId;
                 await AddAsync(userGameLibrary);
@@ -92,7 +92,7 @@ namespace BLL.Infrastructure
 
         public async Task IsPassed(int id, bool isPassed)
         {
-            UserGameLibraryDTO userGame = await GetByIdAsync(id);
+            UserGameDTO userGame = await GetByIdAsync(id);
             userGame.IsPassed = isPassed;
             await UpdateAsync(userGame);
         }

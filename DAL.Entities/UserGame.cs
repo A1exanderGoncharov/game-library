@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.DTO
+namespace DAL.Entities
 {
-    public class UserGameLibraryDTO
+    public class UserGame : BaseEntity
     {
-        public int Id { get; set; }
         public int GameId { get; set; }
-        public GameDTO Game { get; set; }
+        public Game Game { get; set; }
         public string ApplicationUserId { get; set; }
-        public ApplicationUserDTO ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public bool IsPassed { get; set; }
+        public List<UserCollection> UserCollections { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -21,9 +22,13 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _collectionService.GetAllAsync();
+            //var collections = await _collectionService.GetAllAsync();
 
-            return View(model);
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var models = await _collectionService.GetAllByUserId(UserId);
+
+            return View(models);
         }
 
         [HttpGet]
@@ -35,6 +40,8 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CollectionDTO collectionDTO)
         {
+            collectionDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (ModelState.IsValid)
             {
                 await _collectionService.AddAsync(collectionDTO);
@@ -47,10 +54,14 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<IActionResult> SelectGamesToCollection(int collectionId)
         {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var userGames = await _userGameService.GetAllAsync();
+            var model = userGames.Where(x => x.ApplicationUserId == UserId);
+
             ViewBag.CollectionId = collectionId;
 
-            return View(userGames);
+            return View(model);
         }
 
         public async Task<IActionResult> AddGamesToCollection(int collectionId, List<string> selectedGames)

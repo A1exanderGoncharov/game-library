@@ -11,6 +11,9 @@ namespace BLL.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
+
+        public ApplicationUserDTO ApplicationUser { get; set; }
+        public string ApplicationUserId { get; set; }
         public List<UserCollectionDTO> UserCollections { get; set; }
     }
 }

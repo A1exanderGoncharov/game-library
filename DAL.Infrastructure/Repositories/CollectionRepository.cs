@@ -12,22 +12,16 @@ namespace DAL.Infrastructure.Repositories
 {
     public class CollectionRepository : Repository<Collection>, ICollectionRepository
     {
-        GameLibraryDbContext _context;
         DbSet<Collection> _dbSet;
 
         public CollectionRepository(GameLibraryDbContext context)
             : base(context)
         {
-            _context = context;
             _dbSet = context.Set<Collection>();
         }
-        public IQueryable<Collection> GetAllAsync(Expression<Func<Collection, bool>> filter)
+        public new IQueryable<Collection> GetAllAsync()
         {
-            IQueryable<Collection> entities = _dbSet;
-
-            if (filter != null) entities = entities.Where(filter);
-
-            return entities
+            return _dbSet
                 .Include(c => c.UserCollections);
         }
     }

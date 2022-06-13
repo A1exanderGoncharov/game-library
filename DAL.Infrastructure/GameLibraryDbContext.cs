@@ -18,6 +18,7 @@ namespace DAL.Infrastructure
         public DbSet<Genre> Genres { get; set; }
         public DbSet<GameGenre> GameGenre { get; set; }
         public DbSet<UserCollection> UserCollection { get; set; }
+        //public DbSet<Collection> Collections { get; set; }
 
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)

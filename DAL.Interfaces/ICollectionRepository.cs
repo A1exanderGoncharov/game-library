@@ -11,6 +11,6 @@ namespace DAL.Interfaces
 {
     public interface ICollectionRepository : IRepository<Collection>
     {
-        IQueryable<Collection> GetAllAsync(Expression<Func<Collection, bool>> filter = null);
+        new IQueryable<Collection> GetAllAsync();
     }
 }

@@ -105,5 +105,14 @@ namespace BLL.Infrastructure
             }
             await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<CollectionDTO>> GetAllByUserId(string UserId)
+        {
+            var userCollections = await _unitOfWork.CollectionRepository.GetAllAsync().ToListAsync();
+
+            var userCollectionsByUserId = userCollections.Where(x => x.ApplicationUserId == UserId);
+
+            return _mapper.Map<IEnumerable<Collection>, IEnumerable<CollectionDTO>>(userCollectionsByUserId);
+        }
     }
 }

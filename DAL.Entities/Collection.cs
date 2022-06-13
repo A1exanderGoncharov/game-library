@@ -10,6 +10,9 @@ namespace DAL.Entities
     {
         public string Name { get; set; }
         public DateTime Date { get; set; }
+
+        public ApplicationUser ApplicationUser { get; set; }
+        public string ApplicationUserId { get; set; }
         public List<UserCollection> UserCollections { get; set; }
     }
 }

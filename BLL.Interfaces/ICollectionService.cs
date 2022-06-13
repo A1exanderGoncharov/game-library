@@ -15,5 +15,6 @@ namespace BLL.Interfaces
         Task<CollectionDTO> GetByIdAsync(int id);
         Task UpdateAsync(CollectionDTO collection);
         Task AddGamesToCollection(int CollectionId, List<string> SelectedGames);
+        Task<IEnumerable<CollectionDTO>> GetAllByUserId(string UserId);
     }
 }

@@ -15,3 +15,6 @@ D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\obj\Debug\net5.0\DAL.Infras
 D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\obj\Debug\net5.0\DAL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\obj\Debug\net5.0\ref\DAL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\obj\Debug\net5.0\DAL.Infrastructure.pdb
+D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\bin\Debug\net5.0\DAL.Infrastructure.runtimeconfig.json
+D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\bin\Debug\net5.0\DAL.Infrastructure.runtimeconfig.dev.json
+D:\Programming\Csharp\GameLibrary\DAL.Infrastructure\obj\Debug\net5.0\DAL.Infrastructure.genruntimeconfig.cache

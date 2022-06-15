@@ -16,14 +16,14 @@ namespace DAL.Infrastructure
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserGame> UserGames { get; set; }
         public DbSet<Genre> Genres { get; set; }
-        public DbSet<GameGenre> GameGenre { get; set; }
-        public DbSet<UserCollection> UserCollection { get; set; }
-        //public DbSet<Collection> Collections { get; set; }
+        public DbSet<GameGenre> GameGenres { get; set; }
+        public DbSet<UserCollection> UserCollections { get; set; }
+        public DbSet<Collection> Collections { get; set; }
 
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

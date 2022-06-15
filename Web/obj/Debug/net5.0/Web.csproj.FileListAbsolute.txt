@@ -459,3 +459,4 @@ D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\Cr
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\Index.cshtml.g.cs
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Game\GameCollection.cshtml.g.cs
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\SelectGamesToCollection.cshtml.g.cs
+D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll

@@ -23,8 +23,8 @@ namespace DAL.Infrastructure
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

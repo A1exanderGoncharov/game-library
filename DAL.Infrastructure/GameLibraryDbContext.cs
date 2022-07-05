@@ -23,7 +23,7 @@ namespace DAL.Infrastructure
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

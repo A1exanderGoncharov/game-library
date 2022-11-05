@@ -25,5 +25,6 @@ namespace DAL.Entities
 
         //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
         public List<GameGenre> GameGenres { get; set; }
+        public List<Rating> Ratings { get; set; }
     }
 }

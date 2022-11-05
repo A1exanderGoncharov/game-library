@@ -16,7 +16,7 @@
             <div class="col-md-8">
                 <table class="GameDetailTable">
                     <tr>
-                        <th>Rating:</th>
+                        <th>Age Rating:</th>
                         <td>@ViewBag.game.Rating</td>
                     </tr>
                     <tr>
@@ -31,6 +31,10 @@
                     <tr>
                         <th>Developer:</th>
                         <td>@ViewBag.game.Developer</td>
+                    </tr>
+                    <tr>
+                        <th>Score:</th>
+                        <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
                     </tr>
                 </table>
             </div>

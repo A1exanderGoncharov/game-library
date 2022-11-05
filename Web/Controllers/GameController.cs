@@ -37,6 +37,9 @@ namespace Web.Controllers
             var games = await _gameService.GetAllAsync();
             var model = games.FirstOrDefault(g => g.Id == id);
 
+            GetGameRatingScore((int)id);
+
+            ViewBag.ratingsNumber = _gameService.GetGameRatingsNumber((int)id);
             ViewBag.game = model;
             ViewBag.comment = new CommentDTO();
 
@@ -128,5 +131,18 @@ namespace Web.Controllers
             await _gameService.DeleteByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> RateGame(int gameId, int rating)
+        {
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _gameService.AddRatingToGame(currentUserId, gameId, rating);
+            return RedirectToAction("GameDetails", new { id = gameId });
+        }
+
+        public void GetGameRatingScore(int gameId)
+        {
+            ViewBag.gameRating = _gameService.CalculateGameRatingScore(gameId);
+        }
+
     }
 }

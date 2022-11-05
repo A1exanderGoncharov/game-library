@@ -13,6 +13,7 @@ namespace BLL.DTO
         public string Role { get; set; }
 
         public ICollection<CollectionDTO> Collections { get; set; }
+        public List<RatingDTO> Ratings { get; set; }
         //public ICollection<GameDTO> Games { get; set; }
         //public List<UserGameLibraryDTO> UserGameLibraries { get; set; }
     }

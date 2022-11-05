@@ -19,6 +19,7 @@ namespace DAL.Infrastructure
         public DbSet<GameGenre> GameGenres { get; set; }
         public DbSet<UserCollection> UserCollections { get; set; }
         public DbSet<Collection> Collections { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)
@@ -32,6 +33,7 @@ namespace DAL.Infrastructure
             base.OnModelCreating(builder);
             builder.Entity<GameGenre>().HasKey(gg => new { gg.GameId , gg.GenreId });
             builder.Entity<UserCollection>().HasKey(uc => new { uc.UserGameId, uc.CollectionId });
+            builder.Entity<Rating>().HasKey(r => new { r.ApplicationUserId, r.GameId });
 
             string adminId = Guid.NewGuid().ToString();
             string roleId = Guid.NewGuid().ToString();

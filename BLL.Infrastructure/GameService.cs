@@ -118,5 +118,43 @@ namespace BLL.Infrastructure
             return _mapper.Map<IEnumerable<UserCollection>, IEnumerable<UserCollectionDTO>>(userCollectionGames);
         }
 
+        public async Task AddRatingToGame(string UserId, int GameId, int Rating)
+        {
+            Rating rating = new();
+            rating.ApplicationUserId = UserId;
+            rating.GameId = GameId;
+            rating.GameRating = Rating;
+
+            await _unitOfWork.RatingRepository.InsertAsync(rating);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public int GetGameRatingsNumber(int gameId)
+        {
+            var ratingsNumber = _unitOfWork.RatingRepository.GetAllAsync().Result.Where(r => r.GameId == gameId).Count();
+
+            return ratingsNumber;
+        }
+
+        public int CalculateGameRatingScore(int gameId)
+        {
+            var ratings = _unitOfWork.RatingRepository.GetAllAsync().Result.Where(r => r.GameId == gameId);
+
+            int ratingSum = 0;
+            int ratingScore = 0;
+
+            foreach (var rating in ratings)
+            {
+                ratingSum += rating.GameRating;
+            }
+
+            if (ratings.Any())
+            {
+                ratingScore = ratingSum / ratings.Count();
+            }
+
+            return ratingScore;
+        }
+
     }
 }

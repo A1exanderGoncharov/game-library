@@ -28,6 +28,7 @@ namespace BLL.Infrastructure.Automapper
             CreateMap<GameGenre, GameGenreDTO>().ReverseMap();
             CreateMap<Collection, CollectionDTO>().ReverseMap();
             CreateMap<UserCollection, UserCollectionDTO>().ReverseMap();
+            CreateMap<Rating, RatingDTO>().ReverseMap();
         }
     }
 }

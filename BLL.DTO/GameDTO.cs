@@ -25,6 +25,6 @@ namespace BLL.DTO
         public ICollection<CommentDTO> Comments { get; set; }      
         public ApplicationUserDTO ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
-
+        public List<RatingDTO> Ratings { get; set; }
     }
 }

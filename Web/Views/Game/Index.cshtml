@@ -15,7 +15,12 @@
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
             <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
         </form>
-
+        <div>
+        @foreach (var item in ViewBag.recommendedGames)
+    {
+        <p>Recommended game ID: @item</p>
+    }
+            </div>
         <div class="gameCards">
             <div class="row">
                 @foreach (var item in Model)

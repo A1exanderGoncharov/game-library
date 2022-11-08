@@ -21,7 +21,7 @@ namespace DAL.Interfaces
         ICollectionRepository CollectionRepository { get; }
         IUserCollectionRepository UserCollectionRepository { get; }
         IRepository<Rating> RatingRepository { get; }
-        //IUserRepository UserRepository { get; }
+        IUserRepository UserRepository { get; }
 
         Task SaveChangesAsync();
     }

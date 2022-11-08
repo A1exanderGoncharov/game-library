@@ -57,9 +57,9 @@ namespace DAL.Infrastructure
         public IRepository<Rating> RatingRepository =>
             _ratingRepository ??= new Repository<Rating>(_context);
 
-        //IUserRepository _userRepository;
-        //public IUserRepository UserRepository =>
-        //    _userRepository ??= new UserRepository(_context);
+        IUserRepository _userRepository;
+        public IUserRepository UserRepository =>
+            _userRepository ??= new UserRepository(_context);
 
         public SignInManager<ApplicationUser> SignInManager { get; }
 

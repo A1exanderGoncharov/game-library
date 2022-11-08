@@ -52,13 +52,6 @@ namespace BLL.Infrastructure
             return roles.ToList();
         }
 
-        //public async Task<ApplicationUser> GetCurrentUserAsync()
-        //{
-        //    var currentUser = await _unitOfWork.UserManager.
-
-        //    return currentUser;
-        //}
-
         public async Task SignOut()
         {
             await _unitOfWork.SignInManager.SignOutAsync();

@@ -1,6 +1,5 @@
 D:\Programming\Csharp\GameLibrary\DAL.Entities\bin\Debug\net5.0\DAL.Entities.deps.json
 D:\Programming\Csharp\GameLibrary\DAL.Entities\bin\Debug\net5.0\DAL.Entities.dll
-D:\Programming\Csharp\GameLibrary\DAL.Entities\bin\Debug\net5.0\ref\DAL.Entities.dll
 D:\Programming\Csharp\GameLibrary\DAL.Entities\bin\Debug\net5.0\DAL.Entities.pdb
 D:\Programming\Csharp\GameLibrary\DAL.Entities\obj\Debug\net5.0\DAL.Entities.GeneratedMSBuildEditorConfig.editorconfig
 D:\Programming\Csharp\GameLibrary\DAL.Entities\obj\Debug\net5.0\DAL.Entities.AssemblyInfoInputs.cache
@@ -10,3 +9,4 @@ D:\Programming\Csharp\GameLibrary\DAL.Entities\obj\Debug\net5.0\DAL.Entities.dll
 D:\Programming\Csharp\GameLibrary\DAL.Entities\obj\Debug\net5.0\ref\DAL.Entities.dll
 D:\Programming\Csharp\GameLibrary\DAL.Entities\obj\Debug\net5.0\DAL.Entities.pdb
 D:\Programming\Csharp\GameLibrary\DAL.Entities\obj\Debug\net5.0\DAL.Entities.csproj.AssemblyReference.cache
+D:\Programming\Csharp\GameLibrary\DAL.Entities\bin\Debug\net5.0\ref\DAL.Entities.dll

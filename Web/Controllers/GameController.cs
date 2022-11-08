@@ -17,17 +17,21 @@ namespace Web.Controllers
         IGameService _gameService;
         ICommentService _commentService;
         IGenreService _genreService;
+        IRecommenderService _recommenderService;
 
-        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService)
+        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommenderService recommenderService)
         {
             _gameService = gameService;
             _commentService = commentService;
             _genreService = genreService;
+            _recommenderService = recommenderService;
         }
 
         public async Task<IActionResult> Index()
         {
             var model = await _gameService.GetAllAsync();
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
 
             return View(model);
         }
@@ -143,6 +147,14 @@ namespace Web.Controllers
         {
             ViewBag.gameRating = _gameService.CalculateGameRatingScore(gameId);
         }
+
+        //public IActionResult GetUserPersonalRecommendations()
+        //{
+        //    string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);            
+
+        //    return RedirectToAction("Index", "Home", recommendedGames);
+        //}
 
     }
 }

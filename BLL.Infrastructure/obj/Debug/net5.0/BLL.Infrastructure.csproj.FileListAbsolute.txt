@@ -1,6 +1,5 @@
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\BLL.Infrastructure.deps.json
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\BLL.Infrastructure.dll
-D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\ref\BLL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\BLL.Infrastructure.pdb
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\BLL.DTO.dll
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\BLL.Interfaces.dll
@@ -19,3 +18,4 @@ D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\BLL.Infras
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\BLL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\ref\BLL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\BLL.Infrastructure.pdb
+D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\ref\BLL.Infrastructure.dll

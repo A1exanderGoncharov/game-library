@@ -75,11 +75,20 @@ namespace BLL.Infrastructure
             return games.Where(g => g.Name.ToUpper().Contains(searchString.ToUpper()));
         }
 
-        public async Task<IEnumerable<GameDTO>> FilterByGenre(string gameGenre)
+        public async Task<IEnumerable<GameDTO>> FilterByGenre(int gameGenre)
         {
-            var games = await GetAllAsync();
-            var result = games.Where(g => g.Genre != null && g.Genre.ToUpper().Contains(gameGenre.ToUpper()));
-            return result;
+            var gameGenresEntities = await _unitOfWork.GameGenresRepository.GetAllAsync();
+            var gameGenresDTO = _mapper.Map<IEnumerable<GameGenre>, IEnumerable<GameGenreDTO>>(gameGenresEntities);
+            ICollection<GameDTO> games = new List<GameDTO>();
+
+            var result = gameGenresDTO.Where(x => x.GenreId == gameGenre);
+
+            foreach (var item in result)
+            {
+                var game = GetByIdAsync(item.GameId).Result;
+                games.Add(game);
+            }
+            return games;
         }
 
         public async Task AddGameWithGenreAsync(GameDTO game, List<string> selectedGenres)
@@ -156,5 +165,13 @@ namespace BLL.Infrastructure
             return ratingScore;
         }
 
+        //public IEnumerable<GameDTO> GetTopGames()
+        //{
+        //    var games = _unitOfWork.RatingRepository.GetAllAsync().Result;
+        //    var gamesDTO = _mapper.Map<IEnumerable<Rating>, IEnumerable<RatingDTO>>(games);
+        //    gamesDTO.GroupBy(x => x.GameId).Average(x => x.));
+
+        //    return gamesDTO;
+        //}
     }
 }

@@ -74,6 +74,14 @@ td {
     font-size: 13px;
 }
 
+.dropdown-toggle {
+    position: relative;
+    bottom: 5px;
+    padding: 0,5px;
+    margin-left: 5px;
+    font-size: 13px;
+}
+
 .btn-in-card>.btn-info {
     min-width: 112px;
 }

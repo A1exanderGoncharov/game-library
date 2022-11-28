@@ -28,9 +28,10 @@ namespace DAL.Infrastructure.Repositories
             if (filter != null) entities = entities.Where(filter);
 
             return entities
-                .Include(c => c.Comments).ThenInclude(u => u.ApplicationUser).AsSplitQuery()
-                .Include(c => c.Comments).ThenInclude(r => r.Replies).AsSplitQuery()
-                .Include(c => c.GameGenres).ThenInclude(g => g.Genre).AsSplitQuery();
+                .Include(g => g.Comments).ThenInclude(c => c.ApplicationUser).AsSplitQuery()
+                .Include(g => g.Comments).ThenInclude(c => c.Replies).AsSplitQuery()
+                .Include(g => g.GameGenres).ThenInclude(gg => gg.Genre).AsSplitQuery()
+                .Include(g => g.Ratings);
         }
 
     }

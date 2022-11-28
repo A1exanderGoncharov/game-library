@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Web.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Web.Controllers
@@ -18,6 +19,7 @@ namespace Web.Controllers
         ICommentService _commentService;
         IGenreService _genreService;
         IRecommenderService _recommenderService;
+        readonly IndexViewModel indexViewModel;
 
         public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommenderService recommenderService)
         {
@@ -25,15 +27,27 @@ namespace Web.Controllers
             _commentService = commentService;
             _genreService = genreService;
             _recommenderService = recommenderService;
+            indexViewModel = new();
+            indexViewModel.genres = _genreService.GetAllAsync().Result;
         }
 
         public async Task<IActionResult> Index()
         {
-            var model = await _gameService.GetAllAsync();
-            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewBag.recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
+            indexViewModel.games = await _gameService.GetAllAsync();
 
-            return View(model);
+            if (indexViewModel.genres != null)
+            {
+                indexViewModel.genres = await _genreService.GetAllAsync();
+            }
+
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (currentUserId != null)
+            {
+                ViewBag.recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
+            }
+
+            return View(indexViewModel);
         }
 
         public async Task<IActionResult> GameDetails(int? id)
@@ -83,19 +97,20 @@ namespace Web.Controllers
         {
             if (!String.IsNullOrEmpty(searchString))
             {
-                var games = await _gameService.Search(searchString);
-                return View("Index", games);
+                indexViewModel.games = await _gameService.Search(searchString);
+
+                return View("Index", indexViewModel);
             }
             return BadRequest();
         }
 
-        public async Task<IActionResult> FilterByGenre(string gameGenre)
+        public async Task<IActionResult> FilterByGenre(int? gameGenreId)
         {
-            if (!String.IsNullOrEmpty(gameGenre))
+            if (gameGenreId != null)
             {
-                var games = await _gameService.FilterByGenre(gameGenre);
+                indexViewModel.games = await _gameService.FilterByGenre((int)gameGenreId);
 
-                return View("Index", games);
+                return View("Index", indexViewModel);
             }
             return BadRequest();
         }
@@ -110,8 +125,6 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var games = await _gameService.GetAllAsync();
-
             var gameDTOToEdit = await _gameService.GetByIdAsync(id);
             return View(gameDTOToEdit);
         }
@@ -119,15 +132,15 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(GameDTO gameDTO)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
                 await _gameService.UpdateAsync(gameDTO);
                 return RedirectToAction(nameof(Index));
             }
 
-            var games = await _gameService.GetAllAsync();
+            //var games = await _gameService.GetAllAsync();
 
-            return View(gameDTO);
+            //return View(gameDTO);
         }
 
         public async Task<IActionResult> Delete(int id)

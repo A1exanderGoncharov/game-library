@@ -17,7 +17,6 @@ namespace BLL.DTO
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime ReleaseDate { get; set; }
         public string Rating { get; set; }
-        public string Genre { get; set; }
         public string Trailer { get; set; }
         public string Developer { get; set; }
 

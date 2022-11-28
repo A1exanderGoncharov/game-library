@@ -65,17 +65,22 @@ namespace BLL.Infrastructure
             var usersEntities = _unitOfWork.UserRepository.GetAllAsync().ToList();
             var usersDTO = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserDTO>>(usersEntities);
 
+            const int minAvgRating = 3;
+
             List<ComparedUserModel> neighbors = new();
 
-            foreach (var user in usersDTO)
+            if (targetUserDTO.Ratings.Count >= 2 && targetUserDTO.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average() >= minAvgRating)
             {
-                if (targetUserId != user.Id)
+                foreach (var user in usersDTO)
                 {
-                    neighbors.Add(new ComparedUserModel
+                    if (targetUserId != user.Id && user.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average() >= minAvgRating)
                     {
-                        ComparedUserId = user.Id,
-                        SimilarityScore = CalculateCosineSimilarity(targetUserDTO, user)
-                    });
+                        neighbors.Add(new ComparedUserModel
+                        {
+                            ComparedUserId = user.Id,
+                            SimilarityScore = CalculateCosineSimilarity(targetUserDTO, user)
+                        });
+                    }
                 }
             }
 
@@ -86,44 +91,28 @@ namespace BLL.Infrastructure
 
         public List<int> GetPersonalizedRecommendations(string currentUserId)
         {
-            List<int> recommendations = new();
-
             var neighbors = GetNearestNeighbors(currentUserId);
+
+            if (neighbors.Count == 0)
+            {
+                return null;
+            }
+
             var gamesIdOfTargetUser = _unitOfWork.RatingRepository.GetAllAsync().Result
                 .Where(x => x.ApplicationUserId == currentUserId)
                 .Select(x => x.GameId)
                 .ToList();
-            List<int> gamesIdOfComparedUser = new();
 
-            foreach (var neighbor in neighbors)
-            {
-                gamesIdOfComparedUser = _unitOfWork.RatingRepository.GetAllAsync().Result
-                    .Where(x => x.ApplicationUserId == neighbor.ComparedUserId)
-                    .Select(x => x.GameId)
-                    .ToList();
-            }
+            var gamesIdOfComparedUser = _unitOfWork.RatingRepository.GetAllAsync().Result
+                .Where(r => neighbors.Select(cu => cu.ComparedUserId)
+                .Contains(r.ApplicationUserId) & r.GameRating > 3)
+                .Select(x => x.GameId)
+                .ToList();
 
-            recommendations = CompareGamesId(gamesIdOfTargetUser, gamesIdOfComparedUser);
+            List<int> recommendations = gamesIdOfComparedUser.Except(gamesIdOfTargetUser).ToList();
 
             return recommendations;
         }
 
-        public List<int> CompareGamesId(List<int> gamesIdOfTargetUser, List<int> gamesIdOfComparedUser)
-        {
-            List<int> pairValuesOnly = new();
-
-            if (gamesIdOfTargetUser.Count > gamesIdOfComparedUser.Count)
-            {
-                pairValuesOnly = gamesIdOfTargetUser.Except(gamesIdOfComparedUser).ToList();
-            }
-
-            if (gamesIdOfTargetUser.Count < gamesIdOfComparedUser.Count)
-            {
-                pairValuesOnly = gamesIdOfComparedUser.Except(gamesIdOfTargetUser).ToList();
-            }
-
-            return pairValuesOnly;
-
-        }
     }
 }

@@ -37,14 +37,26 @@
                         <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
                     </tr>
                 </table>
+                <form class="input-group mb-3" style="left:50px; top:67px" asp-action="RateGame" asp-route-gameId="@ViewBag.game.Id">
+                    <div @*style="background-color: #e9ecef"*@ class="input-group-prepend">
+                        <button style="border-color: #d8dde1" class="btn btn-outline-secondary" type="submit">&#11088;</button>
+                    </div>
+                    <input style="max-width:73px" type="text" class="form-control" placeholder="rate" aria-label="" name="rating" aria-describedby="basic-addon1">
+                </form>
             </div>
+
             @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
 
             <div class="GameDescription">
                 <h4>Description:</h4>
                 <p>@ViewBag.game.Description</p>
             </div>
-
+            <!--<div class="input-group mb-3">
+                <div--> @*style="background-color: #e9ecef"*@ <!--class="input-group-prepend">
+                    <button  style="border-color: #d8dde1" class="btn btn-outline-secondary" type="button">&#11088;</button>
+                </div>
+                <input style="max-width:73px" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+            </div>-->
             <div><h4>Trailer:</h4></div>
             <div class="Trailer">
                 <iframe width="560" height="315" src="@ViewBag.game.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

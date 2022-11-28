@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BLL.DTO.GameDTO>
+﻿@model Web.ViewModels.IndexViewModel
     @*<h2>Game Library</h2>*@
 
     <!DOCTYPE html>
@@ -13,17 +13,36 @@
     <body>
         <form class="form-inline my-2 my-lg-0" asp-action="Search">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+
             <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Genre
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                    @foreach (var genre in Model.genres)
+                    {
+                        <a class="dropdown-item" asp-action="FilterByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+                    }
+
+                </div>
+            </div>
         </form>
         <div>
-        @foreach (var item in ViewBag.recommendedGames)
+            @if (ViewBag.recommendedGames != null)
+            {
+
+
+    @foreach (var item in ViewBag.recommendedGames)
     {
-        <p>Recommended game ID: @item</p>
+    <p>Recommended game ID: @item</p>}            
     }
-            </div>
+        </div>
         <div class="gameCards">
             <div class="row">
-                @foreach (var item in Model)
+                @foreach (var item in Model.games)
                 {
                 <div class="col-sm-3">
                     <div class="card @*border-0*@">
@@ -36,16 +55,17 @@
                             </a>
                             <p class="card-text">
                             <p>Release Date: @item.ReleaseDate.ToShortDateString()</p>
-                            @*<p>Rating: @item.Rating</p>*@
+                            @{ var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average(); }
+                            <span style="">&#11088; @Math.Round(ratingScore, 1)</span>
 
                             @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
                             {
-                        <div class="btn-in-card" style="width:100%">
-                            <a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </div>}
+                            <div style="margin-top:15px" class="btn-in-card" style="width:100%">
+                                <a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </div>}
                             @if (User.Identity.IsAuthenticated)
-                            {                             
+                            {
                             <a class="btn icon-btn btn-success" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
                                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                                 Add

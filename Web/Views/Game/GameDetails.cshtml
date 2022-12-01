@@ -52,7 +52,9 @@
                 <p>@ViewBag.game.Description</p>
             </div>
             <!--<div class="input-group mb-3">
-                <div--> @*style="background-color: #e9ecef"*@ <!--class="input-group-prepend">
+                <div-->
+            @*style="background-color: #e9ecef"*@
+            <!--class="input-group-prepend">
                     <button  style="border-color: #d8dde1" class="btn btn-outline-secondary" type="button">&#11088;</button>
                 </div>
                 <input style="max-width:73px" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
@@ -68,7 +70,17 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <a class="btn btn-primary" asp-controller="Game" asp-action="Comment" asp-route-id="@ViewBag.game.Id">Write Comment</a>
+    @*<a class="btn btn-primary" asp-controller="Game" asp-action="Comment" asp-route-id="@ViewBag.game.Id">Write Comment</a>*@
+
+    <form asp-controller="Comment" asp-action="Create" method="post" asp-antiforgery="true">
+        <div class="mb-3">
+            <input name="GameId" type="hidden" value="@Model.Id" />
+            <textarea class="form-control" name="Content" placeholder="Write a comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <div>
+                <input class="btn btn-success" type="submit" value="Send" />
+            </div>
+        </div>
+    </form>
 }
 else
 {
@@ -89,7 +101,7 @@ else
                 @if (item.ReplyToCommentId == null)
                 {
                     <div class="comment-main-level">
-                        <div class="comment-avatar"><img src="https://i.ibb.co/vd41yqn/default-user-image.png" alt=""></div>
+                        <div class="comment-avatar"><img src="https://i.ibb.co/7CdvBXQ/default-user-image.png" alt="default-user-image" border="0"></div>
                         <div class="comment-box">
                             <div class="comment-head">
                                 <h6 class="comment-name by-author"><a href="">@item.ApplicationUser.Nickname</a></h6>
@@ -123,7 +135,7 @@ else
                 {
                     <ul class="comments-list reply-list">
                         <li>
-                            <div class="comment-avatar"><img src="https://i.ibb.co/vd41yqn/default-user-image.png" alt=""></div>
+                            <div class="comment-avatar"><img src="https://i.ibb.co/7CdvBXQ/default-user-image.png" alt=""></div>
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name"><a href="">@reply.ApplicationUser.Nickname</a></h6>

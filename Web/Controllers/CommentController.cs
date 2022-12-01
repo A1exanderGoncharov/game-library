@@ -21,25 +21,27 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult Create(int GameId, int? ReplyToCommentId, string NicknameToReply)
         {
-            ViewBag.gameId = GameId;
-            ViewBag.nickname = NicknameToReply;
-
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CommentDTO commentDTO, int? ReplyToCommentId, int GameId, string NicknameToReply)
+        public async Task<IActionResult> Create(int? ReplyToCommentId, int GameId, string NicknameToReply, string Content)
         {
-            if (ModelState.IsValid)
-            {
-                commentDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            CommentDTO commentDTO = new();
 
-                await _commentService.AddAsync(commentDTO);
-                return RedirectToAction("GameDetails", "Game", new { id = GameId });
+            if (ReplyToCommentId != null)
+            {
+                commentDTO.ReplyToCommentId = ReplyToCommentId;
+                commentDTO.NicknameToReply = NicknameToReply;
             }
 
-            var comments = await _commentService.GetAllAsync();
-            return RedirectToAction("GameDetails", "Game");
+            commentDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            commentDTO.GameId = GameId;
+            commentDTO.NicknameToReply = NicknameToReply;
+            commentDTO.Content = Content;
+
+            await _commentService.AddAsync(commentDTO);
+            return RedirectToAction("GameDetails", "Game", new { id = GameId });
         }
 
         public IActionResult Reply(int Id, int GameId, string Nickname)

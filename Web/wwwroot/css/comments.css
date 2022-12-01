@@ -30,7 +30,8 @@ body {
  * Lista de Comentarios
  =======================*/
 .comments-container {
-    margin: 60px auto 15px;
+    /*    margin: 60px auto 15px;*/
+    margin: 20px auto 15px;
     width: 100%;
 }
 

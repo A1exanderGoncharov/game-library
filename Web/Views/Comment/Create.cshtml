@@ -6,9 +6,9 @@
         @Html.HiddenFor(y => y.ReplyToCommentId)
         @Html.HiddenFor(z => z.NicknameToReply)
         <label class="form-label">Add Comment</label>
-        <textarea class="form-control" asp-for="Content" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea class="form-control" asp-for="Content" placeholder="Write a reply" id="exampleFormControlTextarea1" rows="3"></textarea>
         <div>
-            <input type="submit" value="Send" />
+            <input class="btn btn-success" type="submit" value="Send" />
         </div>
     </div>
 </form>

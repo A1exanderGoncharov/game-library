@@ -88,10 +88,10 @@ namespace Web.Controllers
             //return View(gameDTO);
         }
 
-        public IActionResult Comment(int? Id)
-        {
-            return RedirectToAction("Create", "Comment", new { gameId = Id });
-        }
+        //public IActionResult Comment(int? Id)
+        //{
+        //    return RedirectToAction("Create", "Comment", new { gameId = Id });
+        //}
 
         public async Task<IActionResult> Search(string searchString)
         {

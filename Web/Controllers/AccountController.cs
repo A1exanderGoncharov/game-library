@@ -77,7 +77,7 @@ namespace Web.Controllers
 
             if (res.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Game");
             }
             else
             {

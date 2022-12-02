@@ -1,81 +1,84 @@
 ﻿@model Web.ViewModels.IndexViewModel
-    @*<h2>Game Library</h2>*@
+@*<h2>Game Library</h2>*@
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <title>Game Library</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/gameList.css" />
-        <link rel="stylesheet" href="/css/site.css" />
-    </head>
-    <body>
-        <form class="form-inline my-2 my-lg-0" asp-action="Search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Game Library</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/gameList.css" />
+	<link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+	<form class="form-inline my-2 my-lg-0" asp-action="Search">
 
-            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
 
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Genre
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 
-                    @foreach (var genre in Model.genres)
-                    {
-                        <a class="dropdown-item" asp-action="FilterByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
-                    }
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle drpdwn-genres" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Genre
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                </div>
-            </div>
-        </form>
-        <div>
-            @if (ViewBag.recommendedGames != null)
-            {
+				@foreach (var genre in Model.genres)
+				{
+					<a class="dropdown-item" asp-action="FilterByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+				}
 
+			</div>
+		</div>
+	</form>
+	<div>
+		@if (ViewBag.recommendedGames != null)
+		{
+			@foreach (var item in ViewBag.recommendedGames)
+			{
+				<p>Recommended game ID: @item</p>
+			}
+		}
+	</div>
+	<div class="gameCards">
+		<div class="row">
+			@foreach (var item in Model.games)
+			{
+				<div class="col-sm-3">
+					<div class="card @*border-0*@">
+						<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+							<img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
+						</a>
+						<div class="card-body">
+							<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+								<h4 class="card-title">@item.Name</h4>
+							</a>
+							<p class="card-text">
+							<p>Release Date: @item.ReleaseDate.ToShortDateString()</p>
+								@{
+									var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
+								}
+							<span style="">&#11088; @Math.Round(ratingScore, 1)</span>
 
-    @foreach (var item in ViewBag.recommendedGames)
-    {
-    <p>Recommended game ID: @item</p>}            
-    }
-        </div>
-        <div class="gameCards">
-            <div class="row">
-                @foreach (var item in Model.games)
-                {
-                <div class="col-sm-3">
-                    <div class="card @*border-0*@">
-                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-                            <img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
-                        </a>
-                        <div class="card-body">
-                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-                                <h4 class="card-title">@item.Name</h4>
-                            </a>
-                            <p class="card-text">
-                            <p>Release Date: @item.ReleaseDate.ToShortDateString()</p>
-                            @{ var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average(); }
-                            <span style="">&#11088; @Math.Round(ratingScore, 1)</span>
-
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-                            {
-                            <div style="margin-top:15px" class="btn-in-card" style="width:100%">
-                                <a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                <a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </div>}
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                            <a class="btn icon-btn btn-success" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
-                                <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
-                                Add
-                            </a>
-                            }
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-        </div>
-    </body>
+								@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+								{
+								<div style="margin-top:15px" class="btn-in-card" style="width:100%">
+									<a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+									<a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+								</div>
+								}
+								@if (User.Identity.IsAuthenticated)
+								{
+								<a class="btn icon-btn btn-success" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+									<span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+									Add
+								</a>
+								}
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</body>
 </html>

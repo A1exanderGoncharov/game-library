@@ -58,8 +58,6 @@ namespace Web.Controllers
             GetGameRatingScore((int)id);
 
             ViewBag.ratingsNumber = _gameService.GetGameRatingsNumber((int)id);
-            ViewBag.game = model;
-            ViewBag.comment = new CommentDTO();
 
             return View(model);
         }

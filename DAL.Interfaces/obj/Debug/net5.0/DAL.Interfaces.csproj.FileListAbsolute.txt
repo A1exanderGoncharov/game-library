@@ -12,4 +12,4 @@ D:\Programming\Csharp\GameLibrary\DAL.Interfaces\obj\Debug\net5.0\DAL.Interfaces
 D:\Programming\Csharp\GameLibrary\DAL.Interfaces\obj\Debug\net5.0\DAL.Interfaces.dll
 D:\Programming\Csharp\GameLibrary\DAL.Interfaces\obj\Debug\net5.0\ref\DAL.Interfaces.dll
 D:\Programming\Csharp\GameLibrary\DAL.Interfaces\obj\Debug\net5.0\DAL.Interfaces.pdb
-D:\Programming\Csharp\GameLibrary\DAL.Interfaces\bin\Debug\net5.0\ref\DAL.Interfaces.dll
+D:\Programming\Csharp\GameLibrary\DAL.Interfaces\obj\Debug\net5.0\refint\DAL.Interfaces.dll

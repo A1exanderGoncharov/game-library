@@ -2,67 +2,58 @@
 @using System.Security.Claims;
 
 <head>
-    <link rel="stylesheet" href="/css/comments.css" />
-    <link rel="stylesheet" href="/css/gameCard.css" />
+    <link rel="stylesheet" href="~/css/comments.css" />
+    <link rel="stylesheet" href="~/css/gameCard.css" />
 </head>
 
 <div class="card">
-    <h5 class="card-header">@ViewBag.game.Name</h5>
+    <h5 class="card-header">@Html.DisplayFor(g => g.Name)</h5>
     <div class="card-body">
-        @*<h5 class="card-title">Special title treatment</h5>*@
-        @*<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>*@
-        <div class="row g-0">
-            <img src="@ViewBag.game.HeaderImage">
-            <div class="col-md-8">
-                <table class="GameDetailTable">
-                    <tr>
-                        <th>Age Rating:</th>
-                        <td>@ViewBag.game.Rating</td>
-                    </tr>
-                    <tr>
-                        <th>Genre:</th>
-                        <td>@string.Join(", ", Model.GameGenres.Select(g => g.Genre.Name).ToArray())</td>
-                    </tr>
-                    <tr>
-                        <th>Release Date:</th>
-                        @*<td>@ViewBag.game.ReleaseDate</td>*@
-                        <td>@Html.DisplayFor(x => x.ReleaseDate)</td>
-                    </tr>
-                    <tr>
-                        <th>Developer:</th>
-                        <td>@ViewBag.game.Developer</td>
-                    </tr>
-                    <tr>
-                        <th>Score:</th>
-                        <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
-                    </tr>
-                </table>
-                <form class="input-group mb-3" style="left:50px; top:67px" asp-action="RateGame" asp-route-gameId="@ViewBag.game.Id">
-                    <div @*style="background-color: #e9ecef"*@ class="input-group-prepend">
-                        <button style="border-color: #d8dde1" class="btn btn-outline-secondary" type="submit">&#11088;</button>
-                    </div>
-                    <input style="max-width:73px" type="text" class="form-control" placeholder="rate" aria-label="" name="rating" aria-describedby="basic-addon1">
-                </form>
-            </div>
 
-            @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+        <img class="info-table img" src="@Model.HeaderImage">
 
-            <div class="GameDescription">
-                <h4>Description:</h4>
-                <p>@ViewBag.game.Description</p>
-            </div>
-            <!--<div class="input-group mb-3">
-                <div-->
-            @*style="background-color: #e9ecef"*@
-            <!--class="input-group-prepend">
-                    <button  style="border-color: #d8dde1" class="btn btn-outline-secondary" type="button">&#11088;</button>
-                </div>
-                <input style="max-width:73px" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-            </div>-->
-            <div><h4>Trailer:</h4></div>
-            <div class="Trailer">
-                <iframe width="560" height="315" src="@ViewBag.game.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+        <table class="info-table">
+            <tr>
+                <th>Age Rating:</th>
+                <td>@Html.DisplayFor(g => g.Rating)</td>
+            </tr>
+            <tr>
+                <th>Genre:</th>
+                <td>@string.Join(", ", Model.GameGenres.Select(g => g.Genre.Name).ToArray())</td>
+            </tr>
+            <tr>
+                <th>Release Date:</th>
+                <td>@Html.DisplayFor(g => g.ReleaseDate)</td>
+            </tr>
+            <tr>
+                <th>Developer:</th>
+                <td>@Html.DisplayFor(g => g.Developer)</td>
+            </tr>
+            <tr>
+                <th>Score:</th>
+                <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
+            </tr>
+            <tr>
+                <td>
+                    <form class="input-group mb-3" style="top:62px" asp-action="RateGame" asp-route-gameId="@Model.Id">
+                        <div style="background-color: #e9ecef"
+                             class="input-group-prepend">
+                            <button style="border-color: #d8dde1" class="btn btn-outline-secondary" type="submit">&#11088;</button>
+                        </div>
+                        <input style="max-width:73px" type="number" min="1" max="5" class="form-control" placeholder="rate" aria-label="" name="rating" aria-describedby="basic-addon1">
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <div class="game-description">
+            <h4>Description:</h4>
+            <p>@Html.DisplayFor(g => g.Description)</p>
+        </div>
+
+        <div class="trailer">
+            <h4>Trailer:</h4>
+            <p align="center"><iframe width="560" height="315" src="@Model.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
         </div>
     </div>
 
@@ -95,7 +86,7 @@ else
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>*@
     <ul id="comments-list" class="comments-list">
-        @foreach (var item in ViewBag.game.Comments)
+        @foreach (var item in Model.Comments)
         {
             <li>
                 @if (item.ReplyToCommentId == null)

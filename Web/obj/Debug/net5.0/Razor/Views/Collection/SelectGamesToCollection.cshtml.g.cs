@@ -35,7 +35,9 @@ using Microsoft.AspNetCore.Authorization;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0670de24f675353e7ec77dbd1e375b10e88c8318", @"/Views/Collection/SelectGamesToCollection.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"80222651a8e439f0615b550d43d8ad4ddc288500", @"/Views/_ViewImports.cshtml")]
+    #nullable restore
     public class Views_Collection_SelectGamesToCollection : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<BLL.DTO.UserGameDTO>>
+    #nullable disable
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("btn-link"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "Game", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -75,7 +77,7 @@ using Microsoft.AspNetCore.Authorization;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
             WriteLiteral("\n    <!DOCTYPE html>\n    <html lang=\"en\">\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83186662", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83186708", async() => {
                 WriteLiteral(@"
         <title>Game Library</title>
         <meta charset=""utf-8"">
@@ -95,10 +97,10 @@ using Microsoft.AspNetCore.Authorization;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83187936", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83187982", async() => {
                 WriteLiteral("\n        <h2>Select games to add:</h2>\n");
                 WriteLiteral("\n        ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83188276", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83188322", async() => {
                     WriteLiteral("\n            <div class=\"gameCards\">\n                <div class=\"row\">\n");
 #nullable restore
 #line 23 "D:\Programming\Csharp\GameLibrary\Web\Views\Collection\SelectGamesToCollection.cshtml"
@@ -109,7 +111,7 @@ using Microsoft.AspNetCore.Authorization;
 #line hidden
 #nullable disable
                     WriteLiteral("        <div class=\"col-sm-3\">\n            <div class=\"card @*border-0*@\">\n                ");
-                    __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83188990", async() => {
+                    __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c83189036", async() => {
                         WriteLiteral("\n                    <img class=\"card-img-top\"");
                         BeginWriteAttribute("src", " src=\"", 1231, "\"", 1259, 1);
 #nullable restore
@@ -153,7 +155,7 @@ WriteAttributeValue("", 1237, item.Game.HeaderImage, 1237, 22, false);
                     Write(__tagHelperExecutionContext.Output);
                     __tagHelperExecutionContext = __tagHelperScopeManager.End();
                     WriteLiteral("\n                <div class=\"card-body\">\n                    ");
-                    __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c831812277", async() => {
+                    __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c831812323", async() => {
                         WriteLiteral("\n                        <h4 class=\"card-title\">");
 #nullable restore
 #line 32 "D:\Programming\Csharp\GameLibrary\Web\Views\Collection\SelectGamesToCollection.cshtml"
@@ -231,7 +233,7 @@ WriteAttributeValue("", 1938, item.Id, 1938, 8, false);
 #line hidden
 #nullable disable
                     WriteLiteral("                <div>\n                    ");
-                    __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c831817067", async() => {
+                    __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0670de24f675353e7ec77dbd1e375b10e88c831817113", async() => {
                         WriteLiteral("Submit");
                     }
                     );
@@ -313,18 +315,30 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper.Antiforgery = true;
             WriteLiteral("\n</html>");
         }
         #pragma warning restore 1998
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public IAuthorizationService AuthorizationService { get; private set; }
+        public IAuthorizationService AuthorizationService { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<IEnumerable<BLL.DTO.UserGameDTO>> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<IEnumerable<BLL.DTO.UserGameDTO>> Html { get; private set; } = default!;
+        #nullable disable
     }
 }
 #pragma warning restore 1591

@@ -1,35 +1,46 @@
-﻿.GameDescription {
-    margin-top: 30px;
-    margin-bottom: 14px;
+﻿.card {
+    margin-bottom: 30px;
+    max-width: auto;
 }
 
-.GameDetailTable {
+.card-body {
+    /*margin-inline: 14px;*/
+    position: relative;
+}
+
+.info-table {
+    display: inline-block;
+    vertical-align: top;
     border-collapse: separate;
     border-spacing: 50px 0;
 }
 
-.Trailer {
+.img {
+    object-fit: cover;
+    height: 275px;
+    width: 200px;
+}
+
+.game-description {
+    margin-top: 30px;
+    margin-bottom: 14px;
+}
+
+.trailer {
+    margin-top: 30px;
+    margin-bottom: 14px;
+}
+
+.trailer > iframe {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    right: 34px;
-    margin-top: 37px;
+    text-align: center;
 }
 
-.card {
-    margin-bottom: 30px;
-}
-
-.card-body {
-    margin-inline: 14px;
-}
-
-.form-check-label {
+/*.form-check-label {
     position: relative;
     left: 20px;
     top: 1px;
-}
+}*/
 
 .comment-btn-link {
     
@@ -47,4 +58,4 @@
 
 .forbidden {
     text-align: center;
-}z
+}

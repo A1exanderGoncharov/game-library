@@ -102,7 +102,6 @@ D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\Cr
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\Index.cshtml.g.cs
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Game\GameCollection.cshtml.g.cs
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Razor\Views\Collection\SelectGamesToCollection.cshtml.g.cs
-D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\ref\Web.dll
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Antiforgery.dll
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Authentication.Cookies.dll
@@ -460,3 +459,4 @@ D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAna
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 D:\Programming\Csharp\GameLibrary\Web\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\Web.MvcApplicationPartsAssemblyInfo.cs
+D:\Programming\Csharp\GameLibrary\Web\obj\Debug\net5.0\refint\Web.dll

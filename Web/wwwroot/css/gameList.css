@@ -4,10 +4,15 @@
 
 .card {
     margin-bottom: 30px;
+    max-width: 255px;
 }
 
-.form-control {
-    margin-bottom: 10px;
+.form-control.mr-sm-2 {
+    margin-bottom: 0;
+}
+
+.form-inline.my-2.my-lg-0 {
+    padding-bottom: 25px;
 }
 
 .btn-in-card > .btn-primary {
@@ -30,10 +35,11 @@ td {
 }
 
 .card-img-top {
-    width: 100%;
-    height: 348px;
+    max-height: 348px;
+    max-width: 253px;
     object-fit: cover;
     padding: 5px;
+    aspect-ratio: 253/344;
     /*border: 1px solid #ddd;*/
 }
 
@@ -51,8 +57,10 @@ td {
     padding: 1px 15px 3px 2px;
     border-radius: 50px;
     position: absolute;
-    top: 299px;
+    top: 295px;
     left: 159px;
+/*    top: 64.65%;
+    right: 5%;*/
 }
 
 .btn-warning {
@@ -68,18 +76,14 @@ td {
 }
 
 .btn-info {
-    position: relative;
-    bottom: 5px;
-    padding: 0,5px;
     font-size: 13px;
+/*    margin-right: 5px;*/
+/*    margin: 2.5px;*/
 }
 
-.dropdown-toggle {
-    position: relative;
-    bottom: 5px;
-    padding: 0,5px;
-    margin-left: 5px;
+.drpdwn-genres {
     font-size: 13px;
+    margin-left: 5px;
 }
 
 .btn-in-card>.btn-info {

@@ -18,4 +18,4 @@ D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\BLL.Infras
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\BLL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\ref\BLL.Infrastructure.dll
 D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\BLL.Infrastructure.pdb
-D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\bin\Debug\net5.0\ref\BLL.Infrastructure.dll
+D:\Programming\Csharp\GameLibrary\BLL.Infrastructure\obj\Debug\net5.0\refint\BLL.Infrastructure.dll

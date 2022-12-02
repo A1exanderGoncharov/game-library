@@ -129,12 +129,13 @@ namespace BLL.Infrastructure
 
         public async Task AddRatingToGame(string UserId, int GameId, int Rating)
         {
-            Rating rating = new();
+            RatingDTO rating = new();
             rating.ApplicationUserId = UserId;
             rating.GameId = GameId;
             rating.GameRating = Rating;
+            var RatingEntity = _mapper.Map<RatingDTO, Rating>(rating);
 
-            await _unitOfWork.RatingRepository.InsertAsync(rating);
+            await _unitOfWork.RatingRepository.InsertAsync(RatingEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 

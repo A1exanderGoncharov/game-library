@@ -45,6 +45,7 @@ td {
 
 .card-title {
     font-weight: 600;
+    height: 36px;
 }
 
 .btn-glyphicon {
@@ -58,16 +59,20 @@ td {
     border-radius: 50px;
     position: absolute;
     top: 295px;
-    left: 159px;
-/*    top: 64.65%;
+    right: 5%;
+    /*    top: 64.65%;
     right: 5%;*/
 }
 
-.btn-warning {
-    padding: 1px 15px 3px 2px;
-    border-radius: 50px;
-    position: absolute;
-    bottom: 138px;
+/*    .icon-btn.btn-warning {
+        padding: 1px 15px 3px 2px;
+        border-radius: 50px;
+        position: absolute;
+        bottom: 138px;
+        left: 131px;
+    }*/
+
+.remove-btn {
     left: 131px;
 }
 
@@ -75,17 +80,43 @@ td {
     margin: 0;
 }
 
-.btn-info {
-    font-size: 13px;
-/*    margin-right: 5px;*/
-/*    margin: 2.5px;*/
-}
-
 .drpdwn-genres {
-    font-size: 13px;
+    /*font-size: 13px;*/
     margin-left: 5px;
 }
 
-.btn-in-card>.btn-info {
+.btn-in-card > .btn-info {
     min-width: 112px;
+    margin-top: 10px;
+}
+
+.carousel {
+    position: absolute;
+    right: 205px;
+    width: 488px;
+}
+
+.game-cards {
+    /*margin-top: 100px;*/
+}
+
+.carousel-control-next {
+    right: -55px;
+}
+
+.carousel-control-prev {
+    left: -55px;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    position: absolute;
+    top: 94px;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    width: 10%;
+}
+
+.rec {
+    display: inline-block;
 }

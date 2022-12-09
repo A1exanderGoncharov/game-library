@@ -44,7 +44,31 @@ namespace Web.Controllers
 
             if (currentUserId != null)
             {
-                ViewBag.recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
+                var recommendedGamesId = _recommenderService.GetPersonalizedRecommendations(currentUserId);
+                ViewBag.recommendedGamesId = recommendedGamesId;
+
+                List<GameDTO> recommendedGamesFirstRange = new();
+                indexViewModel.recommendedGamesFirstRange = new List<GameDTO>();
+
+                for (int i = 0; i < recommendedGamesId.Count; i++)
+                {
+                    recommendedGamesFirstRange.Add(_gameService.GetByIdAsync(recommendedGamesId[i]).Result);
+                }
+
+                indexViewModel.recommendedGamesFirstRange = recommendedGamesFirstRange.Take(3);
+                recommendedGamesId.RemoveRange(0, Math.Min(3, recommendedGamesFirstRange.Count));
+
+                List<GameDTO> recommendedGamesSecondRange = new();
+                indexViewModel.recommendedGamesSecondRange = new List<GameDTO>();
+
+                for (int i = 0; i < recommendedGamesId.Count; i++)
+                {
+                    recommendedGamesSecondRange.Add(_gameService.GetByIdAsync(recommendedGamesId[i]).Result);
+                }
+
+                indexViewModel.recommendedGamesSecondRange = recommendedGamesSecondRange.Take(3);
+                recommendedGamesId.RemoveRange(0, Math.Min(3, recommendedGamesSecondRange.Count));
+
             }
 
             return View(indexViewModel);
@@ -97,7 +121,7 @@ namespace Web.Controllers
             {
                 indexViewModel.games = await _gameService.Search(searchString);
 
-                return View("Index", indexViewModel);
+                return View("Search", indexViewModel);
             }
             return BadRequest();
         }
@@ -108,7 +132,7 @@ namespace Web.Controllers
             {
                 indexViewModel.games = await _gameService.FilterByGenre((int)gameGenreId);
 
-                return View("Index", indexViewModel);
+                return View("Search", indexViewModel);
             }
             return BadRequest();
         }

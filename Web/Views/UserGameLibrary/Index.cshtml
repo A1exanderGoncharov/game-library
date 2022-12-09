@@ -54,8 +54,8 @@
                     </a>
                     <p class="card-text">
                     <p>Release Date: @item.Game.ReleaseDate.ToShortDateString()</p>
-                    <p>Rating: @item.Game.Rating </p>
-                    <a class="btn icon-btn btn-warning" asp-action="Delete" asp-route-id="@item.Id">
+                    @*<p>Rating: @item.Game.Rating </p>*@
+                    <a class="btn icon-btn btn-warning remove-btn" asp-action="Delete" asp-route-id="@item.Id">
                         <span class="glyphicon btn-glyphicon glyphicon-minus img-circle text-warning"></span>
                         Remove
                     </a>

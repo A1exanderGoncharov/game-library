@@ -1,0 +1,75 @@
+﻿@model Web.ViewModels.IndexViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Game Library</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/gameList.css" />
+	<link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+	<form class="form-inline my-2 my-lg-0" asp-action="Search">
+
+		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+
+		<button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle drpdwn-genres" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Genre
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+				@foreach (var genre in Model.genres)
+				{
+					<a class="dropdown-item" asp-action="FilterByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+				}
+
+			</div>
+		</div>
+	</form>
+
+	<div class="game-cards" style="margin-top:0;">
+		<div class="row">
+			@foreach (var item in Model.games)
+			{
+				<div class="col-sm-3">
+					<div class="card @*border-0*@">
+						<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+							<img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
+						</a>
+						<div class="card-body">
+							<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+								<h4 class="card-title">@item.Name</h4>
+							</a>
+							<p class="card-text">
+							<p>Release Date: @item.ReleaseDate.ToShortDateString()</p>
+								@{
+									var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
+								}
+							<span style="">&#11088; @Math.Round(ratingScore, 1)</span>
+
+								@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+								{
+								<div style="margin-top:15px; width:100%" class="btn-in-card">
+									<a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+									<a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+								</div>
+								}
+								@if (User.Identity.IsAuthenticated)
+								{
+								<a class="btn icon-btn btn-success" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+									<span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+									Add
+								</a>
+								}
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</body>
+</html>

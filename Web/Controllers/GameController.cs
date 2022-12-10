@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
+using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -44,31 +45,8 @@ namespace Web.Controllers
 
             if (currentUserId != null)
             {
-                var recommendedGamesId = _recommenderService.GetPersonalizedRecommendations(currentUserId);
-                ViewBag.recommendedGamesId = recommendedGamesId;
-
-                List<GameDTO> recommendedGamesFirstRange = new();
-                indexViewModel.recommendedGamesFirstRange = new List<GameDTO>();
-
-                for (int i = 0; i < recommendedGamesId.Count; i++)
-                {
-                    recommendedGamesFirstRange.Add(_gameService.GetByIdAsync(recommendedGamesId[i]).Result);
-                }
-
-                indexViewModel.recommendedGamesFirstRange = recommendedGamesFirstRange.Take(3);
-                recommendedGamesId.RemoveRange(0, Math.Min(3, recommendedGamesFirstRange.Count));
-
-                List<GameDTO> recommendedGamesSecondRange = new();
-                indexViewModel.recommendedGamesSecondRange = new List<GameDTO>();
-
-                for (int i = 0; i < recommendedGamesId.Count; i++)
-                {
-                    recommendedGamesSecondRange.Add(_gameService.GetByIdAsync(recommendedGamesId[i]).Result);
-                }
-
-                indexViewModel.recommendedGamesSecondRange = recommendedGamesSecondRange.Take(3);
-                recommendedGamesId.RemoveRange(0, Math.Min(3, recommendedGamesSecondRange.Count));
-
+                var recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
+                CreateCarouselRanges(recommendedGames);
             }
 
             return View(indexViewModel);
@@ -79,7 +57,7 @@ namespace Web.Controllers
             var games = await _gameService.GetAllAsync();
             var model = games.FirstOrDefault(g => g.Id == id);
 
-            GetGameRatingScore((int)id);
+            ViewBag.gameRating = _gameService.CalculateGameRatingScore((int)id);
 
             ViewBag.ratingsNumber = _gameService.GetGameRatingsNumber((int)id);
 
@@ -109,11 +87,6 @@ namespace Web.Controllers
             //var games = await _gameService.GetAllAsync();
             //return View(gameDTO);
         }
-
-        //public IActionResult Comment(int? Id)
-        //{
-        //    return RedirectToAction("Create", "Comment", new { gameId = Id });
-        //}
 
         public async Task<IActionResult> Search(string searchString)
         {
@@ -178,18 +151,30 @@ namespace Web.Controllers
             return RedirectToAction("GameDetails", new { id = gameId });
         }
 
-        public void GetGameRatingScore(int gameId)
+        private void CreateCarouselRanges(List<GameDTO> recommendedGames)
         {
-            ViewBag.gameRating = _gameService.CalculateGameRatingScore(gameId);
+            List<GameDTO> recommendedGamesFirstRange = new();
+            indexViewModel.recommendedGamesFirstRange = new List<GameDTO>();
+
+            for (int i = 0; i < recommendedGames.Count; i++)
+            {
+                recommendedGamesFirstRange.Add(recommendedGames[i]);
+            }
+
+            indexViewModel.recommendedGamesFirstRange = recommendedGamesFirstRange.Take(3);
+            recommendedGames.RemoveRange(0, Math.Min(3, recommendedGamesFirstRange.Count));
+
+            List<GameDTO> recommendedGamesSecondRange = new();
+            indexViewModel.recommendedGamesSecondRange = new List<GameDTO>();
+
+            for (int i = 0; i < recommendedGames.Count; i++)
+            {
+                recommendedGamesSecondRange.Add(recommendedGames[i]);
+            }
+
+            indexViewModel.recommendedGamesSecondRange = recommendedGamesSecondRange.Take(3);
+            recommendedGames.RemoveRange(0, Math.Min(3, recommendedGamesSecondRange.Count));
         }
-
-        //public IActionResult GetUserPersonalRecommendations()
-        //{
-        //    string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);            
-
-        //    return RedirectToAction("Index", "Home", recommendedGames);
-        //}
 
     }
 }

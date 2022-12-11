@@ -98,6 +98,8 @@ namespace BLL.Infrastructure
 
             List<GameDTO> recommendedGames = new();
 
+            const int minRecommendedGamesNumber = 6;
+
             if (neighbors.Count != 0)
             {
                 var gameIdsOfTargetUser = _unitOfWork.RatingRepository.GetAllAsync().Result
@@ -111,13 +113,18 @@ namespace BLL.Infrastructure
 
                 List<int> recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToList();
 
-                recommendedGames = GetRecommendationsByGamesId(recommendedGameIds);
+                recommendedGames = GetRecommendedGamesByIds(recommendedGameIds);
+            }
+
+            if (recommendedGames.Count < minRecommendedGamesNumber)
+            {
+                SupplementRecommendationsByTopRatedGames(recommendedGames, minRecommendedGamesNumber);
             }
 
             return recommendedGames;
         }
 
-        private List<GameDTO> GetRecommendationsByGamesId(List<int> recommendations)
+        private List<GameDTO> GetRecommendedGamesByIds(List<int> recommendations)
         {
             List<GameDTO> games = new();
 
@@ -128,6 +135,30 @@ namespace BLL.Infrastructure
             }
 
             return games;
+        }
+
+        private List<GameDTO> SupplementRecommendationsByTopRatedGames(List<GameDTO> recommendations, int minRecommendedGamesNumber)
+        {
+            const int minRecommendedGameRating = 4;
+
+            if (recommendations.Count < minRecommendedGamesNumber)
+            {
+                var topRatedGameIds = _gameService.GetAllAsync().Result
+                    .Where(g => g.Ratings
+                    .Select(r => r.GameRating).DefaultIfEmpty()
+                    .Average() > minRecommendedGameRating)
+                    .Select(g => g.Id)
+                    .Except(recommendations.Select(g => g.Id))
+                    .ToList();
+
+                var gamesToSupplement = GetRecommendedGamesByIds(topRatedGameIds)
+                    .OrderBy(g => Guid.NewGuid())
+                    .Take(minRecommendedGamesNumber - recommendations.Count);
+
+                recommendations.AddRange(gamesToSupplement);
+            }
+
+            return recommendations;
         }
 
     }

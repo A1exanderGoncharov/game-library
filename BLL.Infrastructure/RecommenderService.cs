@@ -67,6 +67,11 @@ namespace BLL.Infrastructure
             var usersEntities = _unitOfWork.UserRepository.GetAllAsync().ToList();
             var usersDTO = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserDTO>>(usersEntities);
 
+            //if (targetUserDTO == null)
+            //{
+            //    return new List<ComparedUserModel>();
+            //}
+
             const int minAvgRating = 3;
             const int minNumberOfRatedGames = 2;
 

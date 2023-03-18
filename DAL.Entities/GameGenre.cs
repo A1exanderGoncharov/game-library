@@ -12,6 +12,6 @@ namespace DAL.Entities
         public Game Game { get; set; }
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
-        public bool IsChanged { get; set; }
+        //public bool IsChanged { get; set; }
     }
 }

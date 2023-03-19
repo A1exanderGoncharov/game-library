@@ -72,7 +72,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(GameDTO gameDTO, List<string> selectedGenres)
+        public async Task<IActionResult> Create(GameDTO gameDTO, string[] selectedGenres)
         {
             if (selectedGenres != null)
             {

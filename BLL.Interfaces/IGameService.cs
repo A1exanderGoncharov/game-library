@@ -18,7 +18,7 @@ namespace BLL.Interfaces
         Task<IEnumerable<GameDTO>> Search(string searchString);
         Task<IEnumerable<GameDTO>> FilterByGenre(int gameGenre);
         void AddGenreToGame(int GameId, int GenreId);
-        Task AddGameWithGenreAsync(GameDTO game, List<string> selectedGenres);
+        Task AddGameWithGenreAsync(GameDTO game, string[] selectedGenres);
         Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionId(int CollectionId);
         Task AddRatingToGame(string UserId, int GameId, int Rating);
         public int CalculateGameRatingScore(int gameId);

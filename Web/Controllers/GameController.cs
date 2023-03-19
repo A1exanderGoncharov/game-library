@@ -55,13 +55,12 @@ namespace Web.Controllers
             if (id == null)
                 return BadRequest();
 
-            var gameModel = await _gameService.GetByIdAsync((int)id);
+            var game = await _gameService.GetByIdAsync((int)id);
 
             ViewBag.gameRating = _gameService.CalculateGameRatingScore((int)id);
-
             ViewBag.ratingsNumber = _gameService.GetGameRatingsNumber((int)id);
 
-            return View(gameModel);
+            return View(game);
         }
 
         public async Task<IActionResult> Create()
@@ -76,16 +75,10 @@ namespace Web.Controllers
         {
             if (selectedGenres != null)
             {
-                var genresEntities = await _genreService.GetAllAsync();
-
                 gameDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await _gameService.AddGameWithGenreAsync(gameDTO, selectedGenres);
             }
             return RedirectToAction(nameof(Index));
-
-
-            //var games = await _gameService.GetAllAsync();
-            //return View(gameDTO);
         }
 
         public async Task<IActionResult> Search(string searchString)
@@ -111,31 +104,24 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGamesByCollectionId(int CollectionId)
+        public async Task<IActionResult> GetGamesByCollectionId(int collectionId)
         {
-            var collection = await _gameService.GetGamesByCollectionId(CollectionId);
+            var collection = await _gameService.GetGamesByCollectionId(collectionId);
 
             return View("GameCollection", collection);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var gameDTOToEdit = await _gameService.GetByIdAsync(id);
-            return View(gameDTOToEdit);
+            var game = await _gameService.GetByIdAsync(id);
+            return View(game);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(GameDTO gameDTO)
         {
-            //if (ModelState.IsValid)
-            {
-                await _gameService.UpdateAsync(gameDTO);
-                return RedirectToAction(nameof(Index));
-            }
-
-            //var games = await _gameService.GetAllAsync();
-
-            //return View(gameDTO);
+            await _gameService.UpdateAsync(gameDTO);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)

@@ -30,14 +30,14 @@
             {
                 <tr>
                     <td style="text-align: center">
-                        <a class="btn btn-link" asp-controller="Game" asp-action="GetGamesByCollectionId" asp-route-CollectionId="@item.Id">@item.Name</a>
+                        <a class="btn btn-link" asp-controller="Game" asp-action="GetGamesByCollectionId" asp-route-collectionId="@item.Id">@item.Name</a>
                     <td style="text-align: center; vertical-align: middle">
                         @item.Date.ToString("dd.MM.yyyy, hh:mm")
                     </td>
                     <td class="collectionActions" style="text-align: center; vertical-align: middle">@item.UserCollections.Count</td>
                     <td>
                         <div class="collectionActions" style="text-align: center">
-                            <a class="btn btn-success" asp-controller="Collection" asp-action="SelectGamesToCollection" asp-route-CollectionId="@item.Id">Add To</a>
+                            <a class="btn btn-success" asp-controller="Collection" asp-action="SelectGamesToCollection" asp-route-collectionId="@item.Id">Add To</a>
                             <a class="btn btn-danger" asp-controller="Collection" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </div>
                     </td>

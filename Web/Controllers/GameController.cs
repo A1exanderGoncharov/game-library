@@ -54,14 +54,16 @@ namespace Web.Controllers
 
         public async Task<IActionResult> GameDetails(int? id)
         {
-            var games = await _gameService.GetAllAsync();
-            var model = games.FirstOrDefault(g => g.Id == id);
+            if (id == null)
+                return BadRequest();
+
+            var gameModel = await _gameService.GetByIdAsync((int)id);
 
             ViewBag.gameRating = _gameService.CalculateGameRatingScore((int)id);
 
             ViewBag.ratingsNumber = _gameService.GetGameRatingsNumber((int)id);
 
-            return View(model);
+            return View(gameModel);
         }
 
         public async Task<IActionResult> Create()

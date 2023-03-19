@@ -49,14 +49,14 @@ namespace BLL.Infrastructure
 
         public async Task<IEnumerable<GameDTO>> GetAllAsync()
         {
-            var games = await _unitOfWork.GameRepository.GetAllAsync().ToListAsync();
+            var games = await _unitOfWork.GameRepository.GetAllWithIncludesAsync();
 
             return _mapper.Map<IEnumerable<Game>, IEnumerable<GameDTO>>(games);
         }
 
         public async Task<GameDTO> GetByIdAsync(int id)
         {
-            var game = await _unitOfWork.GameRepository.GetByIdAsync(id);
+            var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(id);
 
             return _mapper.Map<Game, GameDTO>(game);
         }

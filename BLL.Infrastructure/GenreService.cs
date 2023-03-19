@@ -58,5 +58,12 @@ namespace BLL.Infrastructure
             _unitOfWork.GenreRepository.Update(genreEntity);
             await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<GenreDTO>> GetAllGenresOrderedByAsync()
+        {
+            var genres = await _unitOfWork.GenreRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDTO>>(genres).OrderBy(x => x.Name);
+        }
     }
 }

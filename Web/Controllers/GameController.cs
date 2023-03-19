@@ -1,25 +1,21 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
-using DAL.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Web.ViewModels;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Web.Controllers
 {
     public class GameController : Controller
     {
-        IGameService _gameService;
-        ICommentService _commentService;
-        IGenreService _genreService;
-        IRecommenderService _recommenderService;
+        readonly IGameService _gameService;
+        readonly ICommentService _commentService;
+        readonly IGenreService _genreService;
+        readonly IRecommenderService _recommenderService;
         readonly IndexViewModel indexViewModel;
 
         public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommenderService recommenderService)
@@ -28,8 +24,10 @@ namespace Web.Controllers
             _commentService = commentService;
             _genreService = genreService;
             _recommenderService = recommenderService;
-            indexViewModel = new();
-            indexViewModel.genres = _genreService.GetAllAsync().Result;
+            indexViewModel = new()
+            {
+                genres = _genreService.GetAllAsync().Result
+            };
         }
 
         public async Task<IActionResult> Index()
@@ -68,8 +66,8 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var genres = await _genreService.GetAllAsync();
-            ViewBag.genres = genres.OrderBy(g => g.Name).ToList();
+            ViewBag.genres = await _genreService.GetAllGenresOrderedByAsync();
+
             return View();
         }
 

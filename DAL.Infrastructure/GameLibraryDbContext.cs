@@ -35,6 +35,12 @@ namespace DAL.Infrastructure
                 .Property(g => g.ReleaseDate)
                 .HasConversion(
                  v => v.ToString("yyyy-MM-dd"),
+                 v => DateOnly.Parse(v));
+
+            builder.Entity<Collection>()
+                .Property(c => c.Date)
+                .HasConversion(
+                 v => v.ToString("yyyy-MM-dd"),
                  v => DateOnly.Parse(v)
         );
 

@@ -6,7 +6,7 @@ namespace DAL.Entities
     public class Collection : BaseEntity
     {
         public string Name { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }

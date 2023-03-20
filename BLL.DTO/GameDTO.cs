@@ -15,7 +15,7 @@ namespace BLL.DTO
         public string HeaderImage { get; set; }
         //[DisplayFormat(DataFormatString = "{0:d}")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime ReleaseDate { get; set; }
+        public DateOnly ReleaseDate { get; set; }
         public string Rating { get; set; }
         public string Trailer { get; set; }
         public string Developer { get; set; }

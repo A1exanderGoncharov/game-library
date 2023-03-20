@@ -41,11 +41,11 @@ namespace Web.Controllers
 
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (currentUserId != null)
-            {
-                var recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
-                CreateCarouselRanges(recommendedGames);
-            }
+            //if (currentUserId != null)
+            //{
+            //    var recommendedGames = _recommenderService.GetPersonalizedRecommendations(currentUserId);
+            //    CreateCarouselRanges(recommendedGames);
+            //}
 
             return View(indexViewModel);
         }

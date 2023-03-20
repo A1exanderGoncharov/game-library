@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Emit;
 
 namespace DAL.Infrastructure
 {
@@ -31,9 +32,16 @@ namespace DAL.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<GameGenre>().HasKey(gg => new { gg.GameId , gg.GenreId });
+            builder.Entity<GameGenre>().HasKey(gg => new { gg.GameId, gg.GenreId });
             builder.Entity<UserCollection>().HasKey(uc => new { uc.UserGameId, uc.CollectionId });
             builder.Entity<Rating>().HasKey(r => new { r.ApplicationUserId, r.GameId });
+
+            builder.Entity<Game>()
+                .Property(g => g.ReleaseDate)
+                .HasConversion(
+                 v => v.ToString("yyyy-MM-dd"),     // Конвертуємо DateOnly в рядок
+                 v => DateOnly.Parse(v)              // Конвертуємо рядок в DateOnly
+        );
 
             string adminId = Guid.NewGuid().ToString();
             string roleId = Guid.NewGuid().ToString();
@@ -72,16 +80,18 @@ namespace DAL.Infrastructure
             });
 
             builder.Entity<Game>()
-                .HasData(new Game { 
-                    Id = 1, Name = "Mafia: Definitive Edition", 
-                    HeaderImage = "https://i.ibb.co/C0JT8QG/mafia-definitive-edition.jpg", 
+                .HasData(new Game
+                {
+                    Id = 1,
+                    Name = "Mafia: Definitive Edition",
+                    HeaderImage = "https://i.ibb.co/C0JT8QG/mafia-definitive-edition.jpg",
                     //Genre = "Action, Adventure, Crime",
                     Description = "An inadvertent brush with the mob thrusts cabdriver Tommy Angelo into the world of organized crime. Initially uneasy about falling in with the Salieri family, the rewards become too big to ignore.",
                     Trailer = "https://www.youtube.com/embed/vfwfA_iTOng",
                     Rating = "18",
                     Developer = "Hangar 13",
-                    ReleaseDate = new DateTime(2020, 9, 25)
-            });
+                    ReleaseDate = new DateOnly(2020, 9, 25)
+                });
 
             builder.Entity<Game>()
                 .HasData(new Game
@@ -94,7 +104,7 @@ namespace DAL.Infrastructure
                     Trailer = "https://www.youtube.com/embed/xzCEdSKMkdU",
                     Rating = "18",
                     Developer = "Ubisoft",
-                    ReleaseDate = new DateTime(2014, 11, 12)
+                    ReleaseDate = new DateOnly(2014, 11, 12)
                 });
 
             builder.Entity<Game>()
@@ -108,7 +118,7 @@ namespace DAL.Infrastructure
                     Trailer = "https://www.youtube.com/embed/5xy4n73WOMM",
                     Rating = "3",
                     Developer = "Playground Games",
-                    ReleaseDate = new DateTime(2021, 3, 9)
+                    ReleaseDate = new DateOnly(2021, 3, 9)
                 });
 
             builder.Entity<Genre>()

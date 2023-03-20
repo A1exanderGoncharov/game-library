@@ -1,6 +1,7 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,11 +30,12 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserRegisterModel model)
         {
-            model.UserRole = "user";
+            model.Role = "User";
 
             if (!ModelState.IsValid)
             {
                 model.AllRoles = _service.GetRoles().ToList();
+
                 return View(model);
             }
 

@@ -23,7 +23,7 @@ namespace BLL.DTO
 
         //[Required]
         [Display(Name = "User Role")]
-        public string UserRole { get; set; }
+        public string Role { get; set; }
 
         public List<IdentityRole> AllRoles { get; set; }
     }

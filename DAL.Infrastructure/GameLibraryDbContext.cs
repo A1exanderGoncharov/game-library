@@ -20,7 +20,7 @@ namespace DAL.Infrastructure
         public GameLibraryDbContext(DbContextOptions<GameLibraryDbContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -47,17 +47,20 @@ namespace DAL.Infrastructure
             string adminId = Guid.NewGuid().ToString();
             string roleId = Guid.NewGuid().ToString();
 
+            const string ROLE_ADMIN = "Admin";
+            const string ROLE_USER = "User";
+
             builder.Entity<IdentityRole>().HasData(new IdentityRole
             {
                 Id = roleId,
-                Name = "admin",
-                NormalizedName = "ADMIN"
+                Name = ROLE_ADMIN,
+                NormalizedName = ROLE_ADMIN.ToUpper()
             });
 
             builder.Entity<IdentityRole>().HasData(new IdentityRole
             {
-                Name = "user",
-                NormalizedName = "USER"
+                Name = ROLE_USER,
+                NormalizedName = ROLE_USER.ToUpper()
             });
 
             var hasher = new PasswordHasher<ApplicationUser>();
@@ -66,6 +69,7 @@ namespace DAL.Infrastructure
             {
                 Id = adminId,
                 Nickname = "Admin",
+                Role = ROLE_ADMIN,
                 UserName = "admin@gmail.com",
                 NormalizedUserName = "ADMIN@GMAIL.COM",
                 Email = "admin@gmail.com",

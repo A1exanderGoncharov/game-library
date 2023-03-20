@@ -36,7 +36,7 @@ namespace BLL.Infrastructure
 
             if (result.Succeeded)
             {
-                await _unitOfWork.UserManager.AddToRoleAsync(user, userRegisterModel.UserRole);
+                await _unitOfWork.UserManager.AddToRoleAsync(user, userRegisterModel.Role);
                 await _unitOfWork.SignInManager.SignInAsync(user, false);
                 return result;
             }

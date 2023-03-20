@@ -32,7 +32,7 @@
                     <td style="text-align: center">
                         <a class="btn btn-link" asp-controller="Game" asp-action="GetGamesByCollectionId" asp-route-collectionId="@item.Id">@item.Name</a>
                     <td style="text-align: center; vertical-align: middle">
-                        @item.Date.ToString("dd.MM.yyyy, hh:mm")
+                        @item.Date
                     </td>
                     <td class="collectionActions" style="text-align: center; vertical-align: middle">@item.UserCollections.Count</td>
                     <td>

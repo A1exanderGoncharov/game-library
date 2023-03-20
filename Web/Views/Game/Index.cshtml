@@ -123,7 +123,7 @@
 								}
 								@if (User.Identity.IsAuthenticated)
 								{
-								<a class="btn icon-btn btn-success" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+								<a class="btn icon-btn btn-success" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
 									<span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
 									Add
 								</a>

@@ -96,7 +96,7 @@ else
                         <div class="comment-box">
                             <div class="comment-head">
                                 <h6 class="comment-name by-author"><a href="">@item.ApplicationUser.Nickname</a></h6>
-                                <span>@item.Date</span>
+                                <span>@item.Date.ToString("dd.MM.yyyy, HH:mm")</span>
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <div class="comment-btn-link">
@@ -130,7 +130,7 @@ else
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name"><a href="">@reply.ApplicationUser.Nickname</a></h6>
-                                    <span>@reply.Date</span>
+                                    <span>@reply.Date.ToString("dd.MM.yyyy, HH:mm")</span>
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <div class="comment-btn-link">

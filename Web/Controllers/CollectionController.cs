@@ -10,8 +10,8 @@ namespace Web.Controllers
 {
     public class CollectionController : Controller
     {
-        ICollectionService _collectionService;
-        IUserGameLibraryService _userGameService;
+        readonly ICollectionService _collectionService;
+        readonly IUserGameLibraryService _userGameService;
 
         public CollectionController(ICollectionService collectionService, IUserGameLibraryService userGameService)
         {
@@ -21,10 +21,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var collections = await _collectionService.GetAllAsync();
-
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
             var models = await _collectionService.GetAllByUserId(UserId);
 
             return View(models);

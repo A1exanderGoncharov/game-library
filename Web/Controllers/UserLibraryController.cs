@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
-    public class UserGameLibraryController : Controller
+    public class UserLibraryController : Controller
     {
-        IUserGameLibraryService _gameUserLibraryService;
-        IGameService _gameService;
+        readonly IUserGameLibraryService _gameUserLibraryService;
+        readonly IGameService _gameService;
 
-        public UserGameLibraryController(IUserGameLibraryService gameUserLibraryService, IGameService gameService)
+        public UserLibraryController(IUserGameLibraryService gameUserLibraryService, IGameService gameService)
         {
             _gameUserLibraryService = gameUserLibraryService;
             _gameService = gameService;

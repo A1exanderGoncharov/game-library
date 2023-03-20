@@ -8,7 +8,7 @@ namespace Web.Controllers
 {
     public class CommentController : Controller
     {
-        ICommentService _commentService;
+        readonly ICommentService _commentService;
 
         public CommentController(ICommentService commentService)
         {
@@ -56,8 +56,6 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            //var comments = await _commentService.GetAllAsync();
-
             var commentDTOToEdit = await _commentService.GetByIdAsync(id);
             return View(commentDTOToEdit);
         }
@@ -70,9 +68,6 @@ namespace Web.Controllers
                 await _commentService.UpdateAsync(commentDTO);
                 return RedirectToAction("GameDetails", "Game", new { id = commentDTO.GameId });
             }
-
-            var comments = await _commentService.GetAllAsync();
-
             return RedirectToAction("GameDetails", "Game", new { id = commentDTO.GameId });
         }
 

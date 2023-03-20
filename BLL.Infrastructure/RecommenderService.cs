@@ -6,14 +6,15 @@ using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Infrastructure
 {
     public class RecommenderService : IRecommenderService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
-        IGameService _gameService;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
+        readonly IGameService _gameService;
 
         public RecommenderService(IUnitOfWork unitOfWork, IMapper mapper, IGameService gameService)
         {
@@ -59,15 +60,16 @@ namespace BLL.Infrastructure
         public List<ComparedUserModel> GetNearestNeighbors(string targetUserId)
         {
             var targetUser = _unitOfWork.UserRepository.GetAllAsync().FirstOrDefault(u => u.Id == targetUserId);
+
+            if (targetUser is null)
+            {
+                return new List<ComparedUserModel>();
+            }
+
             var targetUserDTO = _mapper.Map<ApplicationUser, ApplicationUserDTO>(targetUser);
 
             var usersEntities = _unitOfWork.UserRepository.GetAllAsync().ToList();
             var usersDTO = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserDTO>>(usersEntities);
-
-            //if (targetUserDTO == null)
-            //{
-            //    return new List<ComparedUserModel>();
-            //}
 
             const int minAvgRating = 3;
             const int minNumberOfRatedGames = 2;
@@ -94,29 +96,31 @@ namespace BLL.Infrastructure
             return similarUsers;
         }
 
-        public List<GameDTO> GetPersonalizedRecommendations(string currentUserId)
+        public async Task<List<GameDTO>> GetPersonalizedRecommendations(string currentUserId)
         {
             var neighbors = GetNearestNeighbors(currentUserId);
 
-            List<GameDTO> recommendedGames = new();
+            if (neighbors.Count == 0)
+            {
+                return new List<GameDTO>();
+            }    
+
+            var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
+
+            var gameIdsOfTargetUser = ratings
+                .Where(r => r.ApplicationUserId == currentUserId)
+                .Select(r => r.GameId);
+
+            var gameIdsOfComparedUser = ratings
+                .Where(r => neighbors.Select(cu => cu.ComparedUserId)
+                .Contains(r.ApplicationUserId) & r.GameRating > 3)
+                .Select(r => r.GameId);
+
+            int[] recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToArray();
+
+            List<GameDTO> recommendedGames = GetRecommendedGamesByIds(recommendedGameIds);
 
             const int minRecommendedGamesNumber = 6;
-
-            if (neighbors.Count != 0)
-            {
-                var gameIdsOfTargetUser = _unitOfWork.RatingRepository.GetAllAsync().Result
-                    .Where(x => x.ApplicationUserId == currentUserId)
-                    .Select(x => x.GameId);
-
-                var gameIdsOfComparedUser = _unitOfWork.RatingRepository.GetAllAsync().Result
-                    .Where(r => neighbors.Select(cu => cu.ComparedUserId)
-                    .Contains(r.ApplicationUserId) & r.GameRating > 3)
-                    .Select(x => x.GameId);
-
-                List<int> recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToList();
-
-                recommendedGames = GetRecommendedGamesByIds(recommendedGameIds);
-            }
 
             if (recommendedGames.Count < minRecommendedGamesNumber)
             {
@@ -126,7 +130,7 @@ namespace BLL.Infrastructure
             return recommendedGames;
         }
 
-        private List<GameDTO> GetRecommendedGamesByIds(List<int> recommendations)
+        private List<GameDTO> GetRecommendedGamesByIds(int[] recommendations)
         {
             List<GameDTO> games = new();
 
@@ -151,7 +155,7 @@ namespace BLL.Infrastructure
                     .Average() > minRecommendedGameRating)
                     .Select(g => g.Id)
                     .Except(recommendations.Select(g => g.Id))
-                    .ToList();
+                    .ToArray();
 
                 var gamesToSupplement = GetRecommendedGamesByIds(topRatedGameIds)
                     .OrderBy(g => Guid.NewGuid())

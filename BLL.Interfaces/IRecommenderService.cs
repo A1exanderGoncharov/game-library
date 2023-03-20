@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
@@ -7,6 +8,6 @@ namespace BLL.Interfaces
     {
         public double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user);
         public List<ComparedUserModel> GetNearestNeighbors(string targetUserId);
-        public List<GameDTO> GetPersonalizedRecommendations(string currentUserId);
+        public Task<List<GameDTO>> GetPersonalizedRecommendations(string currentUserId);
     }
 }

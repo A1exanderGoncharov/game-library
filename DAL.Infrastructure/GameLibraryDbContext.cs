@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection.Emit;
 
 namespace DAL.Infrastructure
 {
@@ -39,8 +34,8 @@ namespace DAL.Infrastructure
             builder.Entity<Game>()
                 .Property(g => g.ReleaseDate)
                 .HasConversion(
-                 v => v.ToString("yyyy-MM-dd"),     // Конвертуємо DateOnly в рядок
-                 v => DateOnly.Parse(v)              // Конвертуємо рядок в DateOnly
+                 v => v.ToString("yyyy-MM-dd"),
+                 v => DateOnly.Parse(v)
         );
 
             string adminId = Guid.NewGuid().ToString();

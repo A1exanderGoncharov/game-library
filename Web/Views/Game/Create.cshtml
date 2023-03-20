@@ -8,28 +8,20 @@
         <div class="mb-3 mt-3">
             <label asp-for="Name"></label>
             <input class="form-control" asp-for="Name" placeholder="Enter name">
-            <label asp-for="Description"></label>
-            <textarea class="form-control" asp-for="Description" rows="3"></textarea>
-            <label asp-for="HeaderImage"></label>
-            <input class="form-control" asp-for="HeaderImage" placeholder="Enter link">
-            <label asp-for="ReleaseDate"></label>
-            <input type="date" class="form-control" asp-for="ReleaseDate" placeholder="Enter release date">
-            <label asp-for="Rating"></label>
-            <input class="form-control" asp-for="Rating" placeholder="Enter rating">
-            <label>Genre</label>
-            @*<input class="form-control" asp-for="Genre" placeholder="Enter genre">*@
 
-            @*<div class="checkbox" style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
-                <div class="form-check">
-                    @for (int i = 0; i < ViewBag.genres.Count; i++)
-                    {
-                        <input class="form-check-input" name="selectedGenres" type="checkbox" value="@ViewBag.genres[i].Id" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            @ViewBag.genres[i].Name
-                        </label>
-                    }
-                </div>
-            </div>*@
+            <label asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description" rows="3" placeholder="Enter description"></textarea>
+
+            <label asp-for="HeaderImage">Header Image</label>
+            <input type="url" class="form-control" asp-for="HeaderImage" placeholder="Enter URL">
+
+            <label asp-for="ReleaseDate">Release Date</label>
+            <input type="date" class="form-control" asp-for="ReleaseDate" placeholder="Enter release date">
+
+            <label asp-for="Rating">Age Rating</label>
+            <input class="form-control" asp-for="Rating" placeholder="Enter age rating">
+
+            <label>Genre(s)</label>
 
             <div class="form-group">
                 <div style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
@@ -40,19 +32,16 @@
                             @ViewBag.genres[i].Name
                         </label>
                     }
-                    @*Action<input type="checkbox" name="GenresList" value="Action" />
-        Adventure<input type="checkbox" name="GenresList" value="Adventure" />
-        Thriller<input type="checkbox" name="GenresList" value="Thriller" />
-        Horror<input type="checkbox" name="GenresList" value="Horror" />*@
                 </div>
-                @*<span asp-validation-for="Genres" class="text-danger"></span>*@
             </div>
 
             <label asp-for="Trailer"></label>
-            <input class="form-control" asp-for="Trailer" placeholder="Enter link">
+            <input type="url" class="form-control" asp-for="Trailer" placeholder="Enter URL">
+
             <label asp-for="Developer"></label>
-            <input class="form-control" asp-for="Developer" placeholder="Enter link">
+            <input class="form-control" asp-for="Developer" placeholder="Enter name">
         </div>
+
         <div>
             <button type="submit" class="btn btn-success">Add</button>
         </div>

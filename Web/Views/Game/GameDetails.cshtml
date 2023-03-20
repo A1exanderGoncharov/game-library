@@ -2,6 +2,7 @@
 @using System.Security.Claims;
 
 <head>
+    <title>Game Details</title>
     <link rel="stylesheet" href="~/css/comments.css" />
     <link rel="stylesheet" href="~/css/gameCard.css" />
 </head>
@@ -61,8 +62,6 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    @*<a class="btn btn-primary" asp-controller="Game" asp-action="Comment" asp-route-id="@ViewBag.game.Id">Write Comment</a>*@
-
     <form asp-controller="Comment" asp-action="Create" method="post" asp-antiforgery="true">
         <div class="mb-3">
             <input name="GameId" type="hidden" value="@Model.Id" />
@@ -81,10 +80,6 @@ else
 }
 
 <div class="comments-container">
-    @*<div class="mb-3">
-            <label asp-for="bl" class="form-label">Add Comment</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>*@
     <ul id="comments-list" class="comments-list">
         @foreach (var item in Model.Comments)
         {
@@ -119,7 +114,6 @@ else
                             </div>
                         </div>
                     </div>
-
                 }
 
                 @foreach (var reply in item.Replies)
@@ -159,18 +153,3 @@ else
         }
     </ul>
 </div>
-
-@*<div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-        </div>
-    </div>*@

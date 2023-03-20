@@ -31,10 +31,6 @@
         }
     </style>
 </head>
-<!--<p>
-    <a class="btn btn-primary btn-lg" asp-action="Create">Add a game</a>-->
-@*<a class="btn btn-outline-secondary btn-lg" asp-controller="Consultation" asp-action="Index">Back</a>*@
-<!--</p>-->
 <body>
     @if (User.Identity.IsAuthenticated)
     {
@@ -54,19 +50,18 @@
                     </a>
                     <p class="card-text">
                     <p>Release Date: @item.Game.ReleaseDate.ToShortDateString()</p>
-                    @*<p>Rating: @item.Game.Rating </p>*@
                     <a class="btn icon-btn btn-warning remove-btn" asp-action="Delete" asp-route-id="@item.Id">
                         <span class="glyphicon btn-glyphicon glyphicon-minus img-circle text-warning"></span>
                         Remove
                     </a>
-                    @*<p>UserId: @item.ApplicationUser.ApplicationUserId</p>*@
-                    @*<a class="btn btn-primary stretched-link" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">To library</a>*@
-                    @*<form asp-action="Update" asp-controller="UserGameLibrary" asp-antiforgery="true" asp-route-id="@item.Id">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Have passed
-                            </label>
-                        </form>*@
+                    @*<p>UserId: @item.ApplicationUser</p>
+                    <a class="btn btn-primary stretched-link" asp-controller="UserGameLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">To library</a>
+                    <form asp-action="Update" asp-controller="UserGameLibrary" asp-antiforgery="true" asp-route-id="@item.Id">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Have passed
+                        </label>
+                    </form>*@
                 </div>
             </div>
         </div>

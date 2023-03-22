@@ -16,7 +16,6 @@ namespace Web.Controllers.Admin
             _genreService = genreService;
         }
 
-		[HttpGet]
 		public async Task<IActionResult> IndexGenres()
         {
             var genres = await _genreService.GetAllAsync();

@@ -86,7 +86,6 @@ namespace Web.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
         public async Task<IActionResult> GetGamesByCollectionId(int collectionId)
         {
             var collection = await _gameService.GetGamesByCollectionId(collectionId);

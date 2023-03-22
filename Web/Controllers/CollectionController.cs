@@ -49,7 +49,6 @@ namespace Web.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
         public async Task<IActionResult> SelectGamesToCollection(int collectionId)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);

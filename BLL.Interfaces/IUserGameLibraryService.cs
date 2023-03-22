@@ -9,11 +9,11 @@ namespace BLL.Interfaces
         Task<IEnumerable<UserGameDTO>> GetAllAsync();
         Task<IEnumerable<UserGameDTO>> GetAllByUserIdAsync(string id);
         Task AddAsync(UserGameDTO userGameLibrary);
-        Task AddGameToUserLibrary(int gameId, string userId);
+        Task AddGameToUserLibraryAsync(int gameId, string userId);
         Task DeleteByIdAsync(int id);
         Task RemoveAsync(UserGameDTO userGameLibrary);
         Task<UserGameDTO> GetByIdAsync(int id);
         Task UpdateAsync(UserGameDTO userGameLibrary);
-        Task IsPassed(int id, bool isPassed);
+        Task IsGamePassedAsync(int id, bool isPassed);
     }
 }

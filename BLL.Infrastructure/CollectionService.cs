@@ -80,7 +80,7 @@ namespace BLL.Infrastructure
         //    return result;
         //}
 
-        public async Task AddGamesToCollection(int CollectionId, List<string> SelectedGames)
+        public async Task AddGamesToCollectionAsync(int CollectionId, List<string> SelectedGames)
         {
             var userCollectionGames = _unitOfWork.UserCollectionRepository.GetAllAsync();            
 
@@ -104,7 +104,7 @@ namespace BLL.Infrastructure
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CollectionDTO>> GetAllByUserId(string UserId)
+        public async Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string UserId)
         {
             var userCollections = await _unitOfWork.CollectionRepository.GetAllAsync().ToListAsync();
 

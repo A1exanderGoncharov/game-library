@@ -73,7 +73,7 @@ namespace BLL.Infrastructure
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task AddGameToUserLibrary(int gameId, string userId)
+        public async Task AddGameToUserLibraryAsync(int gameId, string userId)
         {
             var userGames = await GetAllByUserIdAsync(userId);
             var gameCheck = userGames.Where(g => g.GameId.Equals(gameId)).FirstOrDefault();
@@ -87,7 +87,7 @@ namespace BLL.Infrastructure
             }
         }
 
-        public async Task IsPassed(int id, bool isPassed)
+        public async Task IsGamePassedAsync(int id, bool isPassed)
         {
             UserGameDTO userGame = await GetByIdAsync(id);
             userGame.IsPassed = isPassed;

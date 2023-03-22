@@ -8,6 +8,6 @@ namespace BLL.Interfaces
     {
         public double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user);
         public List<ComparedUserModel> GetNearestNeighbors(string targetUserId);
-        public Task<List<GameDTO>> GetPersonalizedRecommendations(string currentUserId);
+        public Task<List<GameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId);
     }
 }

@@ -44,7 +44,7 @@ namespace Web.Controllers
 
             if (currentUserId != null)
             {
-                var recommendedGames = await _recommenderService.GetPersonalizedRecommendations(currentUserId);
+                var recommendedGames = await _recommenderService.GetPersonalizedRecommendationsAsync(currentUserId);
                 CreateCarouselRanges(recommendedGames);
             }
 
@@ -68,7 +68,7 @@ namespace Web.Controllers
         {
             if (!String.IsNullOrEmpty(searchString))
             {
-                indexViewModel.games = await _gameService.Search(searchString);
+                indexViewModel.games = await _gameService.SearchAsync(searchString);
 
                 return View(indexViewModel);
             }
@@ -79,7 +79,7 @@ namespace Web.Controllers
         {
             if (gameGenreId != null)
             {
-                indexViewModel.games = await _gameService.FilterByGenre((int)gameGenreId);
+                indexViewModel.games = await _gameService.FilterByGenreAsync((int)gameGenreId);
 
                 return View(nameof(SearchGame), indexViewModel);
             }
@@ -88,7 +88,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> GetGamesByCollectionId(int collectionId)
         {
-            var collection = await _gameService.GetGamesByCollectionId(collectionId);
+            var collection = await _gameService.GetGamesByCollectionIdAsync(collectionId);
 
             return View("GameCollection", collection);
         }

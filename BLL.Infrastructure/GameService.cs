@@ -66,14 +66,14 @@ namespace BLL.Infrastructure
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<GameDTO>> Search(string searchString)
+        public async Task<IEnumerable<GameDTO>> SearchAsync(string searchString)
         {
             var games = await GetAllAsync();
 
             return games.Where(g => g.Name.ToUpper().Contains(searchString.ToUpper()));
         }
 
-        public async Task<IEnumerable<GameDTO>> FilterByGenre(int gameGenre)
+        public async Task<IEnumerable<GameDTO>> FilterByGenreAsync(int gameGenre)
         {
             var gameGenresEntities = await _unitOfWork.GameGenresRepository.GetAllAsync();
             var gameGenresDTO = _mapper.Map<IEnumerable<GameGenre>, IEnumerable<GameGenreDTO>>(gameGenresEntities);
@@ -99,13 +99,13 @@ namespace BLL.Infrastructure
             for (int i = 0; i < selectedGenres.Count(); i++)
             {
                 int GenreId = int.Parse(selectedGenres[i]);
-                AddGenreToGame(gameEntity.Id, GenreId);
+                await AddGenreToGameAsync(gameEntity.Id, GenreId);
             }
 
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async void AddGenreToGame(int GameId, int GenreId)
+        public async Task AddGenreToGameAsync(int GameId, int GenreId)
         {
             GameGenreDTO gameGenre = new()
             {
@@ -117,7 +117,7 @@ namespace BLL.Infrastructure
             await _unitOfWork.GameGenresRepository.InsertAsync(gameGenreEntity);
         }
 
-        public async Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionId(int CollectionId)
+        public async Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionIdAsync(int CollectionId)
         {
             var userCollectionsEntities = await _unitOfWork.UserCollectionRepository.GetAllAsync().ToListAsync();
             var userCollectionGames = userCollectionsEntities.Where(g => g.CollectionId == CollectionId).ToList();

@@ -23,7 +23,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> IndexCollections()
         {        
-            var collections = await _collectionService.GetAllByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var collections = await _collectionService.GetAllByUserIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return View(collections);
         }
@@ -59,7 +59,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> AddGamesToCollection(int collectionId, List<string> selectedGames)
         {
-            await _collectionService.AddGamesToCollection(collectionId, selectedGames);
+            await _collectionService.AddGamesToCollectionAsync(collectionId, selectedGames);
 
             return RedirectToAction("GetGamesByCollectionId", "Game", new { CollectionId = collectionId });
         }

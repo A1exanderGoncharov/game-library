@@ -29,14 +29,14 @@ namespace Web.Controllers
         public async Task<IActionResult> AddGameToUserLibrary(int Id, string UserId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _gameUserLibraryService.AddGameToUserLibrary(Id, userId);
+            await _gameUserLibraryService.AddGameToUserLibraryAsync(Id, userId);
 
             return RedirectToAction("Index", "Game");
         }
 
         public async Task<IActionResult> IsGamePassed(int id, bool isPassed)
         {
-            await _gameUserLibraryService.IsPassed(id, isPassed);
+            await _gameUserLibraryService.IsGamePassedAsync(id, isPassed);
 
             return RedirectToAction(nameof(IndexUserLibrary));
         }

@@ -96,7 +96,7 @@ namespace BLL.Infrastructure
             return similarUsers;
         }
 
-        public async Task<List<GameDTO>> GetPersonalizedRecommendations(string currentUserId)
+        public async Task<List<GameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId)
         {
             var neighbors = GetNearestNeighbors(currentUserId);
 

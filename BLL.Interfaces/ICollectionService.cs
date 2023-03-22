@@ -11,7 +11,7 @@ namespace BLL.Interfaces
         Task DeleteByIdAsync(int id);
         Task<CollectionDTO> GetByIdAsync(int id);
         Task UpdateAsync(CollectionDTO collection);
-        Task AddGamesToCollection(int CollectionId, List<string> SelectedGames);
-        Task<IEnumerable<CollectionDTO>> GetAllByUserId(string UserId);
+        Task AddGamesToCollectionAsync(int CollectionId, List<string> SelectedGames);
+        Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string UserId);
     }
 }

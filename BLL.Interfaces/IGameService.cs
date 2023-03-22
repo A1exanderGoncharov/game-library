@@ -12,11 +12,11 @@ namespace BLL.Interfaces
         Task RemoveAsync(GameDTO game);
         Task<GameDTO> GetByIdAsync(int id);
         Task UpdateAsync(GameDTO game);
-        Task<IEnumerable<GameDTO>> Search(string searchString);
-        Task<IEnumerable<GameDTO>> FilterByGenre(int gameGenre);
-        void AddGenreToGame(int GameId, int GenreId);
+        Task<IEnumerable<GameDTO>> SearchAsync(string searchString);
+        Task<IEnumerable<GameDTO>> FilterByGenreAsync(int gameGenre);
+        Task AddGenreToGameAsync(int GameId, int GenreId);
         Task AddGameWithGenreAsync(GameDTO game, string[] selectedGenres);
-        Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionId(int CollectionId);
+        Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionIdAsync(int CollectionId);
         Task AddRatingToGame(string UserId, int GameId, int Rating);
         public int CalculateGameRatingScore(int gameId);
         public int GetGameRatingsNumber(int gameId);

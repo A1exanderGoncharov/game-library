@@ -58,8 +58,8 @@ namespace Web.Controllers
 
             var game = await _gameService.GetByIdAsync((int)id);
 
-            ViewBag.gameRating = _gameService.CalculateGameRatingScore((int)id);
-            ViewBag.ratingsNumber = _gameService.GetGameRatingsNumber((int)id);
+            ViewBag.gameRating = await _gameService.CalculateGameRatingScoreAsync((int)id);
+            ViewBag.ratingsNumber = await _gameService.GetGameRatingsCountAsync((int)id);
 
             return View(game);
         }
@@ -97,7 +97,7 @@ namespace Web.Controllers
         public async Task<IActionResult> RateGame(int gameId, int ratingScore)
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _gameService.AddRatingToGame(currentUserId, gameId, ratingScore);
+            await _gameService.AddRatingToGameAsync(currentUserId, gameId, ratingScore);
             return RedirectToAction("GameDetails", new { id = gameId });
         }
 

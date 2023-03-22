@@ -96,7 +96,7 @@ namespace BLL.Infrastructure
             await _unitOfWork.GameRepository.InsertAsync(gameEntity);
             await _unitOfWork.SaveChangesAsync();
 
-            for (int i = 0; i < selectedGenres.Count(); i++)
+            for (int i = 0; i < selectedGenres.Length; i++)
             {
                 int GenreId = int.Parse(selectedGenres[i]);
                 await AddGenreToGameAsync(gameEntity.Id, GenreId);
@@ -125,40 +125,45 @@ namespace BLL.Infrastructure
             return _mapper.Map<IEnumerable<UserCollection>, IEnumerable<UserCollectionDTO>>(userCollectionGames);
         }
 
-        public async Task AddRatingToGame(string UserId, int GameId, int Rating)
+        public async Task AddRatingToGameAsync(string UserId, int GameId, int Rating)
         {
-            RatingDTO rating = new();
-            rating.ApplicationUserId = UserId;
-            rating.GameId = GameId;
-            rating.GameRating = Rating;
-            var RatingEntity = _mapper.Map<RatingDTO, Rating>(rating);
+			RatingDTO rating = new()
+			{
+				ApplicationUserId = UserId,
+				GameId = GameId,
+				GameRating = Rating
+			};
+
+			var RatingEntity = _mapper.Map<RatingDTO, Rating>(rating);
 
             await _unitOfWork.RatingRepository.InsertAsync(RatingEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public int GetGameRatingsNumber(int gameId)
+        public async Task<int> GetGameRatingsCountAsync(int gameId)
         {
-            var ratingsNumber = _unitOfWork.RatingRepository.GetAllAsync().Result.Where(r => r.GameId == gameId).Count();
+            var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
+            var ratingsCount = ratings.Where(r => r.GameId == gameId).Count();
 
-            return ratingsNumber;
+			return ratingsCount;
         }
 
-        public int CalculateGameRatingScore(int gameId)
+        public async Task<int> CalculateGameRatingScoreAsync(int gameId)
         {
-            var ratings = _unitOfWork.RatingRepository.GetAllAsync().Result.Where(r => r.GameId == gameId);
+            var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
+            var gameRatings = ratings.Where(r => r.GameId == gameId);
 
-            int ratingSum = 0;
+			int ratingSum = 0;
             int ratingScore = 0;
 
-            foreach (var rating in ratings)
+            foreach (var rating in gameRatings)
             {
                 ratingSum += rating.GameRating;
             }
 
-            if (ratings.Any())
+            if (gameRatings.Any())
             {
-                ratingScore = ratingSum / ratings.Count();
+                ratingScore = ratingSum / gameRatings.Count();
             }
 
             return ratingScore;

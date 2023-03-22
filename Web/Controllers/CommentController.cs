@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -15,14 +16,16 @@ namespace Web.Controllers
             _commentService = commentService;
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Create(int GameId, int? ReplyToCommentId, string NicknameToReply)
+        public IActionResult CreateComment(int GameId, int? ReplyToCommentId, string NicknameToReply)
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(int? ReplyToCommentId, int GameId, string NicknameToReply, string Content)
+        public async Task<IActionResult> CreateComment(int? ReplyToCommentId, int GameId, string NicknameToReply, string Content)
         {
             CommentDTO commentDTO = new();
 
@@ -41,37 +44,57 @@ namespace Web.Controllers
             return RedirectToAction("GameDetails", "Game", new { id = GameId });
         }
 
-        public IActionResult Reply(int Id, int GameId, string Nickname)
+        [Authorize]
+        public IActionResult ReplyToParentComment(int Id, int GameId, string Nickname)
         {
             int ReplyToCommentId = Id;
 
-            return RedirectToAction("Create", new { ReplyToCommentId, GameId, NicknameToReply = Nickname });
+            return RedirectToAction(nameof(CreateComment), new { ReplyToCommentId, GameId, NicknameToReply = Nickname });
         }
 
-        public IActionResult ReplyToSecondTier(int ReplyToCommentId, int GameId, string Nickname)
+        [Authorize]
+        public IActionResult ReplyToChildComment(int ReplyToCommentId, int GameId, string Nickname)
         {
-            return RedirectToAction("Create", new { ReplyToCommentId, GameId, NicknameToReply = Nickname });
+            return RedirectToAction(nameof(CreateComment), new { ReplyToCommentId, GameId, NicknameToReply = Nickname });
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> EditComment(int id)
         {
             var commentDTOToEdit = await _commentService.GetByIdAsync(id);
+
+            if (commentDTOToEdit == null)
+            {
+                return NotFound();
+            }
+
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (commentDTOToEdit.ApplicationUserId != currentUserId)
+            {
+                return View("../Account/AccessDenied");
+            }
+
             return View(commentDTOToEdit);
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Edit(CommentDTO commentDTO)
+        public async Task<IActionResult> EditComment(CommentDTO commentDTO)
         {
-            if (ModelState.IsValid)
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (commentDTO.ApplicationUserId == currentUserId && ModelState.IsValid)
             {
                 await _commentService.UpdateAsync(commentDTO);
                 return RedirectToAction("GameDetails", "Game", new { id = commentDTO.GameId });
             }
-            return RedirectToAction("GameDetails", "Game", new { id = commentDTO.GameId });
+            return View("../Account/AccessDenied");
         }
 
-        public async Task<IActionResult> Delete(int id, int gameId)
+        [Authorize]
+        public async Task<IActionResult> DeleteComment(int id, int gameId)
         {
             await _commentService.DeleteByIdAsync(id);
 

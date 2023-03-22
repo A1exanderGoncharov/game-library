@@ -28,10 +28,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Games</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserLibrary" asp-action="">My Library</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UserLibrary" asp-action="IndexUserLibrary">My Library</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Collection" asp-action="">My Collections</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Collection" asp-action="IndexCollections">My Collections</a>
                         </li>
                         @*<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,8 +54,8 @@
                                     Administration
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" asp-controller="Game" asp-action="Create">Add Game</a>
-                                    <a class="dropdown-item" asp-controller="Genre" asp-action="Create">Add Genre</a>
+                                    <a class="dropdown-item" asp-controller="AdminGame" asp-action="CreateGame">Add Game</a>
+                                    <a class="dropdown-item" asp-controller="AdminGenre" asp-action="CreateGenre">Add Genre</a>
                                 </div>
                             </li>
                         }

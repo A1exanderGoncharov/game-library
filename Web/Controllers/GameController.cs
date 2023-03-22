@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace Web.Controllers
 
             return View(indexViewModel);
         }
-
+        
         public async Task<IActionResult> GameDetails(int? id)
         {
             if (id == null)
@@ -63,42 +64,24 @@ namespace Web.Controllers
             return View(game);
         }
 
-        public async Task<IActionResult> Create()
-        {
-            ViewBag.genres = await _genreService.GetAllGenresOrderedByAsync();
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(GameDTO gameDTO, string[] selectedGenres)
-        {
-            if (selectedGenres != null)
-            {
-                gameDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                await _gameService.AddGameWithGenreAsync(gameDTO, selectedGenres);
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> Search(string searchString)
+        public async Task<IActionResult> SearchGame(string searchString)
         {
             if (!String.IsNullOrEmpty(searchString))
             {
                 indexViewModel.games = await _gameService.Search(searchString);
 
-                return View("Search", indexViewModel);
+                return View(indexViewModel);
             }
             return BadRequest();
         }
 
-        public async Task<IActionResult> FilterByGenre(int? gameGenreId)
+        public async Task<IActionResult> FilterGamesByGenre(int? gameGenreId)
         {
             if (gameGenreId != null)
             {
                 indexViewModel.games = await _gameService.FilterByGenre((int)gameGenreId);
 
-                return View("Search", indexViewModel);
+                return View(nameof(SearchGame), indexViewModel);
             }
             return BadRequest();
         }
@@ -111,29 +94,11 @@ namespace Web.Controllers
             return View("GameCollection", collection);
         }
 
-        public async Task<IActionResult> Edit(int id)
-        {
-            var game = await _gameService.GetByIdAsync(id);
-            return View(game);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(GameDTO gameDTO)
-        {
-            await _gameService.UpdateAsync(gameDTO);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _gameService.DeleteByIdAsync(id);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> RateGame(int gameId, int rating)
+        [Authorize]
+        public async Task<IActionResult> RateGame(int gameId, int ratingScore)
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _gameService.AddRatingToGame(currentUserId, gameId, rating);
+            await _gameService.AddRatingToGame(currentUserId, gameId, ratingScore);
             return RedirectToAction("GameDetails", new { id = gameId });
         }
 

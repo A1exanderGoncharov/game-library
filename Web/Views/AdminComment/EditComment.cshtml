@@ -1,0 +1,24 @@
+﻿@model BLL.DTO.CommentDTO
+
+<h2>Comment Editing</h2>
+
+<form asp-action="EditComment" asp-controller="AdminComment" asp-antiforgery="true">
+    <div>
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @Html.HiddenFor(c => c.Id)
+        @Html.HiddenFor(c => c.ApplicationUserId)
+        @Html.HiddenFor(c => c.ReplyToCommentId)
+        @Html.HiddenFor(c => c.GameId)
+        @Html.HiddenFor(c => c.NicknameToReply)
+        @Html.HiddenFor(c => c.Date)
+
+        <div class="mb-3 mt-3">
+            <label asp-for="Content"></label>
+            <textarea class="form-control" asp-for="Content" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-warning">Edit</button>
+        </div>
+    </div>
+</form>

@@ -1,15 +1,16 @@
-﻿@model BLL.DTO.CollectionDTO
+﻿@model BLL.DTO.GenreDTO
 
-<h2>Collection Creating</h2>
+<h2>Genre Creating</h2>
 
-<form asp-action="Create" asp-controller="Collection" asp-antiforgery="true">
+<form asp-action="CreateGenre" asp-controller="AdminGenre" asp-antiforgery="true">
     <div>
         <div asp-validation-summary="ModelOnly"></div>
         <div class="mb-3 mt-3">
             <label asp-for="Name"></label>
             <input class="form-control" asp-for="Name" placeholder="Enter name">
-            <label asp-for="Date"></label>
-            <input class="form-control" asp-for="Date">
+
+            <label asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description" rows="3" placeholder="Enter description"></textarea>
         </div>
         <div>
             <button type="submit" class="btn btn-success">Add</button>

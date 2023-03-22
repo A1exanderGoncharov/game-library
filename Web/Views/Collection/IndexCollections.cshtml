@@ -13,7 +13,7 @@
     <h2>My Collections</h2>
 
     <p>
-        <a class="btn btn-info btn-lg" asp-controller="Collection" asp-action="Create">Create Collection</a>
+        <a class="btn btn-info btn-lg" asp-controller="Collection" asp-action="CreateCollection">Create Collection</a>
     </p>
 
     <table class="table table-bordered" style="background-color: lightgray;">
@@ -38,7 +38,7 @@
                     <td>
                         <div class="collectionActions" style="text-align: center">
                             <a class="btn btn-success" asp-controller="Collection" asp-action="SelectGamesToCollection" asp-route-collectionId="@item.Id">Add To</a>
-                            <a class="btn btn-danger" asp-controller="Collection" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-danger" asp-controller="Collection" asp-action="DeleteCollection" asp-route-id="@item.Id">Delete</a>
                         </div>
                     </td>
                 </tr>

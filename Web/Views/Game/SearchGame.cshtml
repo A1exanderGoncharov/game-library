@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-	<form class="form-inline my-2 my-lg-0" asp-action="Search">
+	<form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
 
 		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
 
@@ -24,7 +24,7 @@
 
 				@foreach (var genre in Model.genres)
 				{
-					<a class="dropdown-item" asp-action="FilterByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+					<a class="dropdown-item" asp-action="FilterGamesByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
 				}
 
 			</div>

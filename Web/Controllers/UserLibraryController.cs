@@ -1,4 +1,5 @@
 ﻿using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class UserLibraryController : Controller
     {
         readonly IUserGameLibraryService _gameUserLibraryService;
@@ -17,11 +19,11 @@ namespace Web.Controllers
             _gameService = gameService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexUserLibrary()
         {
-            var model = await _gameUserLibraryService.GetAllAsync();
+            var userLibrary = await _gameUserLibraryService.GetAllAsync();
 
-            return View(model.Where(x => x.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return View(userLibrary.Where(x => x.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         public async Task<IActionResult> AddGameToUserLibrary(int Id, string UserId)
@@ -32,18 +34,18 @@ namespace Web.Controllers
             return RedirectToAction("Index", "Game");
         }
 
-        public async Task<IActionResult> IsPassed(int id, bool isPassed)
+        public async Task<IActionResult> IsGamePassed(int id, bool isPassed)
         {
             await _gameUserLibraryService.IsPassed(id, isPassed);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexUserLibrary));
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> RemoveGame(int id)
         {
             await _gameUserLibraryService.DeleteByIdAsync(id);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexUserLibrary));
         }
     }
 }

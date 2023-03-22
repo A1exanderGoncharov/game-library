@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-	<form class="form-inline my-2 my-lg-0" asp-action="Search">
+	<form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
 
 		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
 
@@ -24,7 +24,7 @@
 
 				@foreach (var genre in Model.genres)
 				{
-					<a class="dropdown-item" asp-action="FilterByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+					<a class="dropdown-item" asp-action="FilterGamesByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
 				}
 
 			</div>
@@ -111,8 +111,8 @@
 								@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
 								{
 								<div class="btn-in-card" style="/*margin-top:15px;*/">
-									<a class="btn btn-info" asp-controller="Game" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-									<a class="btn btn-info" asp-controller="Game" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+									<a class="btn btn-info" asp-controller="AdminGame" asp-action="EditGame" asp-route-id="@item.Id">Edit</a>
+									<a class="btn btn-info" asp asp-controller="AdminGenre" asp-action="DeleteGame" asp-route-id="@item.Id">Delete</a>
 								</div>
 								}
 								@if (User.Identity.IsAuthenticated)

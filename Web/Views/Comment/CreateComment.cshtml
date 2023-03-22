@@ -1,6 +1,6 @@
 ﻿@model BLL.DTO.CommentDTO
 
-<form asp-action="Create" asp-antiforgery="true">
+<form asp-action="CreateComment" asp-antiforgery="true">
     <div class="mb-3">
         @Html.HiddenFor(x => x.GameId)
         @Html.HiddenFor(y => y.ReplyToCommentId)

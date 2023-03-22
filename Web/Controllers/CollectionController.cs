@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class CollectionController : Controller
     {
         readonly ICollectionService _collectionService;
@@ -19,22 +21,22 @@ namespace Web.Controllers
             _userGameService = userGameService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexCollections()
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
-            var models = await _collectionService.GetAllByUserId(UserId);
+            var collections = await _collectionService.GetAllByUserId(UserId);
 
-            return View(models);
+            return View(collections);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateCollection()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CollectionDTO collectionDTO)
+        public async Task<IActionResult> CreateCollection(CollectionDTO collectionDTO)
         {
             collectionDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -42,7 +44,7 @@ namespace Web.Controllers
             {
                 await _collectionService.AddAsync(collectionDTO);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexCollections));
             }
             return BadRequest();
         }
@@ -66,10 +68,10 @@ namespace Web.Controllers
             return RedirectToAction("GetGamesByCollectionId", "Game", new { CollectionId = collectionId });
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteCollection(int id)
         {
             await _collectionService.DeleteByIdAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexCollections));
         }
 
     }

@@ -1,7 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -91,6 +90,12 @@ namespace Web.Controllers
         {
             await _service.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

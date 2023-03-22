@@ -21,9 +21,9 @@ namespace Web.Controllers
 
         public async Task<IActionResult> IndexUserLibrary()
         {
-            var userLibrary = await _gameUserLibraryService.GetAllAsync();
+            var userLibrary = await _gameUserLibraryService.GetAllByUserIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            return View(userLibrary.Where(x => x.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return View(userLibrary);
         }
 
         public async Task<IActionResult> AddGameToUserLibrary(int Id, string UserId)

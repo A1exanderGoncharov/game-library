@@ -22,9 +22,8 @@ namespace Web.Controllers
         }
 
         public async Task<IActionResult> IndexCollections()
-        {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
-            var collections = await _collectionService.GetAllByUserId(UserId);
+        {        
+            var collections = await _collectionService.GetAllByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return View(collections);
         }
@@ -51,25 +50,24 @@ namespace Web.Controllers
 
         public async Task<IActionResult> SelectGamesToCollection(int collectionId)
         {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var userGames = await _userGameService.GetAllAsync();
-            var model = userGames.Where(x => x.ApplicationUserId == UserId);
+            var userGames = await _userGameService.GetAllByUserIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             ViewBag.CollectionId = collectionId;
 
-            return View(model);
+            return View(userGames);
         }
 
         public async Task<IActionResult> AddGamesToCollection(int collectionId, List<string> selectedGames)
         {
             await _collectionService.AddGamesToCollection(collectionId, selectedGames);
+
             return RedirectToAction("GetGamesByCollectionId", "Game", new { CollectionId = collectionId });
         }
 
         public async Task<IActionResult> DeleteCollection(int id)
         {
             await _collectionService.DeleteByIdAsync(id);
+
             return RedirectToAction(nameof(IndexCollections));
         }
 

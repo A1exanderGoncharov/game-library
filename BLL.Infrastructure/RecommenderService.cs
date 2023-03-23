@@ -103,7 +103,7 @@ namespace BLL.Infrastructure
             if (neighbors.Count == 0)
             {
                 return new List<GameDTO>();
-            }    
+            }
 
             var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
 
@@ -124,13 +124,13 @@ namespace BLL.Infrastructure
 
             if (recommendedGames.Count < minRecommendedGamesNumber)
             {
-                await SupplementRecommendationsByTopRatedGamesAsync(recommendedGames, minRecommendedGamesNumber);
+                await SupplementRecommendationsByTopRatedGamesAsync(recommendedGames, minRecommendedGamesNumber, currentUserId);
             }
 
             return recommendedGames;
         }
 
-        private async Task<List<GameDTO>> GetRecommendedGamesByIdsAsync(int[] recommendations)
+        private async Task<List<GameDTO>> GetRecommendedGamesByIdsAsync(IEnumerable<int> recommendations)
         {
             List<GameDTO> games = new();
 
@@ -143,32 +143,45 @@ namespace BLL.Infrastructure
             return games;
         }
 
-        private async Task<List<GameDTO>> SupplementRecommendationsByTopRatedGamesAsync(List<GameDTO> recommendations, int minRecommendedGamesNumber)
+        private async Task<List<GameDTO>> SupplementRecommendationsByTopRatedGamesAsync(List<GameDTO> recommendations, int minRecGamesNumber, string userId)
         {
-            const int minRecommendedGameRating = 4;
+            const int minRecGameRating = 4;
+            var games = await _gameService.GetAllAsync();
 
-            if (recommendations.Count < minRecommendedGamesNumber)
-            {
-                var games = await _gameService.GetAllAsync();
+            var gamesIdsNotRatedByUser = GetGamesIdsNotRatedByCurrentUser(userId, games);
 
-                var topRatedGameIds = games
-                    .Where(g => g.Ratings
-                    .Select(r => r.GameRating).DefaultIfEmpty()
-                    .Average() > minRecommendedGameRating)
-                    .Select(g => g.Id)
-                    .Except(recommendations.Select(g => g.Id))
-                    .ToArray();
+            var topRatedGamesIdsExclRecs = GetTopRatedGamesIds(minRecGameRating, games)
+                .Except(recommendations.Select(g => g.Id));
 
-                var recommendedGames = await GetRecommendedGamesByIdsAsync(topRatedGameIds);
+            var gamesIdsToSupplement = topRatedGamesIdsExclRecs
+                .Except(gamesIdsNotRatedByUser);
 
-                var gamesToSupplement = recommendedGames
-                    .OrderBy(g => Guid.NewGuid())
-                    .Take(minRecommendedGamesNumber - recommendations.Count);
+            var recommendedGames = await GetRecommendedGamesByIdsAsync(gamesIdsToSupplement);
 
-                recommendations.AddRange(gamesToSupplement);
-            }
+            var gamesToSupplement = recommendedGames
+                .OrderBy(g => Guid.NewGuid())
+                .Take(minRecGamesNumber - recommendations.Count);
+
+            recommendations.AddRange(gamesToSupplement);
 
             return recommendations;
+        }
+
+        private static IEnumerable<int> GetGamesIdsNotRatedByCurrentUser(string userId, IEnumerable<GameDTO> games)
+        {
+            return games
+                .SelectMany(g => g.Ratings)
+                .Where(r => r.ApplicationUserId != userId)
+                .Select(x => x.GameId);
+        }
+
+        private static IEnumerable<int> GetTopRatedGamesIds(int minRecommendedGameRating, IEnumerable<GameDTO> games)
+        {
+            return games
+                .Where(g => g.Ratings
+                .Select(r => r.GameRating).DefaultIfEmpty()
+                .Average() > minRecommendedGameRating)
+                .Select(g => g.Id);
         }
 
     }

@@ -6,8 +6,6 @@ namespace BLL.Interfaces
 {
     public interface IRecommenderService
     {
-        public double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user);
-        public List<ComparedUserModel> GetNearestNeighbors(string targetUserId);
         public Task<List<GameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId);
     }
 }

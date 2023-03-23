@@ -23,7 +23,7 @@ namespace BLL.Infrastructure
             _gameService = gameService;
         }
 
-        public double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user)
+        private static double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user)
         {
             double numeratorSum = 0;
             double firstDenumeratorSum = 0;
@@ -57,7 +57,7 @@ namespace BLL.Infrastructure
             return numeratorSum / (Math.Sqrt(firstDenumeratorSum) * Math.Sqrt(secondDenumeratorSum));
         }
 
-        public List<ComparedUserModel> GetNearestNeighbors(string targetUserId)
+        private List<ComparedUserModel> GetNearestNeighbors(string targetUserId)
         {
             var targetUser = _unitOfWork.UserRepository.GetAllAsync().FirstOrDefault(u => u.Id == targetUserId);
 

@@ -118,38 +118,40 @@ namespace BLL.Infrastructure
 
             int[] recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToArray();
 
-            List<GameDTO> recommendedGames = GetRecommendedGamesByIds(recommendedGameIds);
+            List<GameDTO> recommendedGames = await GetRecommendedGamesByIdsAsync(recommendedGameIds);
 
             const int minRecommendedGamesNumber = 6;
 
             if (recommendedGames.Count < minRecommendedGamesNumber)
             {
-                SupplementRecommendationsByTopRatedGames(recommendedGames, minRecommendedGamesNumber);
+                await SupplementRecommendationsByTopRatedGamesAsync(recommendedGames, minRecommendedGamesNumber);
             }
 
             return recommendedGames;
         }
 
-        private List<GameDTO> GetRecommendedGamesByIds(int[] recommendations)
+        private async Task<List<GameDTO>> GetRecommendedGamesByIdsAsync(int[] recommendations)
         {
             List<GameDTO> games = new();
 
             foreach (var gameId in recommendations)
             {
-                var game = _gameService.GetByIdAsync(gameId);
-                games.Add(game.Result);
+                var game = await _gameService.GetByIdAsync(gameId);
+                games.Add(game);
             }
 
             return games;
         }
 
-        private List<GameDTO> SupplementRecommendationsByTopRatedGames(List<GameDTO> recommendations, int minRecommendedGamesNumber)
+        private async Task<List<GameDTO>> SupplementRecommendationsByTopRatedGamesAsync(List<GameDTO> recommendations, int minRecommendedGamesNumber)
         {
             const int minRecommendedGameRating = 4;
 
             if (recommendations.Count < minRecommendedGamesNumber)
             {
-                var topRatedGameIds = _gameService.GetAllAsync().Result
+                var games = await _gameService.GetAllAsync();
+
+                var topRatedGameIds = games
                     .Where(g => g.Ratings
                     .Select(r => r.GameRating).DefaultIfEmpty()
                     .Average() > minRecommendedGameRating)
@@ -157,7 +159,9 @@ namespace BLL.Infrastructure
                     .Except(recommendations.Select(g => g.Id))
                     .ToArray();
 
-                var gamesToSupplement = GetRecommendedGamesByIds(topRatedGameIds)
+                var recommendedGames = await GetRecommendedGamesByIdsAsync(topRatedGameIds);
+
+                var gamesToSupplement = recommendedGames
                     .OrderBy(g => Guid.NewGuid())
                     .Take(minRecommendedGamesNumber - recommendations.Count);
 

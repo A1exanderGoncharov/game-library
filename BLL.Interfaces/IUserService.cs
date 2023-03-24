@@ -7,9 +7,9 @@ namespace BLL.Interfaces
 {
     public interface IUserService
     {
-        Task<SignInResult> Login(UserLoginModel userLoginModel);
-        Task<IdentityResult> Register(UserRegisterModel userRegisterModel);
+        Task<SignInResult> LoginAsync(UserLoginModel userLoginModel);
+        Task<IdentityResult> RegisterAsync(UserRegisterModel userRegisterModel);
         IEnumerable<IdentityRole> GetRoles();
-        Task SignOut();
+        Task SignOutAsync();
     }
 }

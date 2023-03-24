@@ -38,7 +38,7 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            var result = await _service.Register(model);
+            var result = await _service.RegisterAsync(model);
 
             if (result.Succeeded)
             {
@@ -71,7 +71,7 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            var res = await _service.Login(model);
+            var res = await _service.LoginAsync(model);
 
             if (res.Succeeded)
             {
@@ -88,7 +88,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _service.SignOut();
+            await _service.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 

@@ -21,7 +21,7 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task<SignInResult> Login(UserLoginModel userLoginModel)
+        public async Task<SignInResult> LoginAsync(UserLoginModel userLoginModel)
         {
             var result = await _unitOfWork.SignInManager
                 .PasswordSignInAsync(userLoginModel.Email, userLoginModel.Password, userLoginModel.RememberMe, false);
@@ -29,7 +29,7 @@ namespace BLL.Infrastructure
             return result;
         }
 
-        public async Task<IdentityResult> Register(UserRegisterModel userRegisterModel)
+        public async Task<IdentityResult> RegisterAsync(UserRegisterModel userRegisterModel)
         {
             var user = _mapper.Map<UserRegisterModel, ApplicationUser>(userRegisterModel);
             var result = await _unitOfWork.UserManager.CreateAsync(user, userRegisterModel.Password);
@@ -50,7 +50,7 @@ namespace BLL.Infrastructure
             return roles.ToList();
         }
 
-        public async Task SignOut()
+        public async Task SignOutAsync()
         {
             await _unitOfWork.SignInManager.SignOutAsync();
         }

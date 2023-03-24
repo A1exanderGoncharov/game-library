@@ -17,6 +17,7 @@ namespace DAL.Infrastructure.Repositories
             _context = context;
             _dbSet = context.Set<ApplicationUser>();
         }
+
         public IQueryable<ApplicationUser> GetAllAsync(Expression<Func<ApplicationUser, bool>> filter)
         {
             IQueryable<ApplicationUser> entities = _dbSet;
@@ -25,7 +26,6 @@ namespace DAL.Infrastructure.Repositories
 
             return entities
                 .Include(p => p.Ratings);
-
         }
     }
 }

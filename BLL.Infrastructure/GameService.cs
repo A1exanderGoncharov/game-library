@@ -119,7 +119,7 @@ namespace BLL.Infrastructure
 
         public async Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionIdAsync(int CollectionId)
         {
-            var userCollectionsEntities = await _unitOfWork.UserCollectionRepository.GetAllAsync().ToListAsync();
+            var userCollectionsEntities = await _unitOfWork.UserCollectionRepository.GetAllWithIncludes().ToListAsync();
             var userCollectionGames = userCollectionsEntities.Where(g => g.CollectionId == CollectionId).ToList();
             
             return _mapper.Map<IEnumerable<UserCollection>, IEnumerable<UserCollectionDTO>>(userCollectionGames);

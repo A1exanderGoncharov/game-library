@@ -7,14 +7,15 @@ namespace DAL.Infrastructure.Repositories
 {
     public class CollectionRepository : Repository<Collection>, ICollectionRepository
     {
-        DbSet<Collection> _dbSet;
+		readonly DbSet<Collection> _dbSet;
 
         public CollectionRepository(GameLibraryDbContext context)
             : base(context)
         {
             _dbSet = context.Set<Collection>();
         }
-        public new IQueryable<Collection> GetAllAsync()
+
+        public IQueryable<Collection> GetAllWithIncludes()
         {
             return _dbSet
                 .Include(c => c.UserCollections);

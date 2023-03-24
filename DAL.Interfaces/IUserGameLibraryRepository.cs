@@ -7,6 +7,6 @@ namespace DAL.Interfaces
 {
     public interface IUserGameLibraryRepository : IRepository<UserGame>
     {
-        IQueryable<UserGame> GetAllAsync(Expression<Func<UserGame, bool>> filter = null);
+        IQueryable<UserGame> GetAllWithIncludes(Expression<Func<UserGame, bool>> filter = null);
     }
 }

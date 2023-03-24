@@ -9,16 +9,14 @@ namespace DAL.Infrastructure.Repositories
 {
     public class UserGameLibraryRepository : Repository<UserGame>, IUserGameLibraryRepository
     {
-        GameLibraryDbContext _context;
-        DbSet<UserGame> _dbSet;
+		readonly DbSet<UserGame> _dbSet;
 
         public UserGameLibraryRepository(GameLibraryDbContext context)
             : base(context)
         {
-            _context = context;
             _dbSet = context.Set<UserGame>();
         }
-        public IQueryable<UserGame> GetAllAsync(Expression<Func<UserGame, bool>> filter)
+        public IQueryable<UserGame> GetAllWithIncludes(Expression<Func<UserGame, bool>> filter)
         {
             IQueryable<UserGame> entities = _dbSet;
 

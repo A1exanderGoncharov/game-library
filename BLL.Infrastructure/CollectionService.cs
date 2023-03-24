@@ -47,7 +47,7 @@ namespace BLL.Infrastructure
 
         public async Task<IEnumerable<CollectionDTO>> GetAllAsync()
         {
-            var collections = await _unitOfWork.CollectionRepository.GetAllAsync().ToListAsync();
+            var collections = await _unitOfWork.CollectionRepository.GetAllWithIncludes().ToListAsync();
 
             return _mapper.Map<IEnumerable<Collection>, IEnumerable<CollectionDTO>>(collections);
         }
@@ -82,7 +82,7 @@ namespace BLL.Infrastructure
 
         public async Task AddGamesToCollectionAsync(int CollectionId, List<string> SelectedGames)
         {
-            var userCollectionGames = _unitOfWork.UserCollectionRepository.GetAllAsync();            
+            var userCollectionGames = _unitOfWork.UserCollectionRepository.GetAllWithIncludes();            
 
             for (int i = 0; i < SelectedGames.Count; i++)
             {
@@ -106,7 +106,7 @@ namespace BLL.Infrastructure
 
         public async Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string UserId)
         {
-            var userCollections = await _unitOfWork.CollectionRepository.GetAllAsync().ToListAsync();
+            var userCollections = await _unitOfWork.CollectionRepository.GetAllWithIncludes().ToListAsync();
 
             var userCollectionsByUserId = userCollections.Where(x => x.ApplicationUserId == UserId);
 

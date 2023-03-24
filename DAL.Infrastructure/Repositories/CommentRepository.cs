@@ -9,17 +9,15 @@ namespace DAL.Infrastructure.Repositories
 {
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
-        GameLibraryDbContext _context;
-        DbSet<Comment> _dbSet;
+		readonly DbSet<Comment> _dbSet;
 
         public CommentRepository(GameLibraryDbContext context)
             : base(context)
         {
-            _context = context;
             _dbSet = context.Set<Comment>();
         }
 
-        public IQueryable<Comment> DbsetWithProperties(Expression<Func<Comment, bool>> filter)
+        public IQueryable<Comment> GetAllWithIncludes(Expression<Func<Comment, bool>> filter)
         {
             IQueryable<Comment> entities = _dbSet;
 

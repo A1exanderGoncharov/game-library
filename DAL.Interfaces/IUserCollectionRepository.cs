@@ -7,6 +7,6 @@ namespace DAL.Interfaces
 {
     public interface IUserCollectionRepository : IRepository<UserCollection>
     {
-        IQueryable<UserCollection> GetAllAsync(Expression<Func<UserCollection, bool>> filter = null);
+        IQueryable<UserCollection> GetAllWithIncludes(Expression<Func<UserCollection, bool>> filter = null);
     }
 }

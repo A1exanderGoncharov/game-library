@@ -47,14 +47,14 @@ namespace BLL.Infrastructure
 
         public async Task<IEnumerable<UserGameDTO>> GetAllAsync()
         {
-            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllAsync().ToListAsync();
+            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllWithIncludes().ToListAsync();
 
             return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(userGameLibraries);
         }
 
         public async Task<IEnumerable<UserGameDTO>> GetAllByUserIdAsync(string id)
         {
-            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllAsync(ugl => ugl.ApplicationUserId == id).ToListAsync();
+            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllWithIncludes(ugl => ugl.ApplicationUserId == id).ToListAsync();
 
             return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(userGameLibraries);
         }

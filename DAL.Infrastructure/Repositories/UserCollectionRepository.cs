@@ -9,17 +9,15 @@ namespace DAL.Infrastructure.Repositories
 {
     public class UserCollectionRepository : Repository<UserCollection>, IUserCollectionRepository
     {
-        GameLibraryDbContext _context;
-        DbSet<UserCollection> _dbSet;
+		readonly DbSet<UserCollection> _dbSet;
 
         public UserCollectionRepository(GameLibraryDbContext context)
             : base(context)
         {
-            _context = context;
             _dbSet = context.Set<UserCollection>();
         }
 
-        public IQueryable<UserCollection> GetAllAsync(Expression<Func<UserCollection, bool>> filter)
+        public IQueryable<UserCollection> GetAllWithIncludes(Expression<Func<UserCollection, bool>> filter)
         {
             IQueryable<UserCollection> entities = _dbSet;
 
@@ -27,7 +25,7 @@ namespace DAL.Infrastructure.Repositories
 
             return entities
                 .Include(uc => uc.UserGame).ThenInclude(au => au.ApplicationUser)
-                 .Include(uc => uc.UserGame).ThenInclude(g => g.Game)
+                .Include(uc => uc.UserGame).ThenInclude(g => g.Game)
                 .Include(uc => uc.Collection);
 
         }

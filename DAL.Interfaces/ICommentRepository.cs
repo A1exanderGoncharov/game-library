@@ -7,6 +7,6 @@ namespace DAL.Interfaces
 {
     public interface ICommentRepository : IRepository<Comment>
     {
-        IQueryable<Comment> DbsetWithProperties(Expression<Func<Comment, bool>> filter = null);
+        IQueryable<Comment> GetAllWithIncludes(Expression<Func<Comment, bool>> filter = null);
     }
 }

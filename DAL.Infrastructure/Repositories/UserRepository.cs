@@ -10,7 +10,7 @@ namespace DAL.Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         GameLibraryDbContext _context;
-        DbSet<ApplicationUser> _dbSet;
+		readonly DbSet<ApplicationUser> _dbSet;
 
         public UserRepository(GameLibraryDbContext context)
         {

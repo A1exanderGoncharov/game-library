@@ -90,10 +90,21 @@ td {
     margin-top: 10px;
 }
 
-.carousel {
+/*.carousel {
     position: absolute;
-    right: 205px;
+    right: 398px;
     width: 488px;
+}*/
+
+img.logo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 103px;
+}
+
+div.carousel {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .game-cards {

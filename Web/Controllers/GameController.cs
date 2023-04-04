@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Web.Helpers;
 using Web.ViewModels;
 
 namespace Web.Controllers
@@ -31,14 +32,10 @@ namespace Web.Controllers
             };
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            indexViewModel.games = await _gameService.GetAllAsync();
-
-            if (indexViewModel.genres != null)
-            {
-                indexViewModel.genres = await _genreService.GetAllAsync();
-            }
+            var games = await _gameService.GetAllAsync();
+            indexViewModel.games = games;
 
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -47,6 +44,9 @@ namespace Web.Controllers
                 var recommendedGames = await _recommenderService.GetPersonalizedRecommendationsAsync(currentUserId);
                 CreateCarouselRanges(recommendedGames);
             }
+
+            int pageSize = 8;
+            indexViewModel.PaginatedGames = PaginatedList<GameDTO>.CreateAsync(games.ToList(), pageNumber ?? 1, pageSize);
 
             return View(indexViewModel);
         }

@@ -1,4 +1,4 @@
-﻿@model Web.ViewModels.IndexViewModel
+﻿@model Web.ViewModels.SearchingViewModel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +22,7 @@
 			</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-				@foreach (var genre in Model.genres)
+				@foreach (var genre in Model.Genres)
 				{
 					<a class="dropdown-item" asp-action="FilterGamesByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
 				}
@@ -33,7 +33,7 @@
 
 	<div class="game-cards" style="margin-top:0;">
 		<div class="row">
-			@foreach (var item in Model.games)
+			@foreach (var item in Model.Games)
 			{
 				<div class="col-sm-3">
 					<div class="card @*border-0*@">

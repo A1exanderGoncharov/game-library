@@ -103,6 +103,7 @@ img.logo {
 }
 
 div.carousel {
+    width: 480px;
     display: inline-block;
     vertical-align: top;
 }

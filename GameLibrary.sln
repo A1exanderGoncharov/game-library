@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32002.261
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Entities", "DAL.Entities\DAL.Entities.csproj", "{365D642B-287B-4FEA-B057-86415445441A}"
 EndProject
@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Infrastructure", "BLL.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{DA87810D-58BE-40BA-91EA-D2F9C0584E44}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLibrary.UnitTests", "GameLibrary.UnitTests\GameLibrary.UnitTests.csproj", "{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary.IntegrationTests", "GameLibrary.IntegrationTests\GameLibrary.IntegrationTests.csproj", "{6E61F267-76DA-4F70-8F1C-934569BAF7E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary.UnitTests", "GameLibrary.UnitTests\GameLibrary.UnitTests.csproj", "{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,14 +55,14 @@ Global
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC5DFFE6-29CA-4F5B-8891-BB8AE490B1FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,20 @@
+﻿@model BLL.DTO.CollectionDTO
+
+<h2>Collection Editing</h2>
+
+<form asp-action="EditCollection" asp-controller="Collection" asp-antiforgery="true">
+    <div style="margin-top: 30px">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @Html.HiddenFor(c => c.Id)
+        @Html.HiddenFor(c => c.ApplicationUserId)
+        @Html.HiddenFor(g => g.Date)
+
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" placeholder="Enter name">
+
+        <div style="margin-top: 20px">
+            <button type="submit" class="btn btn-warning">Edit</button>
+        </div>
+    </div>
+</form>

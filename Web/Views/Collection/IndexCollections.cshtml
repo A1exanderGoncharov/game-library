@@ -38,6 +38,7 @@
                     <td>
                         <div class="collectionActions" style="text-align: center">
                             <a class="btn btn-success" asp-controller="Collection" asp-action="SelectGamesToCollection" asp-route-collectionId="@item.Id">Add To</a>
+                            <a class="btn btn-warning" asp-controller="Collection" asp-action="EditCollection" asp-route-id="@item.Id">Edit</a>
                             <a class="btn btn-danger" asp-controller="Collection" asp-action="DeleteCollection" asp-route-id="@item.Id">Delete</a>
                         </div>
                     </td>

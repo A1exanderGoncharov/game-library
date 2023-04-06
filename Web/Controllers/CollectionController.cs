@@ -1,4 +1,5 @@
 ﻿using BLL.DTO;
+using BLL.Infrastructure;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -71,5 +72,20 @@ namespace Web.Controllers
             return RedirectToAction(nameof(IndexCollections));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditCollection(int id)
+        {
+            var collection = await _collectionService.GetByIdAsync(id);
+
+            return View(collection);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCollection(CollectionDTO collectionDTO)
+        {
+            await _collectionService.UpdateAsync(collectionDTO);
+
+            return RedirectToAction(nameof(IndexCollections));
+        }
     }
 }

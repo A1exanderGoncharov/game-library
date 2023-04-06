@@ -2,6 +2,7 @@
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -45,14 +46,21 @@ namespace Web.Controllers.Admin
         public async Task<IActionResult> EditGame(int id)
         {
             var game = await _gameService.GetByIdAsync(id);
+            var genres = await _genreService.GetAllGenresOrderedByAsync();
+
+            ViewBag.genres = genres;
+            ViewBag.gameGenres = game.GameGenres;
+
             return View(game);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditGame(GameDTO gameDTO)
+        public async Task<IActionResult> EditGame(GameDTO gameDTO, string[] selectedGenres)
         {
             await _gameService.UpdateAsync(gameDTO);
+            await _gameService.UpdateGameGenresAsync(gameDTO.Id, selectedGenres);
+
             return RedirectToAction("Index", "Game");
         }
 

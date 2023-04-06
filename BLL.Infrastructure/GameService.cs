@@ -4,6 +4,7 @@ using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -167,6 +168,25 @@ namespace BLL.Infrastructure
             }
 
             return ratingScore;
+        }
+
+        public async Task UpdateGameGenresAsync(int gameId, string[] selectedGenres)
+        {
+            var gameEntity = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(gameId);
+
+            foreach (var gameGenre in gameEntity.GameGenres)
+            {
+                _unitOfWork.GameGenresRepository.Delete(gameGenre);
+            }
+
+            foreach (string selectedGenre in selectedGenres)
+            {
+                int GenreId = int.Parse(selectedGenre);
+
+                await AddGenreToGameAsync(gameEntity.Id, GenreId);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
         //public IEnumerable<GameDTO> GetTopGames()

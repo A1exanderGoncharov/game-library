@@ -20,6 +20,7 @@ namespace BLL.Interfaces
         Task AddRatingToGameAsync(string UserId, int GameId, int Rating);
         Task<int> CalculateGameRatingScoreAsync(int gameId);
         Task<int> GetGameRatingsCountAsync(int gameId);
+        Task UpdateGameGenresAsync(int gameId, string[] selectedGenres);
         //public IEnumerable<GameDTO> GetTopGames();
     }
 }

@@ -1,0 +1,21 @@
+﻿@model BLL.DTO.GenreDTO
+
+<h2>Genre Editing</h2>
+
+<form asp-action="EditGenre" asp-controller="AdminGenre" asp-antiforgery="true">
+    <div style="margin-top: 30px">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @Html.HiddenFor(g => g.Id)
+
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" placeholder="Enter name">
+
+        <label asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description" rows="3" placeholder="Enter description"></textarea>
+
+        <div style="margin-top: 20px">
+            <button type="submit" class="btn btn-warning" style="width: 70px">Edit</button>
+        </div>
+    </div>
+</form>

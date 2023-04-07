@@ -1,4 +1,5 @@
 ﻿using BLL.DTO;
+using BLL.Infrastructure;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,22 @@ namespace Web.Controllers.Admin
         public async Task<IActionResult> DeleteGenre(int id)
         {
             await _genreService.DeleteByIdAsync(id);
+            return RedirectToAction(nameof(IndexGenres));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditGenre(int id)
+        {
+            var genres = await _genreService.GetByIdAsync(id);
+
+            return View(genres);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditGenre(GenreDTO genreDTO)
+        {
+            await _genreService.UpdateAsync(genreDTO);
+
             return RedirectToAction(nameof(IndexGenres));
         }
 

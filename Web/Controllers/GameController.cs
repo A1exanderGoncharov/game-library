@@ -75,6 +75,8 @@ namespace Web.Controllers
 					Genres = await _genreService.GetAllAsync()
 				};
 
+				ViewBag.searchString = searchString;
+
 				return View(searchingViewModel);
 			}
 			return RedirectToAction(nameof(Index));

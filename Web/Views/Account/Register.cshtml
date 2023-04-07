@@ -1,40 +1,44 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model BLL.DTO.UserRegisterModel
 
-<h2>Sign up</h2>
-<form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div style="margin-top: 15px">
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div style="margin-top: 15px">
-        <label asp-for="Nickname"></label><br />
-        <input asp-for="Nickname" />
-        <span asp-validation-for="Nickname"></span>
-    </div>
-    <div style="margin-top: 15px">
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div style="margin-top: 15px">
-        <label asp-for="ConfirmPassword">Confirm Password</label><br />
-        <input asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-    @*<div class="form-group" style="margin-top: 15px">
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 78vh;">
+    <h2>Sign Up</h2>
+    <form method="post" asp-controller="Account" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div style="margin-top: 15px; width: 250px;">
+            <label asp-for="Email"></label>
+            <input class="form-control" asp-for="Email" placeholder="Your email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div style="margin-top: 15px; width: 250px;">
+            <label asp-for="Nickname"></label>
+            <input class="form-control" asp-for="Nickname" placeholder="Your nickname" />
+            <span asp-validation-for="Nickname"></span>
+        </div>
+        <div style="margin-top: 15px; width: 250px;">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" placeholder="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div style="margin-top: 15px; width: 250px;">
+            <label asp-for="ConfirmPassword">Confirm Password</label>
+            <input class="form-control" asp-for="ConfirmPassword" placeholder="Repeat your password" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+        @*<div class="form-group" style="margin-top: 15px; width: 250px;">
         <label asp-for="UserRole"></label><br />
         @foreach (var role in Model.AllRoles)
         {
-            @Html.RadioButtonFor(model => model.UserRole, role)
-            @role<br />
+        @Html.RadioButtonFor(model => model.UserRole, role)
+        @role<br />
         }
         <span asp-validation-for="UserRole"></span>
-    </div>*@
-    <br>
-    <div>
-        <input type="submit" value="Register" />
-    </div>
-</form>
+        </div>*@
+        <br>
+        <div style="margin-top: 13px;">
+            <input type="submit" class="btn btn-success" style="width: 250px;" value="Register" />
+        </div>
+
+    </form>
+</div>

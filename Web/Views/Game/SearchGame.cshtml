@@ -31,7 +31,12 @@
 		</div>
 	</form>
 
-	<div class="game-cards" style="margin-top:0;">
+	@if (@ViewBag.searchString != null)
+	{
+		<h2>Search Results for '@ViewBag.searchString'</h2>	
+	}
+
+	<div class="game-cards" style="margin-top:24px;">
 		<div class="row">
 			@foreach (var item in Model.Games)
 			{

@@ -1,14 +1,15 @@
 ﻿@model BLL.DTO.CommentDTO
 
+<h2>Reply to Comment</h2>
+
 <form asp-action="CreateComment" asp-antiforgery="true">
-    <div class="mb-3">
+    <div class="mb-3" style="margin-top: 30px">
         @Html.HiddenFor(x => x.GameId)
         @Html.HiddenFor(y => y.ReplyToCommentId)
         @Html.HiddenFor(z => z.NicknameToReply)
-        <label class="form-label">Add Comment</label>
         <textarea class="form-control" asp-for="Content" placeholder="Write a reply" id="exampleFormControlTextarea1" rows="3"></textarea>
-        <div>
-            <input class="btn btn-success" type="submit" value="Send" />
+        <div style="margin-top: 16px">
+            <input class="btn btn-success" style="width: 70px" type="submit" value="Send" />
         </div>
     </div>
 </form>

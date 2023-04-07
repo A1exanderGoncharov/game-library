@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<BLL.DTO.GenreDTO>
 
 <table class="table table-striped">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +15,6 @@
                 <td>@item.Name</td>
                 <td>@item.Description</td>
                 <td>
-                    @*<a class="btn btn-info" asp-controller="Genre" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                     <a class="btn btn-outline-danger" asp-action="DeleteGenre" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>

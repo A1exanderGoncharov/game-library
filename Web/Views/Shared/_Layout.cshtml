@@ -22,8 +22,8 @@
                 <div style="font-size: 14px" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        </li>*@
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Games</a>
                         </li>
@@ -33,20 +33,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Collection" asp-action="IndexCollections">My Collections</a>
                         </li>
-                        @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Categories
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Action">Action</a>
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Role-playing">RPG</a>
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Adventure">Adventure</a>
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Simulation">Simulation</a>
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Strategy">Strategy</a>
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Sports">Sports</a>
-                                <a class="dropdown-item" asp-controller="Game" asp-action="FilterByGenre" asp-route-gameGenre="Racing">Racing</a>
-                            </div>
-                        </li>*@
                         @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
                         {
                             <li class="nav-item dropdown">
@@ -56,6 +42,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" asp-controller="AdminGame" asp-action="CreateGame">Add Game</a>
                                     <a class="dropdown-item" asp-controller="AdminGenre" asp-action="CreateGenre">Add Genre</a>
+                                    <a class="dropdown-item" asp-controller="AdminGenre" asp-action="IndexGenres">View Genres</a>
                                 </div>
                             </li>
                         }
@@ -93,10 +80,10 @@
     </div>
 
     @*<footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>*@
+    <div class="container">
+    &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

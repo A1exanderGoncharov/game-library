@@ -12,17 +12,17 @@
 {
     <h2>My Collections</h2>
 
-    <p>
-        <a class="btn btn-info btn-lg" asp-controller="Collection" asp-action="CreateCollection">Create Collection</a>
+    <p style="margin-top: 30px">
+        <a class="btn btn-success btn-lg" asp-controller="Collection" asp-action="CreateCollection">+ Create Collection</a>
     </p>
 
-    <table class="table table-bordered" style="background-color: lightgray;">
-        <thead>
+    <table class="table table-bordered" style="background-color: lightgray; margin-top:29px">
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Date</th>
                 <th scope="col">Games</th>
-                <th scope="col">Actions</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -30,16 +30,16 @@
             {
                 <tr>
                     <td style="text-align: center">
-                        <a class="btn btn-link" asp-controller="Game" asp-action="GetGamesByCollectionId" asp-route-collectionId="@item.Id">@item.Name</a>
+                        <a class="btn btn-link" style="font-size: 18px;" asp-controller="Game" asp-action="GetGamesByCollectionId" asp-route-collectionId="@item.Id">@item.Name</a>
                     <td style="text-align: center; vertical-align: middle">
                         @item.Date
                     </td>
-                    <td class="collectionActions" style="text-align: center; vertical-align: middle">@item.UserCollections.Count</td>
+                    <td class="collectionActions" style="text-align: center; vertical-align: middle;">@item.UserCollections.Count</td>
                     <td>
-                        <div class="collectionActions" style="text-align: center">
-                            <a class="btn btn-success" asp-controller="Collection" asp-action="SelectGamesToCollection" asp-route-collectionId="@item.Id">Add To</a>
-                            <a class="btn btn-warning" asp-controller="Collection" asp-action="EditCollection" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-danger" asp-controller="Collection" asp-action="DeleteCollection" asp-route-id="@item.Id">Delete</a>
+                        <div class="collectionActions" style="text-align: right">
+                            <a class="btn btn-primary" asp-controller="Collection" asp-action="SelectGamesToCollection" asp-route-collectionId="@item.Id">Add to</a>
+                            <a class="btn btn-primary" asp-controller="Collection" asp-action="EditCollection" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-primary" asp-controller="Collection" asp-action="DeleteCollection" asp-route-id="@item.Id">Delete</a>
                         </div>
                     </td>
                 </tr>

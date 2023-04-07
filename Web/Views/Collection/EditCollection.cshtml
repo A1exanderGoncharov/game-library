@@ -8,13 +8,13 @@
 
         @Html.HiddenFor(c => c.Id)
         @Html.HiddenFor(c => c.ApplicationUserId)
-        @Html.HiddenFor(g => g.Date)
+        @Html.HiddenFor(с => с.Date)
 
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" placeholder="Enter name">
 
         <div style="margin-top: 20px">
-            <button type="submit" class="btn btn-warning">Edit</button>
+            <button type="submit" class="btn btn-warning" style="width: 70px">Edit</button>
         </div>
     </div>
 </form>

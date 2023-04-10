@@ -3,6 +3,7 @@
 
 <head>
     <title>Game Details</title>
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/comments.css" />
     <link rel="stylesheet" href="~/css/gameCard.css" />
 </head>
@@ -48,12 +49,12 @@
         </table>
 
         <div class="game-description">
-            <h4>Description:</h4>
+            <h4 style="margin-bottom: 2%;">Description:</h4>
             <p>@Html.DisplayFor(g => g.Description)</p>
         </div>
 
         <div class="trailer">
-            <h4>Trailer:</h4>
+            <h4 style="margin-bottom: 2%;">Trailer:</h4>
             <p align="center"><iframe width="560" height="315" src="@Model.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
         </div>
     </div>

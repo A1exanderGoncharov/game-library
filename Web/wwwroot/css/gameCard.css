@@ -6,6 +6,7 @@
 .card-body {
     /*margin-inline: 14px;*/
     position: relative;
+    padding: 2%;
 }
 
 .info-table {

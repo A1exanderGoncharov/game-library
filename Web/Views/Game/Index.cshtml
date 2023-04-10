@@ -3,146 +3,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Game Library</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/gameList.css" />
-	<link rel="stylesheet" href="/css/site.css" />
+    <title>Game Library</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="/css/gameList.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/css/buttons.css" />
 </head>
 <body>
-	<form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
+    <form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
 
-		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
 
-		<button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
 
-		<div class="dropdown">
-			<button class="btn btn-secondary dropdown-toggle drpdwn-genres" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Genre
-			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="dropdown">
 
-				@foreach (var genre in Model.genres)
-				{
-					<a class="dropdown-item" asp-action="FilterGamesByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
-				}
+            <button class="btn btn-secondary dropdown-toggle drpdwn-genres" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Genre
+            </button>
 
-			</div>
-		</div>
-	</form>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-@*	<div>
-	@if (ViewBag.recommendedGamesId != null)
-	{
-		@foreach (var item in ViewBag.recommendedGamesId)
-		{
-			<p>Recommended game ID: @item</p>
-		}
-	}
-	</div>*@
+                @foreach (var genre in Model.genres)
+                {
+                    <a class="dropdown-item" asp-action="FilterGamesByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+                }
 
-	@if (User.Identity.IsAuthenticated)
-	{
-		<div class="recommendations" style="margin-bottom:100px">
+            </div>
+        </div>
+    </form>
 
-			<img class="logo rec" src="/games-1.png" alt="Card image" style="width:auto; height:204px;">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="recommendations" style="margin-bottom:100px">
 
-			<div class="carousel slide carousel-fade rec" data-ride="carousel" style="height:260px;" id="carouselExampleFade">
-				<div class="carousel-inner">
-					<div style="display:flex; text-align:center; justify-content:center" class="carousel-item active">
-						@foreach (var item in Model.recommendedGamesFirstRange)
-						{
-							<div class="recommended-game-card" style="display:inline-block; vertical-align:central; margin-left:5px; margin-right:5px;" >
-								<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-									<img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="background:white; width:150px; border: 5px solid white; padding: 0;">
-								</a>
+            <img class="logo" src="/game-library-logo.png" alt="Card image">
 
-								<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-									<h4 style="font-size:12pt; max-width:150px; height:45px" class="card-title">@item.Name</h4>
-								</a>
-							</div>
-						}
-					</div>
-					<div style="display:flex; text-align:center; justify-content:center" class="carousel-item">
-						@foreach (var item in Model.recommendedGamesSecondRange)
-						{
-							<div class="recommended-game-card" style="display:inline-block; vertical-align:central; margin-left:5px; margin-right:5px;">
-								<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-									<img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="background:white; width:150px; border: 5px solid white; padding: 0;">
-								</a>
+            <div class="carousel slide carousel-fade" data-ride="carousel" style="height:260px;" id="carouselExampleFade">
 
-								<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-									<h4 style="font-size:12pt; max-width:150px; height:45px" class="card-title">@item.Name</h4>
-								</a>
-							</div>
-						}
-					</div>
-				</div>
-				<a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a>
-				<a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a>
-			</div>
-		</div>
-	}
-	<div class="game-cards" style="margin-top:24px;">
-		<div class="row">
-			@foreach (var item in Model.PaginatedGames)
-			{
-				<div class="col-sm-3">
-					<div class="card @*border-0*@">
-						<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-							<img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
-						</a>
-						<div class="card-body">
-							<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-								<h4 class="card-title">@item.Name</h4>
-							</a>
-							<p style="margin: 0 0 5px;">Release Date: @item.ReleaseDate.ToShortDateString()</p>
-								@{
-									var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
-								}
-							<span style="">&#11088; @Math.Round(ratingScore, 1)</span>
+                <div class="carousel-inner">
 
-								@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-								{
-								<div class="btn-in-card" style="/*margin-top:15px;*/">
-									<a class="btn btn-info" asp-controller="AdminGame" asp-action="EditGame" asp-route-id="@item.Id">Edit</a>
-									<a class="btn btn-info" asp asp-controller="AdminGenre" asp-action="DeleteGame" asp-route-id="@item.Id">Delete</a>
-								</div>
-								}
-								@if (User.Identity.IsAuthenticated)
-								{
-								<a class="btn icon-btn btn-success" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
-									<span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
-									Add
-								</a>
-								}
-						</div>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
-	@{
-		var prevDisabled = !Model.PaginatedGames.HasPreviousPage ? "disabled" : "";
-		var nextDisabled = !Model.PaginatedGames.HasNextPage ? "disabled" : "";
-	}
+                    <div class="carousel-item active">
 
-	<a asp-action="Index"
-	   asp-route-pageNumber="@(Model.PaginatedGames.PageIndex - 1)"
-	class="btn btn-default @prevDisabled">
-		Previous
-	</a>
-	<a asp-action="Index"
-	   asp-route-pageNumber="@(Model.PaginatedGames.PageIndex + 1)"
-	class="btn btn-default @nextDisabled">
-		Next
-	</a>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                        @foreach (var item in Model.recommendedGamesFirstRange)
+                        {
+                            <div class="recommended-game-card">
+
+                                <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                                    <img class="carousel-card-img" src="@item.HeaderImage" alt="Card image">
+                                </a>
+
+                                <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                                    <h4 class="carousel-card-title">@item.Name</h4>
+                                </a>
+
+                            </div>
+                        }
+                    </div>
+
+                    <div class="carousel-item">
+
+                        @foreach (var item in Model.recommendedGamesSecondRange)
+                        {
+                            <div class="recommended-game-card">
+
+                                <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                                    <img class="carousel-card-img" src="@item.HeaderImage" alt="Card image">
+                                </a>
+
+                                <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                                    <h4 class="carousel-card-title">@item.Name</h4>
+                                </a>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+
+                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+        </div>
+    }
+    <div class="game-cards" style="margin-top:24px;">
+
+        <div class="row">
+
+            @foreach (var item in Model.PaginatedGames)
+            {
+                <div class="col-sm-3">
+
+                    <div class="card @*border-0*@">
+
+                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                            <img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
+                        </a>
+
+                        <div class="card-body">
+
+                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                                <h4 class="card-title">@item.Name</h4>
+                            </a>
+
+                            <p style="margin: 0 0 5px;">Release Date: @item.ReleaseDate.ToShortDateString()</p>
+                            @{
+                                var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
+                            }
+                            <span style="">&#11088; @Math.Round(ratingScore, 1)</span>
+
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                            {
+                                <div class="btn-group dropup" style="position: absolute; top: 292px; left: 5%;">
+
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Actions
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-controller="AdminGame" asp-action="DeleteGame" asp-route-id="@item.Id">Delete</a></li>
+                                        <li><a class="dropdown-item" asp-controller="AdminGame" asp-action="EditGame" asp-route-id="@item.Id">Edit</a></li>
+                                    </ul>
+
+                                </div>
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    <span class="add-text">Add</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @{
+        var prevDisabled = !Model.PaginatedGames.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.PaginatedGames.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PaginatedGames.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PaginatedGames.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </body>
 </html>

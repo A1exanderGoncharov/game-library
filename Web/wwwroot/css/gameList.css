@@ -1,8 +1,4 @@
-﻿.body {
-    background: #dee1e3;
-}
-
-.card {
+﻿.card {
     margin-bottom: 30px;
     max-width: 255px;
 }
@@ -15,10 +11,6 @@
     padding-bottom: 25px;
 }
 
-.btn-in-card > .btn-primary {
-    min-width: 111px;
-}
-
 table {
     border-collapse: separate;
     border-spacing: 50px 0;
@@ -26,12 +18,6 @@ table {
 
 td {
     padding: 5px 0;
-}
-
-.form-check-label {
-    position: relative;
-    left: 20px;
-    top: 1px;
 }
 
 .card-img-top {
@@ -46,34 +32,7 @@ td {
 .card-title {
     font-weight: 600;
     height: 36px;
-}
-
-.btn-glyphicon {
-    padding: 8px;
-    background: #ffffff;
-    margin-right: 4px;
-}
-
-.icon-btn {
-    padding: 1px 15px 3px 2px;
-    border-radius: 50px;
-    position: absolute;
-    top: 295px;
-    right: 5%;
-    /*    top: 64.65%;
-    right: 5%;*/
-}
-
-/*    .icon-btn.btn-warning {
-        padding: 1px 15px 3px 2px;
-        border-radius: 50px;
-        position: absolute;
-        bottom: 138px;
-        left: 131px;
-    }*/
-
-.remove-btn {
-    left: 131px;
+    font-size: 14pt;
 }
 
 .a {
@@ -81,35 +40,28 @@ td {
 }
 
 .drpdwn-genres {
-    /*font-size: 13px;*/
     margin-left: 5px;
 }
 
-.btn-in-card > .btn-info {
-    min-width: 112px;
-    margin-top: 10px;
-}
-
-/*.carousel {
-    position: absolute;
-    right: 398px;
-    width: 488px;
-}*/
-
-img.logo {
+.logo {
+    width: auto;
+    height: 204px;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 103px;
+    margin-right: 107px;
 }
+
+.game-cards {
+    /*margin-top: 100px;*/
+}
+
+/* Recommendations styles
+-------------------------------------------------- */
 
 div.carousel {
     width: 480px;
     display: inline-block;
     vertical-align: top;
-}
-
-.game-cards {
-    /*margin-top: 100px;*/
 }
 
 .carousel-control-next {
@@ -129,6 +81,35 @@ div.carousel {
     width: 10%;
 }
 
-.rec {
+a.btn-link {
+    text-decoration: none;
+}
+
+.carousel-card-title {
+    font-size: 12pt;
+    max-width: 150px;
+    height: 85px;
+    margin-top: 4%;
+}
+
+.recommended-game-card {
     display: inline-block;
+    vertical-align: central;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.carousel-card-img {
+    background: white;
+    width: 150px;
+    border: 5px solid white;
+    padding: 0;
+    object-fit: cover;
+    aspect-ratio: 253/344;
+}
+
+.carousel-item, .carousel-item.active {
+    display: flex;
+    text-align: center;
+    justify-content: center
 }

@@ -35,14 +35,17 @@
                 <th>Score:</th>
                 <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
             </tr>
+            @{
+                var ratingInputDisabled = ViewBag.hasUserRated ? "disabled" : "";
+            }
             <tr>
                 <td>
                     <form class="input-group mb-3" style="top:62px" asp-action="RateGame" asp-route-gameId="@Model.Id">
                         <div style="background-color: #e9ecef"
                              class="input-group-prepend">
-                            <button style="border-color: #d8dde1" class="btn btn-outline-secondary" type="submit">&#11088;</button>
+                            <button style="border-color: #d8dde1" class="btn btn-outline-secondary @ratingInputDisabled" type="submit">&#11088;</button>
                         </div>
-                        <input style="max-width:73px" type="number" min="1" max="5" class="form-control" placeholder="rate" aria-label="" name="ratingScore" aria-describedby="basic-addon1">
+                        <input style="max-width:73px" type="number" min="1" max="5" class="form-control @ratingInputDisabled" placeholder="rate" aria-label="" name="ratingScore" aria-describedby="basic-addon1" required @ratingInputDisabled>
                     </form>
                 </td>
             </tr>

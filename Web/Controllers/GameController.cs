@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Web.Helpers;
+using Web.Models;
 using Web.ViewModels;
 
 namespace Web.Controllers
@@ -52,17 +53,15 @@ namespace Web.Controllers
 			return View(indexViewModel);
 		}
 
-		public async Task<IActionResult> GameDetails(int? id)
+		public async Task<IActionResult> GameDetails(int id)
 		{
-			if (id == null)
-				return BadRequest();
+			var game = await _gameService.GetByIdAsync(id);
 
-			var game = await _gameService.GetByIdAsync((int)id);
+			ViewBag.gameRating = await _gameService.CalculateGameRatingScoreAsync(id);
+			ViewBag.ratingsNumber = await _gameService.GetGameRatingsCountAsync(id);
+			ViewBag.hasUserRated = await _gameService.HasUserRatedGame(id, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-			ViewBag.gameRating = await _gameService.CalculateGameRatingScoreAsync((int)id);
-			ViewBag.ratingsNumber = await _gameService.GetGameRatingsCountAsync((int)id);
-
-			return View(game);
+            return View(game);
 		}
 
 		public async Task<IActionResult> SearchGame(string searchString)
@@ -108,7 +107,15 @@ namespace Web.Controllers
 		public async Task<IActionResult> RateGame(int gameId, int ratingScore)
 		{
 			string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			await _gameService.AddRatingToGameAsync(currentUserId, gameId, ratingScore);
+
+			try
+			{
+				await _gameService.AddRatingToGameAsync(currentUserId, gameId, ratingScore);
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+                RedirectToAction(nameof(GameDetails), new { id = gameId });
+            }
 
 			return RedirectToAction(nameof(GameDetails), new { id = gameId });
 		}

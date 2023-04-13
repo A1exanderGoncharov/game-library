@@ -7,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace BLL.Infrastructure
 {
     public class GameService : IGameService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
 
         public GameService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -58,7 +59,7 @@ namespace BLL.Infrastructure
             var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(id);
 
             return _mapper.Map<Game, GameDTO>(game);
-        }      
+        }
 
         public async Task UpdateAsync(GameDTO game)
         {
@@ -122,23 +123,31 @@ namespace BLL.Infrastructure
         {
             var userCollectionsEntities = await _unitOfWork.UserCollectionRepository.GetAllWithIncludes().ToListAsync();
             var userCollectionGames = userCollectionsEntities.Where(g => g.CollectionId == CollectionId).ToList();
-            
+
             return _mapper.Map<IEnumerable<UserCollection>, IEnumerable<UserCollectionDTO>>(userCollectionGames);
         }
 
-        public async Task AddRatingToGameAsync(string UserId, int GameId, int Rating)
+        public async Task AddRatingToGameAsync(string userId, int gameId, int rating)
         {
-			RatingDTO rating = new()
-			{
-				ApplicationUserId = UserId,
-				GameId = GameId,
-				GameRating = Rating
-			};
+            if (rating < 1 || rating > 5)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rating));
+            }
 
-			var RatingEntity = _mapper.Map<RatingDTO, Rating>(rating);
+            bool isRatingExist = await HasUserRatedGame(gameId, userId);
 
-            await _unitOfWork.RatingRepository.InsertAsync(RatingEntity);
-            await _unitOfWork.SaveChangesAsync();
+            if (!isRatingExist)
+            {
+                RatingDTO ratingDto = new()
+                {
+                    ApplicationUserId = userId,
+                    GameId = gameId,
+                    GameRating = rating
+                };
+
+                await _unitOfWork.RatingRepository.InsertAsync(_mapper.Map<RatingDTO, Rating>(ratingDto));
+                await _unitOfWork.SaveChangesAsync();
+            }
         }
 
         public async Task<int> GetGameRatingsCountAsync(int gameId)
@@ -146,28 +155,20 @@ namespace BLL.Infrastructure
             var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
             var ratingsCount = ratings.Where(r => r.GameId == gameId).Count();
 
-			return ratingsCount;
+            return ratingsCount;
         }
 
-        public async Task<int> CalculateGameRatingScoreAsync(int gameId)
+        public async Task<double> CalculateGameRatingScoreAsync(int gameId)
         {
             var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
             var gameRatings = ratings.Where(r => r.GameId == gameId);
 
-			int ratingSum = 0;
-            int ratingScore = 0;
-
-            foreach (var rating in gameRatings)
+            if (!gameRatings.Any())
             {
-                ratingSum += rating.GameRating;
+                return 0;
             }
 
-            if (gameRatings.Any())
-            {
-                ratingScore = ratingSum / gameRatings.Count();
-            }
-
-            return ratingScore;
+            return gameRatings.Average(r => r.GameRating);
         }
 
         public async Task UpdateGameGenresAsync(int gameId, string[] selectedGenres)
@@ -187,6 +188,22 @@ namespace BLL.Infrastructure
             }
 
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasUserRatedGame(int gameId, string userId)
+        {
+            var gameEntity = await _unitOfWork.GameRepository.GetByIdAsync(gameId);
+
+            if (gameEntity.Ratings == null)
+            {
+                return false;
+            }
+
+            var hasUserRated = gameEntity.Ratings
+                .Where(r => r.ApplicationUserId == userId && r.GameId == gameId)
+                .Any();
+
+            return hasUserRated;
         }
 
         //public IEnumerable<GameDTO> GetTopGames()

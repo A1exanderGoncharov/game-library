@@ -1,0 +1,57 @@
+﻿@model Web.ViewModels.SearchingViewModel
+
+<head>
+    <title>Game Filtering</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/gameList.css" />
+    <link rel="stylesheet" href="/css/buttons.css" />
+</head>
+
+<body>
+    <form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
+
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
+
+        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle drpdwn-genres" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Genre
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                @foreach (var genre in Model.Genres)
+                {
+                    <a class="dropdown-item" asp-action="FilterGamesByGenre" asp-route-gameGenreId="@genre.Id">@genre.Name</a>
+                }
+
+            </div>
+        </div>
+    </form>
+
+    @if (@ViewBag.gameGenre != null)
+    {
+        <h2>@ViewBag.gameGenre.Name Games</h2>
+    }
+
+    @await Html.PartialAsync("~/Views/Game/GameCards.cshtml", Model.PaginatedGames)
+
+    @{
+        var prevDisabled = !Model.PaginatedGames.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.PaginatedGames.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="FilterGamesByGenre"
+       asp-route-pageNumber="@(Model.PaginatedGames.PageIndex - 1)"
+       asp-route-gameGenreId="@ViewBag.gameGenreId"
+    class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+
+    <a asp-action="FilterGamesByGenre"
+       asp-route-pageNumber="@(Model.PaginatedGames.PageIndex + 1)"
+       asp-route-gameGenreId="@ViewBag.gameGenreId"
+    class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</body>

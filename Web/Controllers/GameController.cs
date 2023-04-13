@@ -64,15 +64,22 @@ namespace Web.Controllers
             return View(game);
 		}
 
-		public async Task<IActionResult> SearchGame(string searchString)
+		public async Task<IActionResult> SearchGame(string searchString, int? pageNumber)
 		{
 			if (!String.IsNullOrEmpty(searchString))
 			{
+                var genres = await _genreService.GetAllAsync();
+				var games = await _gameService.SearchAsync(searchString);
+
+                int pageSize = 8;
+                var paginatedGames = PaginatedList<GameDTO>.CreateAsync(games.ToList(), pageNumber ?? 1, pageSize);
+
 				SearchingViewModel searchingViewModel = new()
 				{
-					Games = await _gameService.SearchAsync(searchString),
-					Genres = await _genreService.GetAllAsync()
-				};
+					Games = games,
+					Genres = genres,
+					PaginatedGames = paginatedGames
+                };
 
 				ViewBag.searchString = searchString;
 
@@ -81,17 +88,27 @@ namespace Web.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		public async Task<IActionResult> FilterGamesByGenre(int? gameGenreId)
+		public async Task<IActionResult> FilterGamesByGenre(int? gameGenreId, int? pageNumber)
 		{
 			if (gameGenreId != null)
 			{
+				var genres = await _genreService.GetAllAsync();
+				var games = await _gameService.FilterByGenreAsync((int)gameGenreId);
+
+				int pageSize = 8;
+				var paginatedGames = PaginatedList<GameDTO>.CreateAsync(games.ToList(), pageNumber ?? 1, pageSize);
+
 				SearchingViewModel searchingViewModel = new()
 				{
-					Games = await _gameService.FilterByGenreAsync((int)gameGenreId),
-					Genres = await _genreService.GetAllAsync()
+					Games = games,
+					Genres = genres,
+					PaginatedGames = paginatedGames
 				};
 
-				return View(nameof(SearchGame), searchingViewModel);
+				ViewBag.gameGenreId = gameGenreId;
+				ViewBag.gameGenre = await _genreService.GetByIdAsync((int)gameGenreId);
+
+				return View(searchingViewModel);
 			}
 			return BadRequest();
 		}

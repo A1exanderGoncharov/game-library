@@ -1,14 +1,12 @@
 ﻿@model Web.ViewModels.SearchingViewModel
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
 	<title>Game Search</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="/css/gameList.css" />
 	<link rel="stylesheet" href="/css/buttons.css" />
-	<link rel="stylesheet" href="/css/site.css" />
 </head>
+
 <body>
 	<form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
 
@@ -36,50 +34,24 @@
 		<h2>Search Results for '@ViewBag.searchString'</h2>	
 	}
 
-	<div class="game-cards" style="margin-top:24px;">
-		<div class="row">
-			@foreach (var item in Model.Games)
-			{
-				<div class="col-sm-3">
-					<div class="card @*border-0*@">
-						<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-							<img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
-						</a>
-						<div class="card-body">
-							<a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-								<h4 class="card-title">@item.Name</h4>
-							</a>
-							<p class="card-text">
-							<p>Release Date: @item.ReleaseDate.ToShortDateString()</p>
-								@{
-									var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
-								}
-							<span style="">&#11088; @Math.Round(ratingScore, 1)</span>
+	@await Html.PartialAsync("~/Views/Game/GameCards.cshtml", Model.PaginatedGames)
 
-								@if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-								{
-								<div class="btn-group dropup" style="position: absolute; top: 292px; left: 5%;">
-									<button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-										Actions
-									</button>
-									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" asp-controller="AdminGenre" asp-action="DeleteGame" asp-route-id="@item.Id">Delete</a></li>
-										<li><a class="dropdown-item" asp-controller="AdminGame" asp-action="EditGame" asp-route-id="@item.Id">Edit</a></li>
-									</ul>
-								</div>
-								}
-								@if (User.Identity.IsAuthenticated)
-								{
-								<a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
-									<i class="fa fa-plus-circle" aria-hidden="true"></i>
-									<span class="@*action-text*@ add-text">Add</span>
-								</a>
-								}
-						</div>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
+	@{
+		var prevDisabled = !Model.PaginatedGames.HasPreviousPage ? "disabled" : "";
+		var nextDisabled = !Model.PaginatedGames.HasNextPage ? "disabled" : "";
+	}
+
+	<a asp-action="SearchGame"
+	   asp-route-pageNumber="@(Model.PaginatedGames.PageIndex - 1)"
+	   asp-route-searchString="@ViewBag.searchString"
+	class="btn btn-default @prevDisabled">
+		Previous
+	</a>
+
+	<a asp-action="SearchGame"
+	   asp-route-pageNumber="@(Model.PaginatedGames.PageIndex + 1)"
+	   asp-route-searchString="@ViewBag.searchString"
+	class="btn btn-default @nextDisabled">
+		Next
+	</a>
 </body>
-</html>

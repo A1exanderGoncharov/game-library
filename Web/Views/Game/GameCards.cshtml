@@ -1,0 +1,57 @@
+﻿@using BLL.DTO;
+@model Web.Helpers.PaginatedList<GameDTO>
+
+<div class="game-cards" style="margin-top:24px;">
+
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3">
+
+                <div class="card @*border-0*@">
+
+                    <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                        <img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
+                    </a>
+
+                    <div class="card-body">
+
+                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                            <h4 class="card-title">@item.Name</h4>
+                        </a>
+
+                        <p style="margin: 0 0 5px;">Release Date: @item.ReleaseDate.ToShortDateString()</p>
+                        @{
+                            var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
+                        }
+                        <span style="">&#11088; @Math.Round(ratingScore, 1)</span>
+
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                        {
+                            <div class="btn-group dropup" style="position: absolute; top: 292px; left: 5%;">
+
+                                <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="AdminGame" asp-action="DeleteGame" asp-route-id="@item.Id">Delete</a></li>
+                                    <li><a class="dropdown-item" asp-controller="AdminGame" asp-action="EditGame" asp-route-id="@item.Id">Edit</a></li>
+                                </ul>
+
+                            </div>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                <span class="add-text">Add</span>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

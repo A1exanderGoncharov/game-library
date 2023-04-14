@@ -1,11 +1,12 @@
 ﻿@using BLL.DTO;
-@model Web.Helpers.PaginatedList<GameDTO>
+@*@model Web.Helpers.PaginatedList<GameDTO>*@
+@model Web.ViewModels.GameCardsViewModel
 
 <div class="game-cards" style="margin-top:24px;">
 
     <div class="row">
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.PaginatedGames)
         {
             <div class="col-sm-3">
 
@@ -36,8 +37,30 @@
                                 </button>
 
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="AdminGame" asp-action="DeleteGame" asp-route-id="@item.Id">Delete</a></li>
-                                    <li><a class="dropdown-item" asp-controller="AdminGame" asp-action="EditGame" asp-route-id="@item.Id">Edit</a></li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-controller="AdminGame"
+                                           asp-action="DeleteGame"
+                                           asp-route-id="@item.Id"
+                                           asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
+                                           asp-route-actionName="@Model.ActionName"
+                                           asp-route-gameGenreId="@Model.GameGenreId"
+                                           asp-route-searchString="@Model.SearchString">
+                                            Delete
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" 
+                                           asp-controller="AdminGame" 
+                                           asp-action="EditGame" 
+                                           asp-route-id="@item.Id" 
+                                           asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
+                                           asp-route-actionName="@Model.ActionName"
+                                           asp-route-gameGenreId="@Model.GameGenreId"
+                                           asp-route-searchString="@Model.SearchString">
+                                            Edit
+                                        </a>
+                                    </li>
                                 </ul>
 
                             </div>

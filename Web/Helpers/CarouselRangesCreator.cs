@@ -8,28 +8,28 @@ namespace Web.Helpers
 {
 	public class CarouselRangesCreator
 	{
-		public static void CreateCarouselRanges(List<GameDTO> recommendedGames, IndexViewModel indexViewModel)
+		public static void CreateCarouselRanges(List<GameDTO> recommendedGames, GameCardsViewModel viewModel)
 		{
 			List<GameDTO> recommendedGamesFirstRange = new();
-			indexViewModel.recommendedGamesFirstRange = new List<GameDTO>();
+            viewModel.recommendedGamesFirstRange = new List<GameDTO>();
 
 			for (int i = 0; i < recommendedGames.Count; i++)
 			{
 				recommendedGamesFirstRange.Add(recommendedGames[i]);
 			}
 
-			indexViewModel.recommendedGamesFirstRange = recommendedGamesFirstRange.Take(3);
+            viewModel.recommendedGamesFirstRange = recommendedGamesFirstRange.Take(3);
 			recommendedGames.RemoveRange(0, Math.Min(3, recommendedGamesFirstRange.Count));
 
 			List<GameDTO> recommendedGamesSecondRange = new();
-			indexViewModel.recommendedGamesSecondRange = new List<GameDTO>();
+			viewModel.recommendedGamesSecondRange = new List<GameDTO>();
 
 			for (int i = 0; i < recommendedGames.Count; i++)
 			{
 				recommendedGamesSecondRange.Add(recommendedGames[i]);
 			}
 
-			indexViewModel.recommendedGamesSecondRange = recommendedGamesSecondRange.Take(3);
+			viewModel.recommendedGamesSecondRange = recommendedGamesSecondRange.Take(3);
 			recommendedGames.RemoveRange(0, Math.Min(3, recommendedGamesSecondRange.Count));
 		}
 	}

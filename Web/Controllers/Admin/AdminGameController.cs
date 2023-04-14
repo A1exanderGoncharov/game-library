@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Web.ViewModels;
 
 namespace Web.Controllers.Admin
 {
-	[Authorize(Policy = "RequireAdministratorRole")]
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class AdminGameController : Controller
     {
         readonly IGameService _gameService;
@@ -43,32 +44,49 @@ namespace Web.Controllers.Admin
 
 
         [HttpGet]
-        public async Task<IActionResult> EditGame(int id)
+        public async Task<IActionResult> EditGame(int id, int? pageNumber, string actionName, int? gameGenreId, string searchString)
         {
             var game = await _gameService.GetByIdAsync(id);
             var genres = await _genreService.GetAllGenresOrderedByAsync();
 
+            GameToEditViewModel gameToEdit = new()
+            {
+                GameDto = game,
+                PageNumber = pageNumber,
+                ActionName = actionName,
+                GameGenreId = gameGenreId,
+                SearchString = searchString
+            };
+
             ViewBag.genres = genres;
             ViewBag.gameGenres = game.GameGenres;
 
-            return View(game);
+            return View(gameToEdit);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditGame(GameDTO gameDTO, string[] selectedGenres)
+        public async Task<IActionResult> EditGame(GameToEditViewModel model, string[] selectedGenres)
         {
-            await _gameService.UpdateAsync(gameDTO);
-            await _gameService.UpdateGameGenresAsync(gameDTO.Id, selectedGenres);
+            await _gameService.UpdateAsync(model.GameDto);
+            await _gameService.UpdateGameGenresAsync(model.GameDto.Id, selectedGenres);
 
-            return RedirectToAction("Index", "Game");
+            return RedirectToAction(
+                model.ActionName,
+                "Game",
+                new
+                {
+                    pageNumber = model.PageNumber,
+                    gameGenreId = model.GameGenreId,
+                    searchString = model.SearchString
+                });
         }
 
 
-        public async Task<IActionResult> DeleteGame(int id)
+        public async Task<IActionResult> DeleteGame(int id, int? pageNumber, string actionName, int? gameGenreId, string searchString)
         {
             await _gameService.DeleteByIdAsync(id);
-            return RedirectToAction("Index", "Game");
+            return RedirectToAction(actionName, "Game", new { pageNumber, gameGenreId, searchString });
         }
     }
 }

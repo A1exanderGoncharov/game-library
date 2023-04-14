@@ -1,4 +1,5 @@
-﻿@model BLL.DTO.GameDTO
+﻿@*@model BLL.DTO.GameDTO*@
+@model Web.ViewModels.GameToEditViewModel
 
 <h2>Game Editing</h2>
 
@@ -6,24 +7,24 @@
     <div>
         <div asp-validation-summary="ModelOnly"></div>
 
-        @Html.HiddenFor(g => g.Id)
-        @Html.HiddenFor(g => g.ApplicationUserId)
+        @Html.HiddenFor(g => g.GameDto.Id)
+        @Html.HiddenFor(g => g.GameDto.ApplicationUserId)
 
         <div class="mb-3 mt-3">
-            <label asp-for="Name"></label>
-            <input class="form-control" asp-for="Name" placeholder="Enter name">
+            <label asp-for="@Model.GameDto.Name"></label>
+            <input class="form-control" asp-for="@Model.GameDto.Name" placeholder="Enter name">
 
-            <label asp-for="Description"></label>
-            <textarea class="form-control" asp-for="Description" rows="3" placeholder="Enter description"></textarea>
+            <label asp-for="@Model.GameDto.Description"></label>
+            <textarea class="form-control" asp-for="@Model.GameDto.Description" rows="3" placeholder="Enter description"></textarea>
 
-            <label asp-for="HeaderImage">Header Image</label>
-            <input type="url" class="form-control" asp-for="HeaderImage" placeholder="Enter link">
+            <label asp-for="@Model.GameDto.HeaderImage">Header Image</label>
+            <input type="url" class="form-control" asp-for="@Model.GameDto.HeaderImage" placeholder="Enter link">
 
-            <label asp-for="ReleaseDate">Release Date</label>
-            <input type="" class="form-control" asp-for="ReleaseDate" placeholder="Enter release date">
+            <label asp-for="@Model.GameDto.ReleaseDate">Release Date</label>
+            <input type="" class="form-control" asp-for="@Model.GameDto.ReleaseDate" placeholder="Enter release date">
 
-            <label asp-for="Rating"></label>
-            <input class="form-control" asp-for="Rating" placeholder="Enter rating">
+            <label asp-for="@Model.GameDto.Rating"></label>
+            <input class="form-control" asp-for="@Model.GameDto.Rating" placeholder="Enter rating">
 
             <label>Genre(s)</label>
 
@@ -43,7 +44,10 @@
                             }
                         }
 
-                        <input type="checkbox" name="selectedGenres" value="@genreId" @if (isChecked) { <text>checked</text> } />
+                        <input type="checkbox" name="selectedGenres" value="@genreId" @if (isChecked)
+                        {
+                            <text>checked</text>
+                        } />
                         <label class="form-check-label" for="flexCheckDefault">
                             @ViewBag.genres[i].Name
                         </label>
@@ -51,15 +55,21 @@
                 </div>
             </div>
 
-            <label asp-for="Trailer"></label>
-            <input type="url" class="form-control" asp-for="Trailer" placeholder="Enter link">
+            <label asp-for="@Model.GameDto.Trailer"></label>
+            <input type="url" class="form-control" asp-for="@Model.GameDto.Trailer" placeholder="Enter link">
 
-            <label asp-for="Developer"></label>
-            <input class="form-control" asp-for="Developer" placeholder="Enter developer">
+            <label asp-for="@Model.GameDto.Developer"></label>
+            <input class="form-control" asp-for="@Model.GameDto.Developer" placeholder="Enter developer">
         </div>
         <div>
             @*<button type="submit" class="btn btn-warning">Edit</button>*@
-            <button class="btn btn-warning" asp-controller="AdminGame" asp-action="EditGame" formmethod="post" style="width: 70px">Edit</button>
+            <button class="btn btn-warning" asp-controller="AdminGame" asp-action="EditGame" formmethod="post" style="width: 70px"
+                    asp-route-pageNumber="@Model.PageNumber"
+                    asp-route-actionName="@Model.ActionName"
+                    asp-route-gameGenreId="@Model.GameGenreId"
+                    asp-route-searchString="@Model.SearchString">
+                Edit
+            </button>
         </div>
     </div>
 </form>

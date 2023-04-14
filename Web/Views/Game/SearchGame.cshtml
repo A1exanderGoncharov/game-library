@@ -1,4 +1,4 @@
-﻿@model Web.ViewModels.SearchingViewModel
+﻿@model Web.ViewModels.GameCardsViewModel
 
 <head>
 	<title>Game Search</title>
@@ -34,7 +34,12 @@
 		<h2>Search Results for '@ViewBag.searchString'</h2>	
 	}
 
-	@await Html.PartialAsync("~/Views/Game/GameCards.cshtml", Model.PaginatedGames)
+	@{
+		Model.ActionName = "SearchGame";
+		Model.SearchString = ViewBag.searchString;
+	}
+
+	@await Html.PartialAsync("~/Views/Game/GameCards.cshtml", Model)
 
 	@{
 		var prevDisabled = !Model.PaginatedGames.HasPreviousPage ? "disabled" : "";

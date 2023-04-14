@@ -1,4 +1,4 @@
-﻿@model Web.ViewModels.SearchingViewModel
+﻿@model Web.ViewModels.GameCardsViewModel
 
 <head>
     <title>Game Filtering</title>
@@ -33,8 +33,12 @@
     {
         <h2>@ViewBag.gameGenre.Name Games</h2>
     }
+    @{
+        Model.ActionName = "FilterGamesByGenre";
+        Model.GameGenreId = @ViewBag.gameGenreId;
+    }
 
-    @await Html.PartialAsync("~/Views/Game/GameCards.cshtml", Model.PaginatedGames)
+    @await Html.PartialAsync("~/Views/Game/GameCards.cshtml", Model)
 
     @{
         var prevDisabled = !Model.PaginatedGames.HasPreviousPage ? "disabled" : "";

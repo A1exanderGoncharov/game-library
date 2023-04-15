@@ -115,5 +115,13 @@ namespace BLL.Infrastructure
 
             return _mapper.Map<IEnumerable<Collection>, IEnumerable<CollectionDTO>>(userCollectionsByUserId);
         }
+
+        public async Task RemoveGameFromCollectionAsync(UserCollectionDTO userCollectionDTO)
+        {
+            var userCollectionEntity = _mapper.Map<UserCollectionDTO, UserCollection>(userCollectionDTO);
+
+            _unitOfWork.UserCollectionRepository.Delete(userCollectionEntity);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }

@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<BLL.DTO.UserCollectionDTO>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <title>My Collection</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/gameList.css" />
     <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="~/css/buttons.css" />
 </head>
 <body>
     <h2>@Model.Select(uc => uc.Collection.Name).ToArray().FirstOrDefault()</h2>
@@ -25,6 +24,16 @@
                             </a>
                             <p class="card-text">
                             <p style="margin-bottom: 0; margin-top: 7%">Release Date: @item.UserGame.Game.ReleaseDate.ToShortDateString()</p>
+
+                            <form method="post" action="@Url.Action("RemoveGameFromCollection", "Collection")">
+                                <input type="hidden" name="userCollectionDTO.CollectionId" value="@item.CollectionId" />
+                                <input type="hidden" name="userCollectionDTO.UserGameId" value="@item.UserGameId" />
+                                <button type="submit" class="btn btn-warning btn-action btn-remove">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    <span class="remove-text">Remove</span>
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -32,4 +41,3 @@
         </div>
     </div>
 </body>
-</html>

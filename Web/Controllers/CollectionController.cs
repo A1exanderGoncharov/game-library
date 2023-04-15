@@ -87,5 +87,12 @@ namespace Web.Controllers
 
             return RedirectToAction(nameof(IndexCollections));
         }
+
+        public async Task<IActionResult> RemoveGameFromCollection(UserCollectionDTO userCollectionDTO)
+        {
+            await _collectionService.RemoveGameFromCollectionAsync(userCollectionDTO);
+
+            return RedirectToAction("GetGamesByCollectionId", "Game", new { collectionId = userCollectionDTO.CollectionId });
+        }
     }
 }

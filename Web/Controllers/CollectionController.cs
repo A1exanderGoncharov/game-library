@@ -58,7 +58,7 @@ namespace Web.Controllers
             return View(userGames);
         }
 
-        public async Task<IActionResult> AddGamesToCollection(int collectionId, List<string> selectedGames)
+        public async Task<IActionResult> AddGamesToCollection(int collectionId, int[] selectedGames)
         {
             await _collectionService.AddGamesToCollectionAsync(collectionId, selectedGames);
 

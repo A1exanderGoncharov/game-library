@@ -13,8 +13,8 @@ namespace BLL.Infrastructure
 {
     public class CollectionService : ICollectionService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
 
         public CollectionService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -22,13 +22,13 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task AddAsync(CollectionDTO collection)
+        public async Task AddAsync(CollectionDTO collectionDTO)
         {
-            collection.Date = DateOnly.FromDateTime(DateTime.Now);
+            collectionDTO.Date = DateOnly.FromDateTime(DateTime.Now);
 
-            var collectionEntity = _mapper.Map<CollectionDTO, Collection>(collection);
+            var collection = _mapper.Map<CollectionDTO, Collection>(collectionDTO);
 
-            await _unitOfWork.CollectionRepository.InsertAsync(collectionEntity);
+            await _unitOfWork.CollectionRepository.InsertAsync(collection);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -40,11 +40,11 @@ namespace BLL.Infrastructure
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(CollectionDTO collection)
+        public async Task RemoveAsync(CollectionDTO collectionDTO)
         {
-            var collectionEntity = _mapper.Map<CollectionDTO, Collection>(collection);
+            var collection = _mapper.Map<CollectionDTO, Collection>(collectionDTO);
 
-            _unitOfWork.CollectionRepository.Delete(collectionEntity);
+            _unitOfWork.CollectionRepository.Delete(collection);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -62,65 +62,56 @@ namespace BLL.Infrastructure
             return _mapper.Map<Collection, CollectionDTO>(collection);
         }
 
-        public async Task UpdateAsync(CollectionDTO collection)
+        public async Task UpdateAsync(CollectionDTO collectionDTO)
         {
-            var collectionEntity = _mapper.Map<CollectionDTO, Collection>(collection);
-            _unitOfWork.CollectionRepository.Update(collectionEntity);
+            var collection = _mapper.Map<CollectionDTO, Collection>(collectionDTO);
+
+            _unitOfWork.CollectionRepository.Update(collection);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        //public async Task<IEnumerable<CollectionDTO>> Search(string searchString)
-        //{
-        //    var collections = await GetAllAsync();
-
-        //    return collections.Where(g => g.Name.ToUpper().Contains(searchString.ToUpper()));
-        //}
-
-        //public async Task<IEnumerable<CollectionDTO>> FilterByGenre(string collectionGenre)
-        //{
-        //    var collections = await GetAllAsync();
-        //    var result = collections.Where(g => g.Genre != null && g.Genre.ToUpper().Contains(collectionGenre.ToUpper()));
-        //    return result;
-        //}
-
-        public async Task AddGamesToCollectionAsync(int CollectionId, List<string> SelectedGames)
+        public async Task AddGamesToCollectionAsync(int collectionId, int[] selectedGames)
         {
-            var userCollectionGames = _unitOfWork.UserCollectionRepository.GetAllWithIncludes();            
+            var usersCollections = _unitOfWork.UserCollectionRepository.GetAllWithIncludes();
 
-            for (int i = 0; i < SelectedGames.Count; i++)
+            for (int i = 0; i < selectedGames.Length; i++)
             {
-                UserCollectionDTO userCollection = new();
+                int gameId = selectedGames[i];
 
-                userCollection.CollectionId = CollectionId; // Add CollectionID
-
-                int GameId = int.Parse(SelectedGames[i]);
-                userCollection.UserGameId = GameId; // Add UserGameID
-
-                var UserCollectionEntity = _mapper.Map<UserCollectionDTO, UserCollection>(userCollection);
-
-                var duplicateUserGameCheck = userCollectionGames.Where(uc => uc.UserGameId == GameId && uc.CollectionId == CollectionId).FirstOrDefault();
-                if (duplicateUserGameCheck == null)
+                UserCollectionDTO userCollectionDTO = new()
                 {
-                    await _unitOfWork.UserCollectionRepository.InsertAsync(UserCollectionEntity); // Add created collection to DB
+                    CollectionId = collectionId,
+                    UserGameId = gameId
+                };
+
+                var userCollection = _mapper.Map<UserCollectionDTO, UserCollection>(userCollectionDTO);
+
+                bool isGameInUserCollection = usersCollections
+                    .Where(uc => uc.UserGameId == gameId && uc.CollectionId == collectionId)
+                    .Any();
+
+                if (!isGameInUserCollection)
+                {
+                    await _unitOfWork.UserCollectionRepository.InsertAsync(userCollection);
                 }
             }
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string UserId)
+        public async Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string userId)
         {
-            var userCollections = await _unitOfWork.CollectionRepository.GetAllWithIncludes().ToListAsync();
+            var collections = await _unitOfWork.CollectionRepository.GetAllWithIncludes().ToListAsync();
 
-            var userCollectionsByUserId = userCollections.Where(x => x.ApplicationUserId == UserId);
+            var userCollections = collections.Where(x => x.ApplicationUserId == userId);
 
-            return _mapper.Map<IEnumerable<Collection>, IEnumerable<CollectionDTO>>(userCollectionsByUserId);
+            return _mapper.Map<IEnumerable<Collection>, IEnumerable<CollectionDTO>>(userCollections);
         }
 
         public async Task RemoveGameFromCollectionAsync(UserCollectionDTO userCollectionDTO)
         {
-            var userCollectionEntity = _mapper.Map<UserCollectionDTO, UserCollection>(userCollectionDTO);
+            var userCollection = _mapper.Map<UserCollectionDTO, UserCollection>(userCollectionDTO);
 
-            _unitOfWork.UserCollectionRepository.Delete(userCollectionEntity);
+            _unitOfWork.UserCollectionRepository.Delete(userCollection);
             await _unitOfWork.SaveChangesAsync();
         }
     }

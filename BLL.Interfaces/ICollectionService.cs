@@ -7,12 +7,12 @@ namespace BLL.Interfaces
     public interface ICollectionService
     {
         Task<IEnumerable<CollectionDTO>> GetAllAsync();
-        Task AddAsync(CollectionDTO collection);
+        Task AddAsync(CollectionDTO collectionDTO);
         Task DeleteByIdAsync(int id);
         Task<CollectionDTO> GetByIdAsync(int id);
-        Task UpdateAsync(CollectionDTO collection);
-        Task AddGamesToCollectionAsync(int CollectionId, List<string> SelectedGames);
-        Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string UserId);
+        Task UpdateAsync(CollectionDTO collectionDTO);
+        Task AddGamesToCollectionAsync(int collectionId, int[] selectedGames);
+        Task<IEnumerable<CollectionDTO>> GetAllByUserIdAsync(string userId);
         Task RemoveGameFromCollectionAsync(UserCollectionDTO userCollectionDTO);
     }
 }

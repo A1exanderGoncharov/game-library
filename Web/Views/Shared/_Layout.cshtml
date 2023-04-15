@@ -49,10 +49,10 @@
                 @if (User is not null && !User.Identity.IsAuthenticated)
                 {
                     <div style="list-style-type: none">
-                        <a class="btn btn-primary mr-2" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="btn btn-primary btn-sm mr-2" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                     </div>
-                    <div style="list-style-type: none">
-                        <a class="btn btn-success" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    <div style="list-style-type: none; margin-right: 8px;">
+                        <a class="btn btn-success btn-sm" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                     </div>
                 }
                 else

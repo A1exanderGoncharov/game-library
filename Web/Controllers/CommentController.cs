@@ -17,45 +17,21 @@ namespace Web.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public IActionResult CreateComment(int GameId, int? ReplyToCommentId, string NicknameToReply)
-        {
-            return View();
-        }
-
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateComment(int? ReplyToCommentId, int GameId, string NicknameToReply, string Content)
+        public async Task<IActionResult> CreateComment(int? replyToCommentId, int gameId, string nicknameToReply, string content)
         {
-            CommentDTO commentDTO = new();
-
-            if (ReplyToCommentId != null)
+            CommentDTO commentDTO = new()
             {
-                commentDTO.ReplyToCommentId = ReplyToCommentId;
-                commentDTO.NicknameToReply = NicknameToReply;
-            }
-
-            commentDTO.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            commentDTO.GameId = GameId;
-            commentDTO.NicknameToReply = NicknameToReply;
-            commentDTO.Content = Content;
+                ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                GameId = gameId,
+                NicknameToReply = nicknameToReply,
+                Content = content,
+                ReplyToCommentId = replyToCommentId
+            };
 
             await _commentService.AddAsync(commentDTO);
-            return RedirectToAction("GameDetails", "Game", new { id = GameId });
-        }
 
-        [Authorize]
-        public IActionResult ReplyToParentComment(int Id, int GameId, string Nickname)
-        {
-            int ReplyToCommentId = Id;
-
-            return RedirectToAction(nameof(CreateComment), new { ReplyToCommentId, GameId, NicknameToReply = Nickname });
-        }
-
-        [Authorize]
-        public IActionResult ReplyToChildComment(int ReplyToCommentId, int GameId, string Nickname)
-        {
-            return RedirectToAction(nameof(CreateComment), new { ReplyToCommentId, GameId, NicknameToReply = Nickname });
+            return RedirectToAction("GameDetails", "Game", new { id = gameId });
         }
 
         [Authorize]

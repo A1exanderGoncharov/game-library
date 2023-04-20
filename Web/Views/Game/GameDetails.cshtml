@@ -9,7 +9,9 @@
 </head>
 
 <div class="card">
+
     <h5 class="card-header">@Html.DisplayFor(g => g.Name)</h5>
+
     <div class="card-body">
 
         <img class="info-table img" src="@Model.HeaderImage">
@@ -41,24 +43,34 @@
             <tr>
                 <td>
                     <form class="input-group mb-3" style="top:62px" asp-action="RateGame" asp-route-gameId="@Model.Id">
+
                         <div style="background-color: #e9ecef"
                              class="input-group-prepend">
                             <button style="border-color: #d8dde1" class="btn btn-outline-secondary @ratingInputDisabled" type="submit">&#11088;</button>
                         </div>
+
                         <input style="max-width:73px" type="number" min="1" max="5" class="form-control @ratingInputDisabled" placeholder="rate" aria-label="" name="ratingScore" aria-describedby="basic-addon1" required @ratingInputDisabled>
+
                     </form>
                 </td>
             </tr>
         </table>
 
         <div class="game-description">
+
             <h4 style="margin-bottom: 2%;">Description:</h4>
             <p>@Html.DisplayFor(g => g.Description)</p>
+
         </div>
 
         <div class="trailer">
+
             <h4 style="margin-bottom: 2%;">Trailer:</h4>
-            <p align="center"><iframe width="560" height="315" src="@Model.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+
+            <p align="center">
+                <iframe width="560" height="315" src="@Model.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </p>
+
         </div>
     </div>
 
@@ -68,11 +80,15 @@
 {
     <form asp-controller="Comment" asp-action="CreateComment" method="post" asp-antiforgery="true">
         <div class="mb-3">
+
             <input name="GameId" type="hidden" value="@Model.Id" />
+
             <textarea class="form-control" name="Content" placeholder="Write a comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+
             <div>
                 <input class="btn btn-success" type="submit" value="Send" />
             </div>
+
         </div>
     </form>
 }
@@ -85,29 +101,75 @@ else
 
 <div class="comments-container">
     <ul id="comments-list" class="comments-list">
-        @foreach (var item in Model.Comments)
+
+        @foreach (var item in Model.Comments.Where(c => c.ReplyToCommentId is null))
         {
             <li>
                 @if (item.ReplyToCommentId == null)
                 {
                     <div class="comment-main-level">
-                        <div class="comment-avatar"><img src="https://i.ibb.co/7CdvBXQ/default-user-image.png" alt="default-user-image" border="0"></div>
+
+                        <div class="comment-avatar"><img src="https://i.ibb.co/MZZK62V/default-user-img.png" alt="user-image"></div>
+
                         <div class="comment-box">
                             <div class="comment-head">
+
                                 <h6 class="comment-name by-author"><a href="">@item.ApplicationUser.Nickname</a></h6>
+
                                 <span>@item.Date.ToString("dd.MM.yyyy, HH:mm")</span>
+
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <div class="comment-btn-link">
-                                        <a Class="btn btn-link" asp-controller="Comment" asp-action="ReplyToParentComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId" asp-route-nickname="@item.ApplicationUser.Nickname">Reply</a>
+
+                                        <a Class="btn btn-link action-comment-btn" href="#" data-bs-toggle="modal" data-bs-target="#reply-window-@item.Id">Reply</a>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="reply-window-@item.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reply-window-@item.Id-label" aria-hidden="true">
+
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+
+                                                        <h5 class="modal-title" id="reply-window-@item.Id-label">
+                                                            Reply to @@@item.ApplicationUser.Nickname
+                                                        </h5>
+
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                                    </div>
+
+                                                    <form asp-controller="Comment" asp-action="CreateComment" method="post" asp-antiforgery="true">
+
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+
+                                                                <input name="nicknameToReply" type="hidden" value="@item.ApplicationUser.Nickname" />
+                                                                <input name="gameId" type="hidden" value="@item.GameId" />
+                                                                <input name="replyToCommentId" type="hidden" value="@item.Id" />
+
+                                                                <textarea class="form-control" name="Content" placeholder="Write a reply" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <input class="btn btn-primary" type="submit" value="Reply" />
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         @if (item.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                                         {
-                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
+                                            <a Class="btn btn-link action-comment-btn" asp-controller="Comment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
                                             @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
                                         }
                                         else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
                                         {
-                                            <a Class="btn btn-link" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
+                                            <a Class="btn btn-link action-comment-btn" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
                                             @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
                                         }
                                     </div>
@@ -120,35 +182,84 @@ else
                     </div>
                 }
 
-                @foreach (var reply in item.Replies)
+                @foreach (var reply in item.Replies.OrderBy(r => r.Date))
                 {
                     <ul class="comments-list reply-list">
                         <li>
-                            <div class="comment-avatar"><img src="https://i.ibb.co/7CdvBXQ/default-user-image.png" alt=""></div>
+                            <div class="comment-avatar"><img src="https://i.ibb.co/MZZK62V/default-user-img.png" alt="user-image"></div>
+
                             <div class="comment-box">
                                 <div class="comment-head">
+
                                     <h6 class="comment-name"><a href="">@reply.ApplicationUser.Nickname</a></h6>
+
                                     <span>@reply.Date.ToString("dd.MM.yyyy, HH:mm")</span>
+
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <div class="comment-btn-link">
-                                            <a Class="btn btn-link" asp-controller="Comment" asp-action="ReplyToChildComment" asp-route-replyToCommentId="@reply.ReplyToCommentId" asp-route-gameId="@reply.GameId" , asp-route-nickname="@reply.ApplicationUser.Nickname">Reply</a>
+
+                                            <a Class="btn btn-link action-comment-btn" href="#" data-bs-toggle="modal" data-bs-target="#reply-to-child-window-@reply.Id">Reply</a>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="reply-to-child-window-@reply.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reply-to-child-window-@reply.Id-label" aria-hidden="true">
+
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+
+                                                            <h5 class="modal-title" id="reply-to-child-window-@reply.Id-label">
+                                                                Reply to @@@reply.ApplicationUser.Nickname
+                                                            </h5>
+
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                                        </div>
+
+                                                        <form asp-controller="Comment" asp-action="CreateComment" method="post" asp-antiforgery="true">
+
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+
+                                                                    <input name="nicknameToReply" type="hidden" value="@reply.ApplicationUser.Nickname" />
+                                                                    <input name="gameId" type="hidden" value="@reply.GameId" />
+                                                                    <input name="replyToCommentId" type="hidden" value="@item.Id" />
+
+                                                                    <textarea class="form-control" name="Content" placeholder="Write a reply" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <input class="btn btn-primary" type="submit" value="Relpy" />
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             @if (reply.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                                             {
-                                                <a Class="btn btn-link" disabled asp-controller="Comment" asp-action="EditComment" asp-route-id="@reply.Id">Edit</a>
+                                                <a Class="btn btn-link action-comment-btn" disabled asp-controller="Comment" asp-action="EditComment" asp-route-id="@reply.Id">Edit</a>
                                                 @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
                                             }
                                             else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
                                             {
-                                                <a Class="btn btn-link" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@reply.Id">Edit</a>
+                                                <a Class="btn btn-link action-comment-btn" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@reply.Id">Edit</a>
                                                 @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
                                             }
+
                                         </div>
                                     }
                                 </div>
+
                                 <div class="comment-content">
-                                    <p><a href="">@@@reply.NicknameToReply</a> @reply.Content</p>
+                                    <p>
+                                        <a href="">@@@reply.NicknameToReply</a> @reply.Content
+                                    </p>
                                 </div>
+
                             </div>
                         </li>
                     </ul>

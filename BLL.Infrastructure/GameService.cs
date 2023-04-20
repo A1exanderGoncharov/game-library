@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Infrastructure.Exceptions;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -56,7 +57,8 @@ namespace BLL.Infrastructure
 
         public async Task<GameDTO> GetByIdAsync(int id)
         {
-            var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(id);
+            var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(id) 
+                ?? throw new ElementNotFoundException(nameof(Game), id); 
 
             return _mapper.Map<Game, GameDTO>(game);
         }
@@ -173,7 +175,8 @@ namespace BLL.Infrastructure
 
         public async Task UpdateGameGenresAsync(int gameId, string[] selectedGenres)
         {
-            var gameEntity = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(gameId);
+            var gameEntity = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(gameId)
+                ?? throw new ElementNotFoundException(nameof(Game), gameId);
 
             foreach (var gameGenre in gameEntity.GameGenres)
             {

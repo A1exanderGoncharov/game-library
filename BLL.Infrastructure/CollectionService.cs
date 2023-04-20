@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Infrastructure.Exceptions;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -57,7 +58,8 @@ namespace BLL.Infrastructure
 
         public async Task<CollectionDTO> GetByIdAsync(int id)
         {
-            var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(id);
+            var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(id)
+                ?? throw new ElementNotFoundException(nameof(Collection), id);
 
             return _mapper.Map<Collection, CollectionDTO>(collection);
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Infrastructure.Exceptions;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -45,7 +46,8 @@ namespace BLL.Infrastructure
 
         public async Task<GenreDTO> GetByIdAsync(int id)
         {
-            var genre = await _unitOfWork.GenreRepository.GetByIdAsync(id);
+            var genre = await _unitOfWork.GenreRepository.GetByIdAsync(id)
+                ?? throw new ElementNotFoundException(nameof(Genre), id);
 
             return _mapper.Map<Genre, GenreDTO>(genre);
         }

@@ -24,11 +24,11 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task AddAsync(GameDTO game)
+        public async Task AddAsync(GameDTO gameDTO)
         {
-            var gameEntity = _mapper.Map<GameDTO, Game>(game);
+            var game = _mapper.Map<GameDTO, Game>(gameDTO);
 
-            await _unitOfWork.GameRepository.InsertAsync(gameEntity);
+            await _unitOfWork.GameRepository.InsertAsync(game);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -40,11 +40,11 @@ namespace BLL.Infrastructure
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(GameDTO game)
+        public async Task RemoveAsync(GameDTO gameDTO)
         {
-            var gameEntity = _mapper.Map<GameDTO, Game>(game);
+            var game = _mapper.Map<GameDTO, Game>(gameDTO);
 
-            _unitOfWork.GameRepository.Delete(gameEntity);
+            _unitOfWork.GameRepository.Delete(game);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -63,10 +63,11 @@ namespace BLL.Infrastructure
             return _mapper.Map<Game, GameDTO>(game);
         }
 
-        public async Task UpdateAsync(GameDTO game)
+        public async Task UpdateAsync(GameDTO gameDTO)
         {
-            var gameEntity = _mapper.Map<GameDTO, Game>(game);
-            _unitOfWork.GameRepository.Update(gameEntity);
+            var game = _mapper.Map<GameDTO, Game>(gameDTO);
+
+            _unitOfWork.GameRepository.Update(game);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -77,77 +78,79 @@ namespace BLL.Infrastructure
             return games.Where(g => g.Name.ToUpper().Contains(searchString.ToUpper()));
         }
 
-        public async Task<IEnumerable<GameDTO>> FilterByGenreAsync(int gameGenre)
+        public async Task<IEnumerable<GameDTO>> FilterByGenreAsync(int gameGenreId)
         {
-            var gameGenresEntities = await _unitOfWork.GameGenresRepository.GetAllAsync();
-            var gameGenresDTO = _mapper.Map<IEnumerable<GameGenre>, IEnumerable<GameGenreDTO>>(gameGenresEntities);
-            ICollection<GameDTO> games = new List<GameDTO>();
+            var gameGenres = await _unitOfWork.GameGenresRepository.GetAllAsync();
+            var gameGenresDTO = _mapper.Map<IEnumerable<GameGenre>, IEnumerable<GameGenreDTO>>(gameGenres);
 
-            var result = gameGenresDTO.Where(x => x.GenreId == gameGenre);
+            ICollection<GameDTO> gamesDTO = new List<GameDTO>();
 
-            foreach (var item in result)
+            var result = gameGenresDTO.Where(x => x.GenreId == gameGenreId);
+
+            foreach (var gameGenreDTO in result)
             {
-                var game = GetByIdAsync(item.GameId).Result;
-                games.Add(game);
+                var game = await GetByIdAsync(gameGenreDTO.GameId);
+                gamesDTO.Add(game);
             }
-            return games;
+            return gamesDTO;
         }
 
-        public async Task AddGameWithGenreAsync(GameDTO game, string[] selectedGenres)
+        public async Task AddGameWithGenreAsync(GameDTO gameDTO, string[] selectedGenres)
         {
-            var gameEntity = _mapper.Map<GameDTO, Game>(game);
+            var game = _mapper.Map<GameDTO, Game>(gameDTO);
 
-            await _unitOfWork.GameRepository.InsertAsync(gameEntity);
+            await _unitOfWork.GameRepository.InsertAsync(game);
             await _unitOfWork.SaveChangesAsync();
 
             for (int i = 0; i < selectedGenres.Length; i++)
             {
-                int GenreId = int.Parse(selectedGenres[i]);
-                await AddGenreToGameAsync(gameEntity.Id, GenreId);
+                int genreId = int.Parse(selectedGenres[i]);
+                await AddGenreToGameAsync(game.Id, genreId);
             }
 
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task AddGenreToGameAsync(int GameId, int GenreId)
+        public async Task AddGenreToGameAsync(int gameId, int genreId)
         {
-            GameGenreDTO gameGenre = new()
+            GameGenreDTO gameGenreDTO = new()
             {
-                GameId = GameId,
-                GenreId = GenreId
+                GameId = gameId,
+                GenreId = genreId
             };
 
-            var gameGenreEntity = _mapper.Map<GameGenreDTO, GameGenre>(gameGenre);
-            await _unitOfWork.GameGenresRepository.InsertAsync(gameGenreEntity);
+            var gameGenre = _mapper.Map<GameGenreDTO, GameGenre>(gameGenreDTO);
+            await _unitOfWork.GameGenresRepository.InsertAsync(gameGenre);
         }
 
-        public async Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionIdAsync(int CollectionId)
+        public async Task<IEnumerable<UserCollectionDTO>> GetGamesByCollectionIdAsync(int collectionId)
         {
-            var userCollectionsEntities = await _unitOfWork.UserCollectionRepository.GetAllWithIncludes().ToListAsync();
-            var userCollectionGames = userCollectionsEntities.Where(g => g.CollectionId == CollectionId).ToList();
+            var userCollections = await _unitOfWork.UserCollectionRepository.GetAllWithIncludes().ToListAsync();
+
+            var userCollectionGames = userCollections.Where(g => g.CollectionId == collectionId).ToList();
 
             return _mapper.Map<IEnumerable<UserCollection>, IEnumerable<UserCollectionDTO>>(userCollectionGames);
         }
 
-        public async Task AddRatingToGameAsync(string userId, int gameId, int rating)
+        public async Task AddRatingToGameAsync(string userId, int gameId, int ratingScore)
         {
-            if (rating < 1 || rating > 5)
+            if (ratingScore < 1 || ratingScore > 5)
             {
-                throw new ArgumentOutOfRangeException(nameof(rating));
+                throw new ArgumentOutOfRangeException(nameof(ratingScore));
             }
 
             bool isRatingExist = await HasUserRatedGame(gameId, userId);
 
             if (!isRatingExist)
             {
-                RatingDTO ratingDto = new()
+                RatingDTO ratingDTO = new()
                 {
                     ApplicationUserId = userId,
                     GameId = gameId,
-                    GameRating = rating
+                    GameRating = ratingScore
                 };
 
-                await _unitOfWork.RatingRepository.InsertAsync(_mapper.Map<RatingDTO, Rating>(ratingDto));
+                await _unitOfWork.RatingRepository.InsertAsync(_mapper.Map<RatingDTO, Rating>(ratingDTO));
                 await _unitOfWork.SaveChangesAsync();
             }
         }
@@ -175,19 +178,19 @@ namespace BLL.Infrastructure
 
         public async Task UpdateGameGenresAsync(int gameId, string[] selectedGenres)
         {
-            var gameEntity = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(gameId)
+            var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(gameId)
                 ?? throw new ElementNotFoundException(nameof(Game), gameId);
 
-            foreach (var gameGenre in gameEntity.GameGenres)
+            foreach (var gameGenre in game.GameGenres)
             {
                 _unitOfWork.GameGenresRepository.Delete(gameGenre);
             }
 
             foreach (string selectedGenre in selectedGenres)
             {
-                int GenreId = int.Parse(selectedGenre);
+                int genreId = int.Parse(selectedGenre);
 
-                await AddGenreToGameAsync(gameEntity.Id, GenreId);
+                await AddGenreToGameAsync(game.Id, genreId);
             }
 
             await _unitOfWork.SaveChangesAsync();
@@ -195,27 +198,19 @@ namespace BLL.Infrastructure
 
         public async Task<bool> HasUserRatedGame(int gameId, string userId)
         {
-            var gameEntity = await _unitOfWork.GameRepository.GetByIdAsync(gameId);
+            var game = await _unitOfWork.GameRepository.GetByIdAsync(gameId);
 
-            if (gameEntity.Ratings == null)
+            if (game.Ratings == null)
             {
                 return false;
             }
 
-            var hasUserRated = gameEntity.Ratings
+            var hasUserRated = game.Ratings
                 .Where(r => r.ApplicationUserId == userId && r.GameId == gameId)
                 .Any();
 
             return hasUserRated;
         }
 
-        //public IEnumerable<GameDTO> GetTopGames()
-        //{
-        //    var games = _unitOfWork.RatingRepository.GetAllAsync().Result;
-        //    var gamesDTO = _mapper.Map<IEnumerable<Rating>, IEnumerable<RatingDTO>>(games);
-        //    gamesDTO.GroupBy(x => x.GameId).Average(x => x.));
-
-        //    return gamesDTO;
-        //}
     }
 }

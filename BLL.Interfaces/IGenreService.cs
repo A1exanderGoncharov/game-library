@@ -8,9 +8,9 @@ namespace BLL.Interfaces
     {
         Task<IEnumerable<GenreDTO>> GetAllAsync();
         Task<IEnumerable<GenreDTO>> GetAllGenresOrderedByAsync();
-        Task AddAsync(GenreDTO genre);
+        Task AddAsync(GenreDTO genreDTO);
         Task DeleteByIdAsync(int id);
         Task<GenreDTO> GetByIdAsync(int id);
-        Task UpdateAsync(GenreDTO genre);
+        Task UpdateAsync(GenreDTO genreDTO);
     }
 }

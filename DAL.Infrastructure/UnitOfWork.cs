@@ -8,7 +8,7 @@ namespace DAL.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        GameLibraryDbContext _context;
+        readonly GameLibraryDbContext _context;
 
         public UnitOfWork(GameLibraryDbContext context,
                           UserManager<ApplicationUser> userManager,

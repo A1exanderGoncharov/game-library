@@ -13,8 +13,8 @@ namespace BLL.Infrastructure
 {
     public class UserGameLibraryService : IUserGameLibraryService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
 
         public UserGameLibraryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -22,78 +22,84 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task AddAsync(UserGameDTO userGameLibrary)
+        public async Task AddAsync(UserGameDTO userGameDTO)
         {
-            var userGameLibraryEntity = _mapper.Map<UserGameDTO, UserGame>(userGameLibrary);
+            var userGame = _mapper.Map<UserGameDTO, UserGame>(userGameDTO);
 
-            await _unitOfWork.UserGameLibraryRepository.InsertAsync(userGameLibraryEntity);
+            await _unitOfWork.UserGameLibraryRepository.InsertAsync(userGame);
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task DeleteByIdAsync(int id)
         {
-            var userGameLibrary = await _unitOfWork.UserGameLibraryRepository.GetByIdAsync(id);
+            var userGame = await _unitOfWork.UserGameLibraryRepository.GetByIdAsync(id);
 
-            _unitOfWork.UserGameLibraryRepository.Delete(userGameLibrary);
+            _unitOfWork.UserGameLibraryRepository.Delete(userGame);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(UserGameDTO userGameLibrary)
+        public async Task RemoveAsync(UserGameDTO userGameDTO)
         {
-            var userGameLibraryEntity = _mapper.Map<UserGameDTO, UserGame>(userGameLibrary);
+            var userGame = _mapper.Map<UserGameDTO, UserGame>(userGameDTO);
 
-            _unitOfWork.UserGameLibraryRepository.Delete(userGameLibraryEntity);
+            _unitOfWork.UserGameLibraryRepository.Delete(userGame);
             await _unitOfWork.SaveChangesAsync();
         }
-
+        
         public async Task<IEnumerable<UserGameDTO>> GetAllAsync()
         {
-            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllWithIncludes().ToListAsync();
+            var usersGames = await _unitOfWork.UserGameLibraryRepository.GetAllWithIncludes().ToListAsync();
 
-            return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(userGameLibraries);
+            return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(usersGames);
         }
 
         public async Task<IEnumerable<UserGameDTO>> GetAllByUserIdAsync(string id)
         {
-            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository.GetAllWithIncludes(ugl => ugl.ApplicationUserId == id).ToListAsync();
+            var userGameLibraries = await _unitOfWork.UserGameLibraryRepository
+                .GetAllWithIncludes(ug => ug.ApplicationUserId == id).ToListAsync();
 
             return _mapper.Map<IEnumerable<UserGame>, IEnumerable<UserGameDTO>>(userGameLibraries);
         }
 
         public async Task<UserGameDTO> GetByIdAsync(int id)
         {
-            var userGameLibrary = await _unitOfWork.UserGameLibraryRepository.GetByIdAsync(id)
+            var userGame = await _unitOfWork.UserGameLibraryRepository.GetByIdAsync(id)
                 ?? throw new ElementNotFoundException(nameof(UserGame), id);
 
-            return _mapper.Map<UserGame, UserGameDTO>(userGameLibrary);
+            return _mapper.Map<UserGame, UserGameDTO>(userGame);
         }
 
-        public async Task UpdateAsync(UserGameDTO userGameLibrary)
+        public async Task UpdateAsync(UserGameDTO userGameDTO)
         {
-            var userGameLibraryEntity = _mapper.Map<UserGameDTO, UserGame>(userGameLibrary);
-            _unitOfWork.UserGameLibraryRepository.Update(userGameLibraryEntity);
+            var userGame = _mapper.Map<UserGameDTO, UserGame>(userGameDTO);
+
+            _unitOfWork.UserGameLibraryRepository.Update(userGame);
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task AddGameToUserLibraryAsync(int gameId, string userId)
         {
-            var userGames = await GetAllByUserIdAsync(userId);
-            var gameCheck = userGames.Where(g => g.GameId.Equals(gameId)).FirstOrDefault();
+            var userGamesDTO = await GetAllByUserIdAsync(userId);
 
-            if (gameCheck == null)
+            bool isGameInUserLibrary = userGamesDTO.Any(g => g.GameId.Equals(gameId));
+
+            if (!isGameInUserLibrary)
             {
-                UserGameDTO userGameLibrary = new();
-                userGameLibrary.GameId = gameId;
-                userGameLibrary.ApplicationUserId = userId;
-                await AddAsync(userGameLibrary);
+                UserGameDTO userGameDTO = new()
+                {
+                    GameId = gameId,
+                    ApplicationUserId = userId
+                };
+                await AddAsync(userGameDTO);
             }
         }
 
         public async Task IsGamePassedAsync(int id, bool isPassed)
         {
-            UserGameDTO userGame = await GetByIdAsync(id);
-            userGame.IsPassed = isPassed;
-            await UpdateAsync(userGame);
+            UserGameDTO userGameDTO = await GetByIdAsync(id);
+            userGameDTO.IsPassed = isPassed;
+
+            await UpdateAsync(userGameDTO);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Web.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Game");
             }
             else
             {
@@ -89,7 +89,7 @@ namespace Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _service.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Game");
         }
 
         public IActionResult AccessDenied()

@@ -12,8 +12,8 @@ namespace BLL.Infrastructure
 {
     public class CommentService : ICommentService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
 
         public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -21,12 +21,12 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task AddAsync(CommentDTO comment)
+        public async Task AddAsync(CommentDTO commentDTO)
         {
-            var commentEntity = _mapper.Map<CommentDTO, Comment>(comment);
-            commentEntity.Date = DateTime.Now;
+            commentDTO.Date = DateTime.Now;
+            var comment = _mapper.Map<CommentDTO, Comment>(commentDTO);
 
-            await _unitOfWork.CommentRepository.InsertAsync(commentEntity);
+            await _unitOfWork.CommentRepository.InsertAsync(comment);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -34,18 +34,15 @@ namespace BLL.Infrastructure
         {
             var comment = await _unitOfWork.CommentRepository.GetByIdAsync(id);
 
-            //var comments = await _unitOfWork.CommentRepository.DbsetWithProperties().ToListAsync();
-            //var comment = comments.FirstOrDefault(c => c.Id == id);
-
             _unitOfWork.CommentRepository.Delete(comment);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(CommentDTO comment)
+        public async Task RemoveAsync(CommentDTO commentDTO)
         {
-            var commentEntity = _mapper.Map<CommentDTO, Comment>(comment);
+            var comment = _mapper.Map<CommentDTO, Comment>(commentDTO);
 
-            _unitOfWork.CommentRepository.Delete(commentEntity);
+            _unitOfWork.CommentRepository.Delete(comment);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -64,10 +61,11 @@ namespace BLL.Infrastructure
             return _mapper.Map<Comment, CommentDTO>(comment);
         }
 
-        public async Task UpdateAsync(CommentDTO comment)
+        public async Task UpdateAsync(CommentDTO commentDTO)
         {
-            var commentEntity = _mapper.Map<CommentDTO, Comment>(comment);
-            _unitOfWork.CommentRepository.Update(commentEntity);
+            var comment = _mapper.Map<CommentDTO, Comment>(commentDTO);
+
+            _unitOfWork.CommentRepository.Update(comment);
             await _unitOfWork.SaveChangesAsync();
         }
     }

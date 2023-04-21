@@ -12,8 +12,8 @@ namespace BLL.Infrastructure
 {
     public class GenreService : IGenreService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
 
         public GenreService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -21,11 +21,11 @@ namespace BLL.Infrastructure
             _mapper = mapper;
         }
 
-        public async Task AddAsync(GenreDTO genre)
+        public async Task AddAsync(GenreDTO genreDTO)
         {
-            var genreEntity = _mapper.Map<GenreDTO, Genre>(genre);
+            var genre = _mapper.Map<GenreDTO, Genre>(genreDTO);
 
-            await _unitOfWork.GenreRepository.InsertAsync(genreEntity);
+            await _unitOfWork.GenreRepository.InsertAsync(genre);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -52,10 +52,11 @@ namespace BLL.Infrastructure
             return _mapper.Map<Genre, GenreDTO>(genre);
         }
 
-        public async Task UpdateAsync(GenreDTO genre)
+        public async Task UpdateAsync(GenreDTO genreDTO)
         {
-            var genreEntity = _mapper.Map<GenreDTO, Genre>(genre);
-            _unitOfWork.GenreRepository.Update(genreEntity);
+            var genre = _mapper.Map<GenreDTO, Genre>(genreDTO);
+
+            _unitOfWork.GenreRepository.Update(genre);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -63,7 +64,7 @@ namespace BLL.Infrastructure
         {
             var genres = await _unitOfWork.GenreRepository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDTO>>(genres).OrderBy(x => x.Name).ToList();
+            return _mapper.Map<IEnumerable<Genre>, IEnumerable<GenreDTO>>(genres).OrderBy(g => g.Name).ToList();
         }
     }
 }

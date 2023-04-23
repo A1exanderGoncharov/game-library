@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -49,7 +50,11 @@ namespace Web.Controllers
 
             if (commentDTOToEdit.ApplicationUserId != currentUserId)
             {
-                return View("../Account/AccessDenied");
+
+                return View("../Shared/ErrorPage", new ErrorDetails() { 
+                    StatusCode = 403, 
+                    Message = "You... you can't have that." 
+                });
             }
 
             return View(commentDTOToEdit);
@@ -66,7 +71,11 @@ namespace Web.Controllers
                 await _commentService.UpdateAsync(commentDTO);
                 return RedirectToAction("GameDetails", "Game", new { id = commentDTO.GameId });
             }
-            return View("../Account/AccessDenied");
+            return View("../Shared/ErrorPage", new ErrorDetails()
+            {
+                StatusCode = 403,
+                Message = "You... you can't have that."
+            });
         }
 
         [Authorize]

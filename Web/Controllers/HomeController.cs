@@ -29,5 +29,16 @@ namespace Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult ErrorPage(int statusCode, string message)
+        {
+            ErrorDetails errorDetails = new()
+            {
+                StatusCode = statusCode,
+                Message = message
+            };
+
+            return View("../Shared/ErrorPage", errorDetails);
+        }
     }
 }

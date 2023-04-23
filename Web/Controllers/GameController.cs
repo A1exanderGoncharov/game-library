@@ -125,14 +125,7 @@ namespace Web.Controllers
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            try
-            {
-                await _gameService.AddRatingToGameAsync(currentUserId, gameId, ratingScore);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                RedirectToAction(nameof(GameDetails), new { id = gameId });
-            }
+            await _gameService.AddRatingToGameAsync(currentUserId, gameId, ratingScore);
 
             return RedirectToAction(nameof(GameDetails), new { id = gameId });
         }

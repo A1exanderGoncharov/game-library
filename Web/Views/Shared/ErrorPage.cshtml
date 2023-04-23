@@ -1,12 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Access Denied";
-}
-
-<div class="access-denied-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 78vh;">
-    <h1 class="access-denied-header">403</h1>
-    <p class="access-denied-text">You... you can't have that.</p>
-</div>
-
+﻿@model ErrorDetails
 
 <style>
     .access-denied-container {
@@ -14,8 +6,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        font-family:'Microsoft JhengHei UI' ;
+        height: 78vh;
+        font-family: 'Microsoft JhengHei UI';
     }
 
     .access-denied-header {
@@ -24,7 +16,6 @@
         margin-bottom: 15px;
         text-align: center;
         color: #238fa0;
-        /*color: #dc3545;*/
     }
 
     .access-denied-text {
@@ -34,3 +25,15 @@
         color: #333;
     }
 </style>
+
+<div class="access-denied-container">
+
+    <h1 class="access-denied-header">@Model.StatusCode</h1>
+
+    <p class="access-denied-text">@Model.Message</p>
+
+    <a class="btn btn-outline-dark" asp-controller="Game" asp-action="Index">
+        Return to Game Library
+    </a>
+
+</div>

@@ -67,7 +67,7 @@
                         }
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id">
+                            <a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" asp-route-id="@item.Id" asp-route-pageNumber="@Model.PaginatedGames.PageIndex">
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 <span class="add-text">Add</span>
                             </a>

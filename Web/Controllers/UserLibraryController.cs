@@ -25,12 +25,12 @@ namespace Web.Controllers
             return View(userLibrary);
         }
 
-        public async Task<IActionResult> AddGameToUserLibrary(int id, int? pageNumber)
+        public async Task<IActionResult> AddGameToUserLibrary(int id, int? pageNumber, string actionName, string searchString, int? gameGenreId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _userGameLibraryService.AddGameToUserLibraryAsync(id, userId);
 
-            return RedirectToAction("Index", "Game", new { pageNumber });
+            return RedirectToAction(actionName, "Game", new { pageNumber, searchString, gameGenreId});
         }
 
         public async Task<IActionResult> IsGamePassed(int id, bool isPassed)

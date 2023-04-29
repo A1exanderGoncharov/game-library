@@ -54,8 +54,3 @@
 .forbidden {
     text-align: center;
 }
-
-.modal-open {
-    overflow: auto;
-    padding-right: 0px !important;
-}

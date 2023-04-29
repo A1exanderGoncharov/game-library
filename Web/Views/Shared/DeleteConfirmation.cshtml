@@ -1,0 +1,22 @@
+﻿@model DeleteConfirmationViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="confirm-delete-@Model.Id" tabindex="-1" aria-labelledby="confirm-delete-@Model.Id-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="confirm-delete-@Model.Id-label">Delete Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete "@Model.Name"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-controller="@Model.ControllerName" asp-action="@Model.ActionName" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

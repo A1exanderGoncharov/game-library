@@ -2,6 +2,7 @@
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/site.css" />
 </head>
 
 <table class="table table-striped">
@@ -20,17 +21,20 @@
                 <td>@item.Description</td>
                 <td style="vertical-align: middle;">
                     <div class="GenreActions" style="text-align: right">
-                        @*<a class="btn btn-outline-danger" asp-action="EditGenre" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-outline-danger" asp-action="DeleteGenre" asp-route-id="@item.Id">Delete</a>*@
+                        @*<a class="btn btn-outline-danger" asp-action="EditGenre" asp-route-id="@item.Id">Edit</a>*@
+                        @*<a class="btn btn-outline-danger" asp-action="DeleteGenre" asp-route-id="@item.Id">Delete</a>*@
 
                         <a class="btn btn-warning rounded-1" type="button" data-toggle="tooltip" data-placement="top" title="Edit" style="height: 35px; width: 35px; padding: 0; margin-right: 4px;" asp-action="EditGenre" asp-route-id="@item.Id">
                             <i class="fa-solid fa-pencil" style="font-size: 15px; line-height: 35px;"></i>
                         </a>
 
-                        <a class="btn btn-danger rounded-1" type="button" data-toggle="tooltip" data-placement="top" title="Edit" style="height: 35px; width: 35px; padding: 0;" asp-action="DeleteGenre" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-danger rounded-1" data-bs-toggle="modal" data-bs-target="#confirm-delete-@item.Id" style="height: 35px; width: 35px; padding: 0;">
                             <i class="fa-regular fa-trash-can" style="font-size: 15px; line-height: 35px;"></i>
-                        </a>
+                        </button>
                     </div>
+
+                    @await Html.PartialAsync("~/Views/Shared/DeleteConfirmation.cshtml", new DeleteConfirmationViewModel(item.Id, item.Name, "AdminGenre", "DeleteGenre"))
+
                 </td>
             </tr>
         }

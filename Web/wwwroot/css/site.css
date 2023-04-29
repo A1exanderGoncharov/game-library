@@ -91,3 +91,8 @@ html {
 .container {
     width: 71.25rem;
 }
+
+.modal-open {
+    overflow: auto;
+    padding-right: 0px !important;
+}

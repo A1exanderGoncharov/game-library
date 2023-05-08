@@ -13,18 +13,12 @@
         <div class="row">
             @foreach (var item in Model)
             {
-                <div class="col-sm-3">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="card @*border-0*@">
-                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.UserGame.Game.Id">
-                            <img class="card-img-top" src="@item.UserGame.Game.HeaderImage" alt="Card image" style="width:100%">
-                        </a>
-                        <div class="card-body">
-                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.UserGame.Id">
-                                <h4 class="card-title">@item.UserGame.Game.Name</h4>
+                        <div class="card-image-wrapper">
+                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.UserGame.Game.Id">
+                                <img class="card-img-top" src="@item.UserGame.Game.HeaderImage" alt="Card image" style="width:100%">
                             </a>
-                            <p class="card-text">
-                            <p style="margin-bottom: 0; margin-top: 7%">Release Date: @item.UserGame.Game.ReleaseDate.ToShortDateString()</p>
-
                             <form method="post" action="@Url.Action("RemoveGameFromCollection", "Collection")">
                                 <input type="hidden" name="userCollectionDTO.CollectionId" value="@item.CollectionId" />
                                 <input type="hidden" name="userCollectionDTO.UserGameId" value="@item.UserGameId" />
@@ -33,7 +27,13 @@
                                     <span class="remove-text">Remove</span>
                                 </button>
                             </form>
-
+                        </div>
+                        <div class="card-body">
+                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.UserGame.Id">
+                                <h4 class="card-title">@item.UserGame.Game.Name</h4>
+                            </a>
+                            <p class="card-text">
+                            <p style="margin-bottom: 0; margin-top: 7%">Release Date: @item.UserGame.Game.ReleaseDate.ToShortDateString()</p>
                         </div>
                     </div>
                 </div>

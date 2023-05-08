@@ -8,13 +8,68 @@
 
         @foreach (var item in Model.PaginatedGames)
         {
-            <div class="col-sm-3">
+            <div class="col-lg-3 col-md-4 col-sm-6">
 
-                <div class="card @*border-0*@">
+                <div class="card">
 
-                    <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
-                        <img class="card-img-top" src="@item.HeaderImage" alt="Card image" style="width:100%">
-                    </a>
+                    <div class="card-image-wrapper">
+
+                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
+                            <img class="card-img-top" src="@item.HeaderImage" alt="Card image">
+                        </a>
+
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                        {
+                            <div class="btn-group dropup" style="position: absolute; bottom: 3.8%; left: 5%">
+
+                                <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item"
+                                   asp-controller="AdminGame"
+                                   asp-action="DeleteGame"
+                                   asp-route-id="@item.Id"
+                                   asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
+                                   asp-route-actionName="@Model.ActionName"
+                                   asp-route-gameGenreId="@Model.GameGenreId"
+                                   asp-route-searchString="@Model.SearchString">
+                                            Delete
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                   asp-controller="AdminGame"
+                                   asp-action="EditGame"
+                                   asp-route-id="@item.Id"
+                                   asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
+                                   asp-route-actionName="@Model.ActionName"
+                                   asp-route-gameGenreId="@Model.GameGenreId"
+                                   asp-route-searchString="@Model.SearchString">
+                                            Edit
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary"
+                       asp-route-id="@item.Id"
+                       asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
+                       asp-route-actionName="@Model.ActionName"
+                       asp-route-gameGenreId="@Model.GameGenreId"
+                       asp-route-searchString="@Model.SearchString">
+
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                <span class="add-text">Add</span>
+                            </a>
+                        }
+                    </div>
 
                     <div class="card-body">
 
@@ -28,56 +83,6 @@
                         }
                         <span style="">&#11088; @Math.Round(ratingScore, 1)</span>
 
-                        @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-                        {
-                            <div class="btn-group dropup" style="position: absolute; top: 292px; left: 5%;">
-
-                                <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Actions
-                                </button>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item"
-                                           asp-controller="AdminGame"
-                                           asp-action="DeleteGame"
-                                           asp-route-id="@item.Id"
-                                           asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
-                                           asp-route-actionName="@Model.ActionName"
-                                           asp-route-gameGenreId="@Model.GameGenreId"
-                                           asp-route-searchString="@Model.SearchString">
-                                            Delete
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" 
-                                           asp-controller="AdminGame" 
-                                           asp-action="EditGame" 
-                                           asp-route-id="@item.Id" 
-                                           asp-route-pageNumber="@Model.PaginatedGames.PageIndex"
-                                           asp-route-actionName="@Model.ActionName"
-                                           asp-route-gameGenreId="@Model.GameGenreId"
-                                           asp-route-searchString="@Model.SearchString">
-                                            Edit
-                                        </a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        }
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a type="button" class="btn btn-success btn-action btn-add" asp-controller="UserLibrary" asp-action="AddGameToUserLibrary" 
-                                asp-route-id="@item.Id" 
-                                asp-route-pageNumber="@Model.PaginatedGames.PageIndex" 
-                                asp-route-actionName="@Model.ActionName"
-                                asp-route-gameGenreId="@Model.GameGenreId"
-                                asp-route-searchString="@Model.SearchString">
-
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                <span class="add-text">Add</span>
-                            </a>
-                        }
                     </div>
                 </div>
             </div>

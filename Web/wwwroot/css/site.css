@@ -89,7 +89,7 @@ html {
 }
 
 .container {
-    width: 71.25rem;
+    max-width: 71.25rem;
 }
 
 .modal-open {

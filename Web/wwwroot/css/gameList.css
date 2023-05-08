@@ -1,6 +1,9 @@
 ﻿.card {
     margin-bottom: 30px;
-    max-width: 255px;
+    /*max-width: 255px;*/
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    /*min-width: 10em;*/
+    /*min-height: auto;*/
 }
 
 .form-control.mr-sm-2 {
@@ -21,12 +24,22 @@ td {
 }
 
 .card-img-top {
-    max-height: 348px;
-    max-width: 253px;
+    /*max-height: 348px;
+    max-width: 253px;*/
     object-fit: cover;
     padding: 5px;
     aspect-ratio: 253/344;
+    width: 100%;
     /*border: 1px solid #ddd;*/
+}
+
+.card-image-wrapper {
+    position: relative;
+    /*min-height: 348px;
+    min-width: 253px;*/
+    object-fit: cover;
+    aspect-ratio: 253/344;
+    width: 100%;
 }
 
 .card-title {

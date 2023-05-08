@@ -43,29 +43,26 @@
                             </li>
                         }
                     </ul>
-                </div>
 
-                @*<ul class="flex-grow"></ul>*@
-                @if (User is not null && !User.Identity.IsAuthenticated)
-                {
-                    <div style="list-style-type: none">
-                        <a class="btn btn-primary btn-sm mr-2" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                    </div>
-                    <div style="list-style-type: none; margin-right: 8px;">
-                        <a class="btn btn-success btn-sm" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                    </div>
-                }
-                else
-                {
-                    <div style="display: flex; align-items: center; gap: 20px">
-                        <div style="font-size: 14px; list-style-type: none" class="text-dark">
-                            <span>@User.Identity.Name</span>
+                    @if (User is not null && !User.Identity.IsAuthenticated)
+                    {
+                        <div class="navbar-nav">
+                            <a class="btn btn-primary btn-sm m-1" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="btn btn-success btn-sm m-1" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                         </div>
-                        <form method="post" asp-controller="Account" asp-action="Logout">
-                            <button class="mx-2 btn btn-secondary btn-sm" style="align-self: flex-end" type="submit">Logout</button>
-                        </form>
-                    </div>
-                }
+                    }
+                    else
+                    {
+                        <div class="navbar-nav">
+                            <div style="display: flex; align-items: center; gap: 20px">
+                            <span>@User.Identity.Name</span>
+                            <form method="post" asp-controller="Account" asp-action="Logout">
+                                <button class="mx-2 btn btn-secondary btn-sm" style="align-self: flex-end" type="submit">Logout</button>
+                            </form>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </nav>
     </header>

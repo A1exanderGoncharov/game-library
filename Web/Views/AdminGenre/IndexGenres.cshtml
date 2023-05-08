@@ -24,11 +24,11 @@
                         @*<a class="btn btn-outline-danger" asp-action="EditGenre" asp-route-id="@item.Id">Edit</a>*@
                         @*<a class="btn btn-outline-danger" asp-action="DeleteGenre" asp-route-id="@item.Id">Delete</a>*@
 
-                        <a class="btn btn-warning rounded-1" type="button" data-toggle="tooltip" data-placement="top" title="Edit" style="height: 35px; width: 35px; padding: 0; margin-right: 4px;" asp-action="EditGenre" asp-route-id="@item.Id">
+                        <a class="btn btn-warning rounded-1" type="button" data-toggle="tooltip" data-placement="top" title="Edit" style="height: 35px; width: 35px; padding: 0; margin: 6px 2px 6px 2px;" asp-action="EditGenre" asp-route-id="@item.Id">
                             <i class="fa-solid fa-pencil" style="font-size: 15px; line-height: 35px;"></i>
                         </a>
 
-                        <button type="button" class="btn btn-danger rounded-1" data-bs-toggle="modal" data-bs-target="#confirm-delete-@item.Id" style="height: 35px; width: 35px; padding: 0;">
+                        <button type="button" class="btn btn-danger rounded-1" data-bs-toggle="modal" data-bs-target="#confirm-delete-@item.Id" style="margin: 6px 2px 6px 2px; height: 35px; width: 35px; padding: 0;">
                             <i class="fa-regular fa-trash-can" style="font-size: 15px; line-height: 35px;"></i>
                         </button>
                     </div>

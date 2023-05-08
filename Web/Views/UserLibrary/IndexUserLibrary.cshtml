@@ -19,13 +19,21 @@
 
             @foreach (var item in Model)
             {
-                <div class="col-sm-3">
+                <div class="col-lg-3 col-md-4 col-sm-6">
 
                     <div class="card">
 
-                        <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.GameId">
-                            <img class="card-img-top" src="@item.Game.HeaderImage" alt="Card image" style="width:100%">
-                        </a>
+                        <div class="card-image-wrapper">
+
+                            <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.GameId">
+                                <img class="card-img-top" src="@item.Game.HeaderImage" alt="Card image">
+                            </a>
+
+                            <a type="button" class="btn btn-warning btn-action btn-remove" asp-action="RemoveGame" asp-route-id="@item.Id">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                <span class="remove-text">Remove</span>
+                            </a>
+                        </div>
 
                         <div class="card-body">
 
@@ -34,13 +42,8 @@
                             </a>
 
                             <p class="card-text" style="margin-bottom: 0; margin-top: 7%">Release Date: @item.Game.ReleaseDate</p>
-
-                            <a type="button" class="btn btn-warning btn-action btn-remove" asp-action="RemoveGame" asp-route-id="@item.Id">
-                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                                <span class="remove-text">Remove</span>
-                            </a>
-
                         </div>
+
                     </div>
                 </div>
             }

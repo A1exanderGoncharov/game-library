@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using Web.Models;
 
 namespace Web.Extensions
 {
@@ -26,43 +25,48 @@ namespace Web.Extensions
             }
             catch (ElementNotFoundException enfEx)
             {
-                _logger.LogError($"A new not found exception has been thrown: {enfEx}");
+                _logger.LogError($"ElementNotFoundException has been thrown: {enfEx}");
 
-                await HandleExceptionAsync(httpContext, enfEx);
+                HandleExceptionAsync(httpContext, enfEx);
+            }
+            catch (ArgumentOutOfRangeException aorE)
+            {
+                _logger.LogError($"ArgumentOutOfRangeException has been thrown: {aorE}");
+
+                HandleExceptionAsync(httpContext, aorE);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Internal Server Error: {ex}");
 
-                _logger.LogError($"Something went wrong: {ex}");
-
-                await HandleExceptionAsync(httpContext, ex);
+                HandleExceptionAsync(httpContext, ex);
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+        private static void HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
-            httpContext.Response.ContentType = "application/json";
+            int statusCode;
+            string message;
 
-            httpContext.Response.StatusCode = exception switch
+            switch (exception)
             {
-                ElementNotFoundException => StatusCodes.Status404NotFound,
-
-                _ => StatusCodes.Status500InternalServerError
-            };
-
-            if (httpContext.Response.StatusCode == StatusCodes.Status404NotFound)
-            {
-                int statusCode = httpContext.Response.StatusCode;
-                string message = "Oh dear. Are you lost?";
-
-                httpContext.Response.Redirect($"/Home/ErrorPage/?statusCode={statusCode}&message={message}");
+                case ElementNotFoundException:
+                    statusCode = StatusCodes.Status404NotFound;
+                    message = "Oh dear. Are you lost?";
+                    break;
+                case ArgumentOutOfRangeException:
+                    statusCode = StatusCodes.Status400BadRequest;
+                    message = "Oops! Our server don't understand that request.";
+                    break;
+                default:
+                    statusCode = StatusCodes.Status500InternalServerError;
+                    message = "Gremlins invaded our server. Stay tuned!";
+                    break;
             }
 
-            await httpContext.Response.WriteAsync(new ErrorDetails()
-            {
-                StatusCode = httpContext.Response.StatusCode,
-                Message = $"Internal Server Error. {exception.Message}"
-            }.ToString());
+            httpContext.Response.StatusCode = statusCode;
+            httpContext.Response.Redirect($"/Home/ErrorPage/?statusCode={statusCode}&message={message}");
         }
+
     }
 }

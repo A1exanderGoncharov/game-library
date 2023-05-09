@@ -57,11 +57,14 @@ td {
 }
 
 .logo {
-    width: auto;
-    height: 204px;
+    display: inline-block;
+    width: 100%;
+    max-width: 524px;
+    height: auto;
     display: inline-block;
     vertical-align: middle;
     margin-right: 107px;
+    margin-bottom: 30px;
 }
 
 .game-cards {
@@ -72,26 +75,23 @@ td {
 -------------------------------------------------- */
 
 div.carousel {
-    width: 480px;
+    max-width: 480px;
     display: inline-block;
     vertical-align: top;
 }
 
-.carousel-control-next {
-    right: -55px;
-}
-
-.carousel-control-prev {
-    left: -55px;
+.carousel-control-next, .carousel-control-prev {
+    /*right: -11%;*/
 }
 
 .carousel-control-next-icon, .carousel-control-prev-icon {
     position: absolute;
-    top: 94px;
+    top: /*94px*/ 30%;
+    background-color: #00000080;
 }
 
 .carousel-control-next, .carousel-control-prev {
-    width: 10%;
+    width: 10.9%;
 }
 
 a.btn-link {
@@ -108,14 +108,16 @@ a.btn-link {
 .recommended-game-card {
     display: inline-block;
     vertical-align: central;
-    margin-left: 5px;
-    margin-right: 5px;
+    /*margin-left: 5px;
+    margin-right: 5px;*/
 }
 
 .carousel-card-img {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     background: white;
-    width: 150px;
-    border: 5px solid white;
+    width: /*150px*/ 100%;
+    max-height: 204px;
+    border: /*5px*/ 0.3rem solid white;
     padding: 0;
     object-fit: cover;
     aspect-ratio: 253/344;
@@ -124,5 +126,6 @@ a.btn-link {
 .carousel-item, .carousel-item.active {
     display: flex;
     text-align: center;
-    justify-content: center
+    justify-content: center;
+    gap: 3%;
 }

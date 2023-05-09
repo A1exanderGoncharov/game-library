@@ -12,7 +12,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+            <div class="container" style=" padding: 0 12px;">
                 <a style="font-size: 20px" class="navbar-brand" asp-area="" asp-controller="Game" asp-action="Index">Game Library</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -54,10 +54,10 @@
                     else
                     {
                         <div class="navbar-nav">
-                            <div style="display: flex; align-items: center; gap: 20px">
+                            <div style="display: flex; align-items: center; gap: 20px; justify-content: space-between;">
                             <span>@User.Identity.Name</span>
                             <form method="post" asp-controller="Account" asp-action="Logout">
-                                <button class="mx-2 btn btn-secondary btn-sm" style="align-self: flex-end" type="submit">Logout</button>
+                                <button class="btn btn-secondary btn-sm" style="align-self: flex-end" type="submit">Logout</button>
                             </form>
                             </div>
                         </div>

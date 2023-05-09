@@ -1,26 +1,64 @@
-﻿.card {
+﻿/*____________________________GENERAL*/
+
+.card {
     margin-bottom: 30px;
     max-width: auto;
 }
 
+.card-header {
+    padding-left: 2%;
+    position: relative;
+    height: 45px;
+}
+
 .card-body {
-    /*margin-inline: 14px;*/
     position: relative;
     padding: 2%;
 }
 
-.info-table {
-    display: inline-block;
-    vertical-align: top;
-    border-collapse: separate;
-    border-spacing: 50px 0;
+/*____________________________INFO TABLE*/
+
+th {
+    width:150px;
 }
 
-.img {
+.info-table {
+    position: relative;
+    display: flex;
+    gap: 55px;
+}
+
+.info-table-left {
     object-fit: cover;
     height: 275px;
     width: 200px;
+    margin-bottom: 15px;
+    display: inline-block;
 }
+
+.info-table-right {
+    display: inline-block;
+    max-height: 275px;
+    flex-basis: 615px;
+}
+
+.rate-form {
+    position: absolute;
+    bottom: 0;
+    max-width: 117px;
+}
+
+@media (max-width: 630px) {
+    .info-table {
+        flex-direction: column;
+    }
+    .info-table-left {
+        margin-top: 25px;
+        align-self: center;
+    }
+}
+
+/*____________________________DESCRIPTION & TRAILER*/
 
 .game-description {
     margin-top: 30px;
@@ -32,25 +70,17 @@
     margin-bottom: 14px;
 }
 
-.trailer > iframe {
-    display: block;
+    .trailer > iframe {
+        display: block;
+        text-align: center;
+    }
+
+/*____________________________CONTENT UNDER THE CARD*/
+
+.restrictedComments {
     text-align: center;
 }
 
-.comment-btn-link {
-    
-}
-
-.card-header > .card-header {
-/*    padding: 0.75rem 1.25rem;*/
-    position: relative;
-    height: 60px;
-    margin-bottom: 0;
-    background-color: dodgerblue;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    font-size: 25px;
-}
-
-.forbidden {
-    text-align: center;
-}
+    .restrictedComments > a {
+        text-decoration: none;
+    }

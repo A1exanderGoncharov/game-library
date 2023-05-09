@@ -14,47 +14,52 @@
 
     <div class="card-body">
 
-        <img class="info-table img" src="@Model.HeaderImage">
+        <div class="info-table">
 
-        <table class="info-table">
-            <tr>
-                <th>Age Rating:</th>
-                <td>@Html.DisplayFor(g => g.Rating)</td>
-            </tr>
-            <tr>
-                <th>Genre:</th>
-                <td>@string.Join(", ", Model.GameGenres.Select(g => g.Genre.Name).ToArray())</td>
-            </tr>
-            <tr>
-                <th>Release Date:</th>
-                <td>@Html.DisplayFor(g => g.ReleaseDate)</td>
-            </tr>
-            <tr>
-                <th>Developer:</th>
-                <td>@Html.DisplayFor(g => g.Developer)</td>
-            </tr>
-            <tr>
-                <th>Score:</th>
-                <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
-            </tr>
-            @{
-                var ratingInputDisabled = ViewBag.hasUserRated ? "disabled" : "";
-            }
-            <tr>
-                <td>
-                    <form class="input-group mb-3" style="top:62px" asp-action="RateGame" asp-route-gameId="@Model.Id">
+            <img class="info-table-left" src="@Model.HeaderImage">
 
-                        <div style="background-color: #e9ecef"
-                             class="input-group-prepend">
-                            <button style="border-color: #d8dde1" class="btn btn-outline-secondary @ratingInputDisabled" type="submit">&#11088;</button>
-                        </div>
+            <div class="info-table-right">
 
-                        <input style="max-width:73px" type="number" min="1" max="5" class="form-control @ratingInputDisabled" placeholder="rate" aria-label="" name="ratingScore" aria-describedby="basic-addon1" required @ratingInputDisabled>
+                <table class="table table-borderless table-sm">
+                    <tr>
+                        <th>Age Rating:</th>
+                        <td>@Html.DisplayFor(g => g.Rating)</td>
+                    </tr>
+                    <tr>
+                        <th>Genre:</th>
+                        <td>@string.Join(", ", Model.GameGenres.Select(g => g.Genre.Name).ToArray())</td>
+                    </tr>
+                    <tr>
+                        <th>Release Date:</th>
+                        <td>@Html.DisplayFor(g => g.ReleaseDate)</td>
+                    </tr>
+                    <tr>
+                        <th>Developer:</th>
+                        <td>@Html.DisplayFor(g => g.Developer)</td>
+                    </tr>
+                    <tr>
+                        <th>Score:</th>
+                        <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
+                    </tr>
+                    @{
+                        var ratingInputDisabled = ViewBag.hasUserRated ? "disabled" : "";
+                    }
+                </table>
 
-                    </form>
-                </td>
-            </tr>
-        </table>
+                <form class="rate-form input-group mb-3" asp-action="RateGame" asp-route-gameId="@Model.Id">
+
+                    <div style="background-color: #e9ecef"
+                         class="input-group-prepend">
+                        <button style="border-color: #d8dde1" class="btn btn-outline-secondary @ratingInputDisabled" type="submit">&#11088;</button>
+                    </div>
+
+                    <input style="max-width:73px" type="number" min="1" max="5" class="form-control @ratingInputDisabled" placeholder="rate" aria-label="" name="ratingScore" aria-describedby="basic-addon1" required @ratingInputDisabled>
+
+                </form>
+
+            </div>
+
+        </div>
 
         <div class="game-description">
 
@@ -100,7 +105,7 @@
 }
 else
 {
-    <h5 class="forbidden">
+    <h5 class="restrictedComments">
         <a class="btn-link" asp-controller="Account" asp-action="Login">Sign in</a> or <a class="btn-link" asp-controller="Account" asp-action="Register">sign up</a> to comment
     </h5>
 }

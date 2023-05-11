@@ -23,7 +23,7 @@ namespace BLL.Infrastructure
 
         public async Task AddAsync(CommentDTO commentDTO)
         {
-            commentDTO.Date = DateTime.Now;
+            commentDTO.Date = DateTime.UtcNow;
             var comment = _mapper.Map<CommentDTO, Comment>(commentDTO);
 
             await _unitOfWork.CommentRepository.InsertAsync(comment);

@@ -110,8 +110,13 @@ else
     </h5>
 }
 
+@{
+    var hasComments = !Model.Comments.Any() ? "d-none" : "";
+}
+
 <div class="comments-container">
-    <ul id="comments-list" class="comments-list">
+
+    <ul id="comments-list" class="comments-list @hasComments">
 
         @foreach (var item in Model.Comments.Where(c => c.ReplyToCommentId is null))
         {
@@ -133,7 +138,18 @@ else
                                 {
                                     <div class="comment-btn-link">
 
-                                        <a Class="btn btn-link action-comment-btn" href="#" data-bs-toggle="modal" data-bs-target="#reply-window-@item.Id">Reply</a>
+                                        @if (item.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                        {
+                                            <a Class="btn btn-link action-comment-btn" asp-controller="Comment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
+                                        }
+                                        else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                                        {
+                                            <a Class="btn btn-link action-comment-btn" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
+                                        }
+
+                                        <a Class="btn btn-link action-comment-btn" href="#" data-bs-toggle="modal" data-bs-target="#reply-window-@item.Id"><i class="fa fa-reply" aria-hidden="true"></i></a>
 
                                         <!-- Modal -->
                                         <div class="modal fade" id="reply-window-@item.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reply-window-@item.Id-label" aria-hidden="true">
@@ -172,17 +188,6 @@ else
                                                 </div>
                                             </div>
                                         </div>
-
-                                        @if (item.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                        {
-                                            <a Class="btn btn-link action-comment-btn" asp-controller="Comment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
-                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
-                                        }
-                                        else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-                                        {
-                                            <a Class="btn btn-link action-comment-btn" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Edit</a>
-                                            @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id" asp-route-gameId="@item.GameId">Delete</a>*@
-                                        }
                                     </div>
                                 }
                             </div>
@@ -196,7 +201,9 @@ else
                 @foreach (var reply in item.Replies.OrderBy(r => r.Date))
                 {
                     <ul class="comments-list reply-list">
-                        <li>
+
+                        <li style="display: flex; align-items: start;">
+
                             <div class="comment-avatar"><img src="https://i.ibb.co/MZZK62V/default-user-img.png" alt="user-image"></div>
 
                             <div class="comment-box">
@@ -210,7 +217,18 @@ else
                                     {
                                         <div class="comment-btn-link">
 
-                                            <a Class="btn btn-link action-comment-btn" href="#" data-bs-toggle="modal" data-bs-target="#reply-to-child-window-@reply.Id">Reply</a>
+                                            @if (reply.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                            {
+                                                <a Class="btn btn-link action-comment-btn" disabled asp-controller="Comment" asp-action="EditComment" asp-route-id="@reply.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
+                                            }
+                                            else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                                            {
+                                                <a Class="btn btn-link action-comment-btn" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@reply.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
+                                            }
+
+                                            <a Class="btn btn-link action-comment-btn" href="#" data-bs-toggle="modal" data-bs-target="#reply-to-child-window-@reply.Id"><i class="fa fa-reply" aria-hidden="true"></i></a>
 
                                             <!-- Modal -->
                                             <div class="modal fade" id="reply-to-child-window-@reply.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reply-to-child-window-@reply.Id-label" aria-hidden="true">
@@ -250,16 +268,6 @@ else
                                                 </div>
                                             </div>
 
-                                            @if (reply.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                            {
-                                                <a Class="btn btn-link action-comment-btn" disabled asp-controller="Comment" asp-action="EditComment" asp-route-id="@reply.Id">Edit</a>
-                                                @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
-                                            }
-                                            else if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
-                                            {
-                                                <a Class="btn btn-link action-comment-btn" asp-controller="AdminComment" asp-action="EditComment" asp-route-id="@reply.Id">Edit</a>
-                                                @*<a Class="btn btn-link" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id" asp-route-gameId="@reply.GameId">Delete</a>*@
-                                            }
 
                                         </div>
                                     }

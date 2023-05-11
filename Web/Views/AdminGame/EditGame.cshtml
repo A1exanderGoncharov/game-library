@@ -3,6 +3,10 @@
 
 <h2>Game Editing</h2>
 
+<head>
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+
 <form asp-action="EditGame" asp-controller="Admin" asp-antiforgery="true">
     <div>
         <div asp-validation-summary="ModelOnly"></div>
@@ -29,7 +33,7 @@
             <label>Genre(s)</label>
 
             <div class="form-group">
-                <div style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
+                <div style="display: flex; align-items: baseline; gap: 20px; margin-bottom: 10px; flex-flow: row wrap">
                     @for (int i = 0; i < ViewBag.genres.Count; i++)
                     {
                         int genreId = ViewBag.genres[i].Id;
@@ -44,11 +48,11 @@
                             }
                         }
 
+                        <label class="form-check-label" for="flexCheckDefault">
                         <input type="checkbox" name="selectedGenres" value="@genreId" @if (isChecked)
                         {
                             <text>checked</text>
                         } />
-                        <label class="form-check-label" for="flexCheckDefault">
                             @ViewBag.genres[i].Name
                         </label>
                     }

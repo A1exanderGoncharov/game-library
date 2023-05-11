@@ -96,3 +96,17 @@ html {
     overflow: auto;
     padding-right: 0px !important;
 }
+
+/*____________________________EDIT GAME*/
+
+@media (max-width: 600px) {
+    .form-check-label {
+        width: 45%; 
+    }
+}
+
+.form-check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

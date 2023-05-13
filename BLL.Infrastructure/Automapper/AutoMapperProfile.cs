@@ -29,6 +29,10 @@ namespace BLL.Infrastructure.Automapper
             CreateMap<Collection, CollectionDTO>().ReverseMap();
             CreateMap<UserCollection, UserCollectionDTO>().ReverseMap();
             CreateMap<Rating, RatingDTO>().ReverseMap();
+            CreateMap<GameDTO, RecommendedGameDTO>()
+                .ForMember(
+                    dest => dest.RecommendationType,
+                    opt => opt.Ignore());
         }
     }
 }

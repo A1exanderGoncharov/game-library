@@ -38,7 +38,7 @@
     {
         <div class="recommendations" style="margin-bottom:50px; overflow: hidden;">
 
-            <img class="logo" src="/game-library-logo.png" alt="Card image">
+            @*<img class="logo" src="/game-library-logo.png" alt="Card image">*@
 
             <div class="carousel slide carousel-fade" data-bs-ride="carousel" style="/*height:300px;*/" id="carouselExampleFade">
 
@@ -49,6 +49,15 @@
                         @foreach (var item in Model.recommendedGamesFirstRange)
                         {
                             <div class="recommended-game-card">
+                                
+                                @if (item.RecommendationType == BLL.DTO.RecommendationType.TopRated)
+                                {
+                                    <span class="badge text-bg-dark">Top Rated</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-success">For You</span>
+                                }
 
                                 <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
                                     <img class="carousel-card-img" src="@item.HeaderImage" alt="Card image">
@@ -67,6 +76,15 @@
                         @foreach (var item in Model.recommendedGamesSecondRange)
                         {
                             <div class="recommended-game-card">
+
+                                @if (item.RecommendationType == BLL.DTO.RecommendationType.TopRated)
+                                {
+                                    <span class="badge text-bg-dark">Top Rated</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-success">For You</span>
+                                }
 
                                 <a class="btn-link" asp-controller="Game" asp-action="GameDetails" asp-route-id="@item.Id">
                                     <img class="carousel-card-img" src="@item.HeaderImage" alt="Card image">

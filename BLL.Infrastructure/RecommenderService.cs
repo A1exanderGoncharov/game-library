@@ -10,179 +10,192 @@ using System.Threading.Tasks;
 
 namespace BLL.Infrastructure
 {
-	public class RecommenderService : IRecommenderService
-	{
-		readonly IUnitOfWork _unitOfWork;
-		readonly IMapper _mapper;
-		readonly IGameService _gameService;
+    public class RecommenderService : IRecommenderService
+    {
+        readonly IUnitOfWork _unitOfWork;
+        readonly IMapper _mapper;
+        readonly IGameService _gameService;
 
-		public RecommenderService(IUnitOfWork unitOfWork, IMapper mapper, IGameService gameService)
-		{
-			_unitOfWork = unitOfWork;
-			_mapper = mapper;
-			_gameService = gameService;
-		}
+        public RecommenderService(IUnitOfWork unitOfWork, IMapper mapper, IGameService gameService)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _gameService = gameService;
+        }
 
-		private static double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user)
-		{
-			double numeratorSum = 0;
-			double firstDenumeratorSum = 0;
-			double secondDenumeratorSum = 0;
+        private static double CalculateCosineSimilarity(ApplicationUserDTO targetUser, ApplicationUserDTO user)
+        {
+            double numeratorSum = 0;
+            double firstDenumeratorSum = 0;
+            double secondDenumeratorSum = 0;
 
-			List<RatingDTO> targetUserRatings = new();
-			List<RatingDTO> userRatingsToCompare = new();
+            List<RatingDTO> targetUserRatings = new();
+            List<RatingDTO> userRatingsToCompare = new();
 
-			for (int i = 0; i < targetUser.Ratings.Count; i++)
-			{
-				for (int j = 0; j < user.Ratings.Count; j++)
-				{
-					if (targetUser.Ratings[i].GameId == user.Ratings[j].GameId)
-					{
-						targetUserRatings.Add(targetUser.Ratings[i]);
-						userRatingsToCompare.Add(user.Ratings[j]);
-					}
-				}
-			}
+            for (int i = 0; i < targetUser.Ratings.Count; i++)
+            {
+                for (int j = 0; j < user.Ratings.Count; j++)
+                {
+                    if (targetUser.Ratings[i].GameId == user.Ratings[j].GameId)
+                    {
+                        targetUserRatings.Add(targetUser.Ratings[i]);
+                        userRatingsToCompare.Add(user.Ratings[j]);
+                    }
+                }
+            }
 
-			for (int i = 0; i < targetUserRatings.Count; i++)
-			{
-				numeratorSum += targetUserRatings[i].GameRating * userRatingsToCompare[i].GameRating;
-				firstDenumeratorSum += Math.Pow(targetUserRatings[i].GameRating, 2);
-				secondDenumeratorSum += Math.Pow(userRatingsToCompare[i].GameRating, 2);
-			}
+            for (int i = 0; i < targetUserRatings.Count; i++)
+            {
+                numeratorSum += targetUserRatings[i].GameRating * userRatingsToCompare[i].GameRating;
+                firstDenumeratorSum += Math.Pow(targetUserRatings[i].GameRating, 2);
+                secondDenumeratorSum += Math.Pow(userRatingsToCompare[i].GameRating, 2);
+            }
 
-			targetUserRatings.Clear();
-			userRatingsToCompare.Clear();
+            targetUserRatings.Clear();
+            userRatingsToCompare.Clear();
 
-			return numeratorSum / (Math.Sqrt(firstDenumeratorSum) * Math.Sqrt(secondDenumeratorSum));
-		}
+            return numeratorSum / (Math.Sqrt(firstDenumeratorSum) * Math.Sqrt(secondDenumeratorSum));
+        }
 
-		private List<ComparedUserModel> GetNearestNeighbors(string targetUserId)
-		{
-			var targetUser = _unitOfWork.UserRepository.GetAllAsync().FirstOrDefault(u => u.Id == targetUserId);
+        private List<ComparedUserModel> GetNearestNeighbors(string targetUserId)
+        {
+            var targetUser = _unitOfWork.UserRepository.GetAllAsync().FirstOrDefault(u => u.Id == targetUserId);
 
-			if (targetUser is null)
-			{
-				return new List<ComparedUserModel>();
-			}
+            if (targetUser is null)
+            {
+                return new List<ComparedUserModel>();
+            }
 
-			var targetUserDTO = _mapper.Map<ApplicationUser, ApplicationUserDTO>(targetUser);
+            var targetUserDTO = _mapper.Map<ApplicationUser, ApplicationUserDTO>(targetUser);
 
-			var usersEntities = _unitOfWork.UserRepository.GetAllAsync().ToList();
-			var usersDTO = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserDTO>>(usersEntities);
+            var usersEntities = _unitOfWork.UserRepository.GetAllAsync().ToList();
+            var usersDTO = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserDTO>>(usersEntities);
 
-			const int minAvgRating = 3;
-			const int minNumberOfRatedGames = 2;
+            const int minAvgRating = 3;
+            const int minNumberOfRatedGames = 2;
 
-			List<ComparedUserModel> neighbors = new();
+            List<ComparedUserModel> neighbors = new();
 
-			if (targetUserDTO.Ratings.Count >= minNumberOfRatedGames && targetUserDTO.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average() >= minAvgRating)
-			{
-				foreach (var user in usersDTO)
-				{
-					if (targetUserId != user.Id && user.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average() >= minAvgRating)
-					{
-						neighbors.Add(new ComparedUserModel
-						{
-							ComparedUserId = user.Id,
-							SimilarityScore = CalculateCosineSimilarity(targetUserDTO, user)
-						});
-					}
-				}
-			}
+            if (targetUserDTO.Ratings.Count >= minNumberOfRatedGames && targetUserDTO.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average() >= minAvgRating)
+            {
+                foreach (var user in usersDTO)
+                {
+                    if (targetUserId != user.Id && user.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average() >= minAvgRating)
+                    {
+                        neighbors.Add(new ComparedUserModel
+                        {
+                            ComparedUserId = user.Id,
+                            SimilarityScore = CalculateCosineSimilarity(targetUserDTO, user)
+                        });
+                    }
+                }
+            }
 
-			var similarUsers = neighbors.OrderByDescending(c => c.SimilarityScore).Take(5).ToList();
+            var similarUsers = neighbors.OrderByDescending(c => c.SimilarityScore).Take(5).Where(c => !double.IsNaN(c.SimilarityScore)).ToList();
 
-			return similarUsers;
-		}
+            return similarUsers;
+        }
 
-		public async Task<List<GameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId)
-		{
-			var neighbors = GetNearestNeighbors(currentUserId);
+        public async Task<List<RecommendedGameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId)
+        {
+            var neighbors = GetNearestNeighbors(currentUserId);
 
-			if (neighbors.Count == 0)
-			{
-				await SupplementRecommendationsByTopRatedGamesAsync(new List<GameDTO>(), 4, currentUserId);
-			}
+            if (neighbors.Count == 0)
+            {
+                await SupplementRecommendationsByTopRatedGamesAsync(new List<RecommendedGameDTO>(), 4, currentUserId);
+            }
 
-			var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
+            var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
 
-			var gameIdsOfTargetUser = ratings
-				.Where(r => r.ApplicationUserId == currentUserId)
-				.Select(r => r.GameId);
+            var gameIdsOfTargetUser = ratings
+                .Where(r => r.ApplicationUserId == currentUserId)
+                .Select(r => r.GameId);
 
-			var gameIdsOfComparedUser = ratings
-				.Where(r => neighbors.Select(cu => cu.ComparedUserId)
-				.Contains(r.ApplicationUserId) & r.GameRating > 3)
-				.Select(r => r.GameId);
+            var gameIdsOfComparedUser = ratings
+                .Where(r => neighbors.Select(cu => cu.ComparedUserId)
+                .Contains(r.ApplicationUserId) & r.GameRating > 3)
+                .Select(r => r.GameId);
 
-			int[] recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToArray();
+            int[] recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToArray();
 
-			List<GameDTO> recommendedGames = await GetRecommendedGamesByIdsAsync(recommendedGameIds);
+            List<GameDTO> recommendedGames = await GetRecommendedGamesByIdsAsync(recommendedGameIds);
 
-			const int minRecommendedGamesNumber = 6;
+            var recommendations = SpecifyRecommendationType(recommendedGames, RecommendationType.ForYou);
 
-			if (recommendedGames.Count < minRecommendedGamesNumber)
-			{
-				await SupplementRecommendationsByTopRatedGamesAsync(recommendedGames, minRecommendedGamesNumber, currentUserId);
-			}
+            const int minRecommendedGamesNumber = 6;
 
-			return recommendedGames;
-		}
+            if (recommendedGames.Count < minRecommendedGamesNumber)
+            {
+                await SupplementRecommendationsByTopRatedGamesAsync(recommendations, minRecommendedGamesNumber, currentUserId);
+            }
 
-		private async Task<List<GameDTO>> GetRecommendedGamesByIdsAsync(IEnumerable<int> recommendations)
-		{
-			List<GameDTO> games = new();
+            return recommendations;
+        }
 
-			foreach (var gameId in recommendations)
-			{
-				var game = await _gameService.GetByIdAsync(gameId);
-				games.Add(game);
-			}
+        private async Task<List<GameDTO>> GetRecommendedGamesByIdsAsync(IEnumerable<int> recommendations)
+        {
+            List<GameDTO> games = new();
 
-			return games;
-		}
+            foreach (var gameId in recommendations)
+            {
+                var game = await _gameService.GetByIdAsync(gameId);
+                games.Add(game);
+            }
 
-		private async Task<List<GameDTO>> SupplementRecommendationsByTopRatedGamesAsync(List<GameDTO> recommendations, int minRecGamesCount, string userId)
-		{
-			const int minRatingScore = 4;
-			var games = await _gameService.GetAllAsync();
+            return games;
+        }
 
-			IEnumerable<int> gamesIdsNotRatedByUser = GetGamesIdsNotRatedByCurrentUser(userId, games);
-			IEnumerable<GameDTO> gamesNotRatedByUser = await GetRecommendedGamesByIdsAsync(gamesIdsNotRatedByUser);
+        private async Task<List<RecommendedGameDTO>> SupplementRecommendationsByTopRatedGamesAsync(List<RecommendedGameDTO> recommendations, int minRecGamesCount, string userId)
+        {
+            const int minRatingScore = 4;
+            var games = await _gameService.GetAllAsync();
 
-			IEnumerable<int> topRatedGamesIdsExclRecs = GetTopRatedGamesIds(minRatingScore, gamesNotRatedByUser)
-				.Except(recommendations.Select(g => g.Id));
+            IEnumerable<int> gamesIdsNotRatedByUser = GetGamesIdsNotRatedByCurrentUser(userId, games);
+            IEnumerable<GameDTO> gamesNotRatedByUser = await GetRecommendedGamesByIdsAsync(gamesIdsNotRatedByUser);
 
-			IEnumerable<GameDTO> gamesToSupplement = (await GetRecommendedGamesByIdsAsync(topRatedGamesIdsExclRecs))
-				.OrderBy(g => Guid.NewGuid())
-				.Take(minRecGamesCount - recommendations.Count);
+            IEnumerable<int> topRatedGamesIdsExclRecs = GetTopRatedGamesIds(minRatingScore, gamesNotRatedByUser)
+                .Except(recommendations.Select(g => g.Id));
 
-			recommendations.AddRange(gamesToSupplement);
+            IEnumerable<GameDTO> gamesToSupplement = (await GetRecommendedGamesByIdsAsync(topRatedGamesIdsExclRecs))
+                .OrderBy(g => Guid.NewGuid())
+                .Take(minRecGamesCount - recommendations.Count);
 
-			return recommendations;
-		}
+            var topRatedGamesRecs = SpecifyRecommendationType(gamesToSupplement.ToList(), RecommendationType.TopRated);
 
-		private static IEnumerable<int> GetGamesIdsNotRatedByCurrentUser(string userId, IEnumerable<GameDTO> games)
-		{
-			var unratedGamesIdsByUser = games
-				.Where(g => !g.Ratings.Any(r => r.ApplicationUserId == userId))
-				.Select(g => g.Id)
-				.Distinct();
+            recommendations.AddRange(topRatedGamesRecs);
 
-			return unratedGamesIdsByUser;
-		}
+            return recommendations;
+        }
 
-		private static IEnumerable<int> GetTopRatedGamesIds(int minRecommendedGameRating, IEnumerable<GameDTO> games)
-		{
-			var topRatedGames = games
-				.Where(g => g.Ratings
-				.Select(r => r.GameRating).DefaultIfEmpty()
-				.Average() > minRecommendedGameRating)
-				.Select(g => g.Id);
-			
-			return topRatedGames;
-		}
+        private static IEnumerable<int> GetGamesIdsNotRatedByCurrentUser(string userId, IEnumerable<GameDTO> games)
+        {
+            var unratedGamesIdsByUser = games
+                .Where(g => !g.Ratings.Any(r => r.ApplicationUserId == userId))
+                .Select(g => g.Id)
+                .Distinct();
 
-	}
+            return unratedGamesIdsByUser;
+        }
+
+        private static IEnumerable<int> GetTopRatedGamesIds(int minRecommendedGameRating, IEnumerable<GameDTO> games)
+        {
+            var topRatedGames = games
+                .Where(g => g.Ratings
+                .Select(r => r.GameRating).DefaultIfEmpty()
+                .Average() > minRecommendedGameRating)
+                .Select(g => g.Id);
+
+            return topRatedGames;
+        }
+
+        private List<RecommendedGameDTO> SpecifyRecommendationType(List<GameDTO> gamesToSupplement, RecommendationType recommendationType)
+        {
+            var mappedRecommendedGamesDTO = _mapper.Map<List<GameDTO>, List<RecommendedGameDTO>>(gamesToSupplement);
+
+            mappedRecommendedGamesDTO.ForEach(g => g.RecommendationType = recommendationType);
+
+            return mappedRecommendedGamesDTO;
+        }
+
+    }
 }

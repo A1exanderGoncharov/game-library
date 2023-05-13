@@ -6,6 +6,6 @@ namespace BLL.Interfaces
 {
     public interface IRecommenderService
     {
-        public Task<List<GameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId);
+        public Task<List<RecommendedGameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId);
     }
 }

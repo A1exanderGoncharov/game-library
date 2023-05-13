@@ -106,6 +106,7 @@ a.btn-link {
 }
 
 .recommended-game-card {
+    position: relative;
     display: inline-block;
     vertical-align: central;
     /*margin-left: 5px;
@@ -128,4 +129,9 @@ a.btn-link {
     text-align: center;
     justify-content: center;
     gap: 3%;
+}
+
+.recommended-game-card .badge {
+    position: absolute;
+    right: 0;
 }

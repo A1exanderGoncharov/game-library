@@ -47,7 +47,8 @@ namespace Web.Controllers
             if (currentUserId != null)
             {
                 var recommendedGames = await _recommenderService.GetPersonalizedRecommendationsAsync(currentUserId);
-                CarouselRangesCreator.CreateCarouselRanges(recommendedGames, viewModel);
+                int rangeSize = 3;
+                CarouselRangesCreator.CreateCarouselRanges(recommendedGames, viewModel, rangeSize);
             }
 
             return View(viewModel);

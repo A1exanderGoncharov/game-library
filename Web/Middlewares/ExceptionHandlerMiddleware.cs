@@ -23,11 +23,11 @@ namespace Web.Extensions
             {
                 await _next(httpContext);
             }
-            catch (ElementNotFoundException enfEx)
+            catch (ObjectNotFoundException onfEx)
             {
-                _logger.LogError($"ElementNotFoundException has been thrown: {enfEx}");
+                _logger.LogError($"ObjectNotFoundException has been thrown: {onfEx}");
 
-                HandleExceptionAsync(httpContext, enfEx);
+                HandleExceptionAsync(httpContext, onfEx);
             }
             catch (ArgumentOutOfRangeException aorE)
             {
@@ -50,7 +50,7 @@ namespace Web.Extensions
 
             switch (exception)
             {
-                case ElementNotFoundException:
+                case ObjectNotFoundException:
                     statusCode = StatusCodes.Status404NotFound;
                     message = "Oh dear. Are you lost?";
                     break;

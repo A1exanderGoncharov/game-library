@@ -56,7 +56,7 @@ namespace BLL.Infrastructure
         public async Task<CommentDTO> GetByIdAsync(int id)
         {
             var comment = await _unitOfWork.CommentRepository.GetByIdAsync(id)
-                ?? throw new ElementNotFoundException(nameof(Comment), id);
+                ?? throw new ObjectNotFoundException(nameof(Comment), id);
 
             return _mapper.Map<Comment, CommentDTO>(comment);
         }

@@ -47,7 +47,7 @@ namespace BLL.Infrastructure
         public async Task<GenreDTO> GetByIdAsync(int id)
         {
             var genre = await _unitOfWork.GenreRepository.GetByIdAsync(id)
-                ?? throw new ElementNotFoundException(nameof(Genre), id);
+                ?? throw new ObjectNotFoundException(nameof(Genre), id);
 
             return _mapper.Map<Genre, GenreDTO>(genre);
         }

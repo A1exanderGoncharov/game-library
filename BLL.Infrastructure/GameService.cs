@@ -58,7 +58,7 @@ namespace BLL.Infrastructure
         public async Task<GameDTO> GetByIdAsync(int id)
         {
             var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(id) 
-                ?? throw new ElementNotFoundException(nameof(Game), id); 
+                ?? throw new ObjectNotFoundException(nameof(Game), id); 
 
             return _mapper.Map<Game, GameDTO>(game);
         }
@@ -179,7 +179,7 @@ namespace BLL.Infrastructure
         public async Task UpdateGameGenresAsync(int gameId, string[] selectedGenres)
         {
             var game = await _unitOfWork.GameRepository.GetByIdWithIncludesAsync(gameId)
-                ?? throw new ElementNotFoundException(nameof(Game), gameId);
+                ?? throw new ObjectNotFoundException(nameof(Game), gameId);
 
             foreach (var gameGenre in game.GameGenres)
             {

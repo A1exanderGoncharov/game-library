@@ -59,7 +59,7 @@ namespace BLL.Infrastructure
         public async Task<CollectionDTO> GetByIdAsync(int id)
         {
             var collection = await _unitOfWork.CollectionRepository.GetByIdAsync(id)
-                ?? throw new ElementNotFoundException(nameof(Collection), id);
+                ?? throw new ObjectNotFoundException(nameof(Collection), id);
 
             return _mapper.Map<Collection, CollectionDTO>(collection);
         }

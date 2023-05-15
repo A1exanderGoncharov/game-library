@@ -64,7 +64,7 @@ namespace BLL.Infrastructure
         public async Task<UserGameDTO> GetByIdAsync(int id)
         {
             var userGame = await _unitOfWork.UserGameLibraryRepository.GetByIdAsync(id)
-                ?? throw new ElementNotFoundException(nameof(UserGame), id);
+                ?? throw new ObjectNotFoundException(nameof(UserGame), id);
 
             return _mapper.Map<UserGame, UserGameDTO>(userGame);
         }

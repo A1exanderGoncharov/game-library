@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Infrastructure.Exceptions;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -66,7 +67,7 @@ namespace BLL.Infrastructure
         public ApplicationUserDTO GetUserById(string targetUserId)
         {
             var targetUser = _unitOfWork.UserRepository.GetAllAsync().FirstOrDefault(u => u.Id == targetUserId)
-                ?? throw new Exception("User does not exist!");
+                ?? throw new ObjectNotFoundException($"The user' with id '{targetUserId}' was not found.");
 
             return _mapper.Map<ApplicationUser, ApplicationUserDTO>(targetUser);
         }

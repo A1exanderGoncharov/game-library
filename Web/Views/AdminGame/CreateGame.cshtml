@@ -24,11 +24,11 @@
             <label>Genre(s)</label>
 
             <div class="form-group">
-                <div style="display: flex; align-items: baseline; gap: 15px; margin-bottom: 10px; flex-flow: row">
+                <div style="display: flex; align-items: baseline; gap: 20px; margin-bottom: 10px; flex-flow: row wrap">
                     @for (int i = 0; i < ViewBag.genres.Count; i++)
                     {
-                        <input type="checkbox" name="selectedGenres" value="@ViewBag.genres[i].Id" />
                         <label class="form-check-label" for="flexCheckDefault">
+                        <input type="checkbox" name="selectedGenres" value="@ViewBag.genres[i].Id" />
                             @ViewBag.genres[i].Name
                         </label>
                     }

@@ -9,6 +9,8 @@ namespace BLL.Interfaces
     {
         Task<SignInResult> LoginAsync(UserLoginModel userLoginModel);
         Task<IdentityResult> RegisterAsync(UserRegisterModel userRegisterModel);
+        IEnumerable<ApplicationUserDTO> GetAllUsers();
+        ApplicationUserDTO GetUserById(string targetUserId);
         IEnumerable<IdentityRole> GetRoles();
         Task SignOutAsync();
     }

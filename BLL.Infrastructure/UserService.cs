@@ -4,6 +4,7 @@ using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,6 +54,21 @@ namespace BLL.Infrastructure
         public async Task SignOutAsync()
         {
             await _unitOfWork.SignInManager.SignOutAsync();
+        }
+
+        public IEnumerable<ApplicationUserDTO> GetAllUsers()
+        {
+            var usersEntities = _unitOfWork.UserRepository.GetAllAsync().ToList();
+
+            return _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<ApplicationUserDTO>>(usersEntities);
+        }
+
+        public ApplicationUserDTO GetUserById(string targetUserId)
+        {
+            var targetUser = _unitOfWork.UserRepository.GetAllAsync().FirstOrDefault(u => u.Id == targetUserId)
+                ?? throw new Exception("User does not exist!");
+
+            return _mapper.Map<ApplicationUser, ApplicationUserDTO>(targetUser);
         }
     }
 }

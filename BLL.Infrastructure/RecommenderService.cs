@@ -61,31 +61,28 @@ namespace BLL.Infrastructure
             }
         }
 
-        private List<ComparedUserModel> GetNearestNeighbors(string targetUserId)
+        private static List<ComparedUserModel> GetNearestNeighbors(ApplicationUserDTO targetUserDTO, IEnumerable<ApplicationUserDTO> usersDTO, double minAverageOfUserRatings, int userCount)
         {
-            ApplicationUserDTO targetUserDTO = _userService.GetUserById(targetUserId);
-            IEnumerable<ApplicationUserDTO> usersDTO = _userService.GetAllUsers();
-
-            const double minAvgRating = 3;
-
             List<ComparedUserModel> neighbors = new();
 
-            if (GetAverageOfUserRatings(targetUserDTO) >= minAvgRating)
+            if (GetAverageOfUserRatings(targetUserDTO) <= minAverageOfUserRatings)
             {
-                foreach (var user in usersDTO)
+                return neighbors;
+            }
+
+            foreach (var user in usersDTO)
+            {
+                if (targetUserDTO.Id != user.Id && GetAverageOfUserRatings(user) >= minAverageOfUserRatings)
                 {
-                    if (targetUserId != user.Id && GetAverageOfUserRatings(user) >= minAvgRating)
+                    neighbors.Add(new ComparedUserModel
                     {
-                        neighbors.Add(new ComparedUserModel
-                        {
-                            ComparedUserId = user.Id,
-                            SimilarityScore = CalculateCosineSimilarity(targetUserDTO, user)
-                        });
-                    }
+                        ComparedUserId = user.Id,
+                        SimilarityScore = CalculateCosineSimilarity(targetUserDTO, user)
+                    });
                 }
             }
 
-            var similarUsers = neighbors.OrderByDescending(c => c.SimilarityScore).Take(5).Where(c => !double.IsNaN(c.SimilarityScore)).ToList();
+            var similarUsers = neighbors.OrderByDescending(c => c.SimilarityScore).Take(userCount).Where(c => !double.IsNaN(c.SimilarityScore)).ToList();
 
             return similarUsers;
         }
@@ -95,11 +92,14 @@ namespace BLL.Infrastructure
             return userDTO.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
         }
 
-        public async Task<List<RecommendedGameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId)
+        public async Task<List<RecommendedGameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId, double minAverageOfUserRatings, int userCount)
         {
             const int minRecGamesNumber = 6;
 
-            List<ComparedUserModel> neighbors = GetNearestNeighbors(currentUserId);
+            ApplicationUserDTO targetUserDTO = _userService.GetUserById(currentUserId);
+            IEnumerable<ApplicationUserDTO> usersDTO = _userService.GetAllUsers();
+
+            List<ComparedUserModel> neighbors = GetNearestNeighbors(targetUserDTO, usersDTO, minAverageOfUserRatings, userCount);
 
             if (neighbors.Count == 0)
             {

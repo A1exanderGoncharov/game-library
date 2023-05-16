@@ -91,11 +91,9 @@ namespace BLL.Infrastructure
         {
             return userDTO.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
         }
-
-        public async Task<List<RecommendedGameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId, double minAverageOfUserRatings, int userCount)
+        
+        public async Task<List<RecommendedGameDTO>> GetPersonalizedRecommendationsAsync(string currentUserId, int count, double minAverageOfUserRatings, int userCount)
         {
-            const int minRecGamesNumber = 6;
-
             ApplicationUserDTO targetUserDTO = _userService.GetUserById(currentUserId);
             IEnumerable<ApplicationUserDTO> usersDTO = _userService.GetAllUsers();
 
@@ -103,7 +101,7 @@ namespace BLL.Infrastructure
 
             if (neighbors.Count == 0)
             {
-                await SupplementRecsByTopRatedGamesAsync(new List<RecommendedGameDTO>(), minRecGamesNumber, currentUserId);
+                await SupplementRecsByTopRatedGamesAsync(new List<RecommendedGameDTO>(), count, currentUserId);
             }
 
             int[] recommendedGameIds = await ExcludeDuplicateGameIds(currentUserId, neighbors);
@@ -111,9 +109,9 @@ namespace BLL.Infrastructure
 
             List<RecommendedGameDTO> recommendationsDTO = SpecifyRecommendationType(recommendedGamesDTO, RecommendationType.ForYou);
 
-            if (recommendedGamesDTO.Count < minRecGamesNumber)
+            if (recommendedGamesDTO.Count < count)
             {
-                await SupplementRecsByTopRatedGamesAsync(recommendationsDTO, minRecGamesNumber, currentUserId);
+                await SupplementRecsByTopRatedGamesAsync(recommendationsDTO, count, currentUserId);
             }
 
             return recommendationsDTO;

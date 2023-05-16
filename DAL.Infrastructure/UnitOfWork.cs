@@ -49,9 +49,9 @@ namespace DAL.Infrastructure
         public IUserCollectionRepository UserCollectionRepository =>
             _userCollectionRepository ??= new UserCollectionRepository(_context);
 
-        IRepository<Rating> _ratingRepository;
-        public IRepository<Rating> RatingRepository =>
-            _ratingRepository ??= new Repository<Rating>(_context);
+        IRatingRepository _ratingRepository;
+        public IRatingRepository RatingRepository =>
+            _ratingRepository ??= new RatingRepository(_context);
 
         IUserRepository _userRepository;
         public IUserRepository UserRepository =>

@@ -32,6 +32,7 @@ namespace DAL.Infrastructure.Services
             services.AddScoped<ICollectionRepository, CollectionRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IUserCollectionRepository, UserCollectionRepository>();
+            services.AddScoped<IRatingRepository, RatingRepository>();
 
             return services;
         }

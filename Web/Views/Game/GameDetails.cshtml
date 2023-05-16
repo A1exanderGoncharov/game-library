@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th>Score:</th>
-                        <td>@ViewBag.gameRating/5 (@ViewBag.ratingsNumber)</td>
+                        <td>@Math.Round(@ViewBag.gameRating, 1)/5 (@ViewBag.ratingsNumber)</td>
                     </tr>
                     @{
                         var ratingInputDisabled = ViewBag.hasUserRated ? "disabled" : "";

@@ -67,11 +67,10 @@ namespace BLL.Infrastructure
             IEnumerable<ApplicationUserDTO> usersDTO = _userService.GetAllUsers();
 
             const double minAvgRating = 3;
-            const int minNumberOfRatedGames = 2;
 
             List<ComparedUserModel> neighbors = new();
 
-            if (targetUserDTO.Ratings.Count >= minNumberOfRatedGames && GetAverageOfUserRatings(targetUserDTO) >= minAvgRating)
+            if (GetAverageOfUserRatings(targetUserDTO) >= minAvgRating)
             {
                 foreach (var user in usersDTO)
                 {

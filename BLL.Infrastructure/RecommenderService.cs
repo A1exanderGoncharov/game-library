@@ -105,7 +105,7 @@ namespace BLL.Infrastructure
                 await SupplementRecsByTopRatedGamesAsync(new List<RecommendedGameDTO>(), count, currentUserId);
             }
 
-            List<GameDTO> recommendedGamesDTO = await ExcludeDuplicateGameIds(currentUserId, neighbors, 3);
+            List<GameDTO> recommendedGamesDTO = await RetrieveNeighborsGamesForRecommendations(currentUserId, neighbors, 3);
 
             List<RecommendedGameDTO> recommendationsDTO = SpecifyRecommendationType(recommendedGamesDTO, RecommendationType.ForYou);
 
@@ -117,7 +117,7 @@ namespace BLL.Infrastructure
             return recommendationsDTO;
         }
 
-        private async Task<List<GameDTO>> ExcludeDuplicateGameIds(string currentUserId, List<ComparedUserModel> neighbors, double minAverageRating)
+        private async Task<List<GameDTO>> RetrieveNeighborsGamesForRecommendations(string currentUserId, List<ComparedUserModel> neighbors, double minAverageRating)
         {
             var ratings = _unitOfWork.RatingRepository.GetAllWithIncludes();
 

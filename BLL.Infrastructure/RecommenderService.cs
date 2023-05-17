@@ -3,6 +3,7 @@ using BLL.DTO;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,8 +105,7 @@ namespace BLL.Infrastructure
                 await SupplementRecsByTopRatedGamesAsync(new List<RecommendedGameDTO>(), count, currentUserId);
             }
 
-            int[] recommendedGameIds = await ExcludeDuplicateGameIds(currentUserId, neighbors);
-            List<GameDTO> recommendedGamesDTO = await GetGamesByIdsAsync(recommendedGameIds);
+            List<GameDTO> recommendedGamesDTO = await ExcludeDuplicateGameIds(currentUserId, neighbors, 3);
 
             List<RecommendedGameDTO> recommendationsDTO = SpecifyRecommendationType(recommendedGamesDTO, RecommendationType.ForYou);
 
@@ -117,22 +117,22 @@ namespace BLL.Infrastructure
             return recommendationsDTO;
         }
 
-        private async Task<int[]> ExcludeDuplicateGameIds(string currentUserId, List<ComparedUserModel> neighbors)
+        private async Task<List<GameDTO>> ExcludeDuplicateGameIds(string currentUserId, List<ComparedUserModel> neighbors, double minAverageRating)
         {
-            var ratings = await _unitOfWork.RatingRepository.GetAllAsync();
+            var ratings = _unitOfWork.RatingRepository.GetAllWithIncludes();
 
-            var gameIdsOfTargetUser = ratings
+            var gamesRatedByTargetUser = ratings
                 .Where(r => r.ApplicationUserId == currentUserId)
-                .Select(r => r.GameId);
+                .Select(r => r.Game);
 
-            var gameIdsOfComparedUser = ratings
+            var gamesRatedByComparedUsers = ratings
                 .Where(r => neighbors.Select(cu => cu.ComparedUserId)
-                .Contains(r.ApplicationUserId) & r.GameRating > 3)
-                .Select(r => r.GameId);
+                .Contains(r.ApplicationUserId) & r.GameRating > minAverageRating)
+                .Select(r => r.Game);
 
-            int[] recommendedGameIds = gameIdsOfComparedUser.Except(gameIdsOfTargetUser).ToArray();
+            var gamesToRecommend = await gamesRatedByComparedUsers.Except(gamesRatedByTargetUser).ToListAsync();
 
-            return recommendedGameIds;
+            return _mapper.Map<List<Game>, List<GameDTO>>(gamesToRecommend);
         }
 
         private async Task<List<GameDTO>> GetGamesByIdsAsync(IEnumerable<int> gameIds)

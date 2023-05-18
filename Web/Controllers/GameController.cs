@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
 using BLL.Interfaces;
+using BLL.Interfaces.RecommendationSystem;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,13 +19,15 @@ namespace Web.Controllers
         readonly ICommentService _commentService;
         readonly IGenreService _genreService;
         readonly IRecommenderService _recommenderService;
+        readonly IRecommendationService _recommendationService;
 
-        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommenderService recommenderService)
+        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommenderService recommenderService, IRecommendationService recommendationService)
         {
             _gameService = gameService;
             _commentService = commentService;
             _genreService = genreService;
             _recommenderService = recommenderService;
+            _recommendationService = recommendationService;
         }
 
         public async Task<IActionResult> Index(int? pageNumber)
@@ -47,10 +50,12 @@ namespace Web.Controllers
             if (currentUserId != null)
             {
                 int recGamesCount = 6;
-                double minAverageOfUserRatings = 3;
-                int userCount = 5;
+                double minAvgRating = 4;
+                //double minAverageOfUserRatings = 3;
+                //int userCount = 5;
 
-                var recommendedGames = await _recommenderService.GetPersonalizedRecommendationsAsync(currentUserId, recGamesCount, minAverageOfUserRatings, userCount);
+                //var recommendedGames = await _recommenderService.GetPersonalizedRecommendationsAsync(currentUserId, recGamesCount, minAverageOfUserRatings, userCount);
+                var recommendedGames = await _recommendationService.GetAgregatedRecommendationsAsync(recGamesCount, minAvgRating, currentUserId);
 
                 int rangeSize = 3;
                 CarouselRangesCreator.CreateCarouselRanges(recommendedGames, viewModel, rangeSize);

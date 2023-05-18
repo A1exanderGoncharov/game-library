@@ -7,7 +7,7 @@ namespace Web.Helpers
 {
     public class CarouselRangesCreator
 	{
-		public static void CreateCarouselRanges(List<RecommendedGameDTO> recommendedGames, GameCardsViewModel viewModel, int rangeSize)
+		public static void CreateCarouselRanges(IEnumerable<RecommendedGameDTO> recommendedGames, GameCardsViewModel viewModel, int rangeSize)
 		{
             for (int i = 0; i < rangeSize; i++)
 			{

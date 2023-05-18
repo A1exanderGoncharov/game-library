@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BLL.Infrastructure.Automapper;
+using BLL.Infrastructure.RecommendationSystem;
 using BLL.Interfaces;
+using BLL.Interfaces.RecommendationSystem;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BLL.Infrastructure.Services
@@ -20,6 +22,9 @@ namespace BLL.Infrastructure.Services
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<ICollectionService, CollectionService>();
             services.AddTransient<IRecommenderService, RecommenderService>();
+            services.AddTransient<IRecommendationService, RecommendationService>();
+            services.AddTransient<IUserBasedRecommendationService, UserBasedRecommendationService>();
+            services.AddTransient<ITopGameRecommendationService, TopGameRecommendationService>();
 
             return services;
         }

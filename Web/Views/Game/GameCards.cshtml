@@ -1,5 +1,5 @@
 ﻿@using BLL.DTO;
-@*@model Web.Helpers.PaginatedList<GameDTO>*@
+@using System.Globalization;
 @model Web.ViewModels.GameCardsViewModel
 
 <div class="game-cards" style="margin-top:24px;">
@@ -77,11 +77,13 @@
                             <h4 class="card-title">@item.Name</h4>
                         </a>
 
-                        <p style="margin: 0 0 5px;">Release Date: @item.ReleaseDate.ToShortDateString()</p>
-                        @{
-                            var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
-                        }
-                        <span style="">&#11088; @Math.Round(ratingScore, 1)</span>
+                        <div class="card-body-bottom">
+                            <p>@item.ReleaseDate.ToString("MMM d, yyyy", CultureInfo.CreateSpecificCulture("en-US"))</p>
+                            @{
+                                var ratingScore = @item.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
+                            }
+                            <div style=""><span>&#11088; @Math.Round(ratingScore, 1)</span></div>
+                        </div>
 
                     </div>
                 </div>

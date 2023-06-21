@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO
 {
@@ -10,8 +9,6 @@ namespace BLL.DTO
         public string Name { get; set; }
         public string Description { get; set; }
         public string HeaderImage { get; set; }
-        //[DisplayFormat(DataFormatString = "{0:d}")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateOnly ReleaseDate { get; set; }
         public string Rating { get; set; }
         public string Trailer { get; set; }

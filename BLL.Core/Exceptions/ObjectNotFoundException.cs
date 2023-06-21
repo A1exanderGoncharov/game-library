@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BLL.Infrastructure.Exceptions
+namespace BLL.Core.Exceptions
 {
     public class ObjectNotFoundException : Exception
     {

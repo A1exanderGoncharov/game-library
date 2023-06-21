@@ -1,4 +1,4 @@
-﻿using BLL.Infrastructure.Exceptions;
+﻿using BLL.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;

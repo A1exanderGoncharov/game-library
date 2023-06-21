@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BLL.Infrastructure.RecommendationSystem
+namespace BLL.Core.RecommendationSystem
 {
     public class UserBasedRecommendationService : IUserBasedRecommendationService
     {

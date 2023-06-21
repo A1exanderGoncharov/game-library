@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using BLL.Infrastructure.Automapper;
-using BLL.Infrastructure.RecommendationSystem;
+using BLL.Core.Automapper;
+using BLL.Core.RecommendationSystem;
 using BLL.Interfaces;
 using BLL.Interfaces.RecommendationSystem;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BLL.Infrastructure.Services
+namespace BLL.Core.Services
 {
     public static class BLLServices
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using BLL.Interfaces.RecommendationSystem;
 using System;
 
-namespace BLL.Infrastructure.RecommendationSystem
+namespace BLL.Core.RecommendationSystem
 {
     public class TopGameRecommendationService : ITopGameRecommendationService
     {

@@ -1,5 +1,5 @@
 ﻿using BLL.DTO;
-using BLL.Infrastructure;
+using BLL.Core;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

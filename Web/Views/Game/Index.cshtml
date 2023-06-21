@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="/css/buttons.css" />
 </head>
 <body>
-    <form class="form-inline my-2 my-lg-0" asp-action="SearchGame">
+    <form class="form-inline my-2 my-lg-0" asp-action="SearchGame" style="border-color:#bfc2c6">
 
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="SearchString">
 
-        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-custom my-2 my-sm-0" type="submit">Search</button>
 
         <div class="dropdown">
 
@@ -36,7 +36,7 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <div class="recommendations" style="margin-bottom:50px; overflow: hidden;">
+        <div class="recommendations" style="margin-bottom:30px; margin-top:30px; overflow: hidden;">
 
             @*<img class="logo" src="/game-library-logo.png" alt="Card image">*@
 

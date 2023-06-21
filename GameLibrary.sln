@@ -13,13 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.DTO", "BLL.DTO\BLL.DTO.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Interfaces", "BLL.Interfaces\BLL.Interfaces.csproj", "{E83D9BCD-F0AB-43B0-8C17-41FC46A98FFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Infrastructure", "BLL.Infrastructure\BLL.Infrastructure.csproj", "{92B3EF03-A53D-4B8B-B222-E22BCBD2FE98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Core", "BLL.Infrastructure\BLL.Core.csproj", "{92B3EF03-A53D-4B8B-B222-E22BCBD2FE98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{DA87810D-58BE-40BA-91EA-D2F9C0584E44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary.IntegrationTests", "GameLibrary.IntegrationTests\GameLibrary.IntegrationTests.csproj", "{6E61F267-76DA-4F70-8F1C-934569BAF7E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary.UnitTests", "GameLibrary.UnitTests\GameLibrary.UnitTests.csproj", "{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLibrary.UnitTests", "GameLibrary.UnitTests\GameLibrary.UnitTests.csproj", "{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +53,6 @@ Global
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA87810D-58BE-40BA-91EA-D2F9C0584E44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E61F267-76DA-4F70-8F1C-934569BAF7E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F21FBC-DFC8-464C-AA92-2FCB51B7C14E}.Release|Any CPU.ActiveCfg = Release|Any CPU

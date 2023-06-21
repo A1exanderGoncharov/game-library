@@ -20,7 +20,7 @@
 .fa-plus-circle, .fa-minus-circle {
     position: absolute;
     left: 3px;
-    font-size: 2em;
+    font-size: 33px;
     color: white;
 }
 
@@ -29,3 +29,26 @@
     margin-left: 26px;
     padding-left: 5px;
 }
+
+:root {
+    --btn-font-size: 1rem;
+    --btn-padding: 7px 13px;
+    --btn-color: #fff;
+    --btn-bg-color: #5ea3ec;
+}
+
+.btn-custom {
+    font-size: var(--btn-font-size);
+    padding: var(--btn-padding);
+    color: var(--btn-color);
+    background-color: var(--btn-bg-color);
+    border: none;
+    /*border-radius: 5px;*/
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+    .btn-custom:hover {
+        background-color: #0069d9;
+        color: white;
+    }

@@ -99,7 +99,7 @@ namespace BLL.Infrastructure.RecommendationSystem
 
             var gamesRatedByComparedUsers = ratings
                 .Where(r => neighbors.Select(cu => cu.ComparedUserId)
-                .Contains(r.ApplicationUserId) & r.GameRating > minAverageRating)
+                .Contains(r.ApplicationUserId) & r.GameRating >= minAverageRating)
                 .Select(r => r.Game);
 
             var gamesToRecommend = await gamesRatedByComparedUsers.Except(gamesRatedByTargetUser).ToListAsync();

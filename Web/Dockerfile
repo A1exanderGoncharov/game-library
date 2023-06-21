@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Web/Web.csproj", "Web/"]
-COPY ["BLL.Infrastructure/BLL.Infrastructure.csproj", "BLL.Infrastructure/"]
+COPY ["BLL.Core/BLL.Core.csproj", "BLL.Core/"]
 COPY ["DAL.Interfaces/DAL.Interfaces.csproj", "DAL.Interfaces/"]
 COPY ["DAL.Entities/DAL.Entities.csproj", "DAL.Entities/"]
 COPY ["BLL.Interfaces/BLL.Interfaces.csproj", "BLL.Interfaces/"]

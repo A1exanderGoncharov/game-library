@@ -34,7 +34,7 @@
         </div>
     </form>
 
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && Model.recommendedGames.Any())
     {
         <div class="recommendations" style="margin-bottom:30px; margin-top:30px; overflow: hidden;">
 

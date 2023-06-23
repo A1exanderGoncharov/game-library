@@ -23,7 +23,7 @@ namespace BLL.Core.RecommendationSystem
             var topRatedGames = gamesDTO
                 .Where(g => g.Ratings
                 .Select(r => r.GameRating).DefaultIfEmpty()
-                .Average() > minRecommendedGameRating)
+                .Average() >= minRecommendedGameRating)
                 .Select(g => g)
                 .OrderBy(g => Guid.NewGuid());
 

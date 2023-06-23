@@ -265,6 +265,7 @@ ul {
     -webkit-border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     border-radius: 0 0 4px 4px;
+    overflow-wrap: anywhere;
 }
 
 .comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {

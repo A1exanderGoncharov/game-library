@@ -20,13 +20,13 @@ namespace BLL.Core.RecommendationSystem
             IMapper mapper, 
             IGameService gameService, 
             IUserService userService, 
-            IUserBasedRecommendationService recommenderService, 
+            IUserBasedRecommendationService userBasedRecommendationService, 
             ITopGameRecommendationService topGameRecommendationService)
         {
             _mapper = mapper;
             _gameService = gameService;
             _userService = userService;
-            _userBasedRecommendationService = recommenderService;
+            _userBasedRecommendationService = userBasedRecommendationService;
             _topGameRecommendationService = topGameRecommendationService;
         }
 

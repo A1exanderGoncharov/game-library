@@ -18,15 +18,13 @@ namespace Web.Controllers
         readonly IGameService _gameService;
         readonly ICommentService _commentService;
         readonly IGenreService _genreService;
-        readonly IRecommenderService _recommenderService;
         readonly IRecommendationService _recommendationService;
 
-        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommenderService recommenderService, IRecommendationService recommendationService)
+        public GameController(IGameService gameService, ICommentService commentService, IGenreService genreService, IRecommendationService recommendationService)
         {
             _gameService = gameService;
             _commentService = commentService;
             _genreService = genreService;
-            _recommenderService = recommenderService;
             _recommendationService = recommendationService;
         }
 
@@ -51,10 +49,7 @@ namespace Web.Controllers
             {
                 int recGamesCount = 6;
                 double minAvgRating = 4;
-                //double minAverageOfUserRatings = 3;
-                //int userCount = 5;
 
-                //var recommendedGames = await _recommenderService.GetPersonalizedRecommendationsAsync(currentUserId, recGamesCount, minAverageOfUserRatings, userCount);
                 var recommendedGames = await _recommendationService.GetAgregatedRecommendationsAsync(recGamesCount, minAvgRating, currentUserId);
 
                 int rangeSize = 3;

@@ -34,10 +34,15 @@ namespace BLL.Core.RecommendationSystem
         {
             var userBasedRecs = (await GetUserBasedRecommendationsAsync(currentUserId, new RecommendationOptions())).ToList();
 
+            if (userBasedRecs.Count >= totalCount)
+            {
+                return userBasedRecs.Take(totalCount);
+            }
+
             var topGamesRecs = await GetTopRatedGamesRecommendationsAsync(minAverageRating, currentUserId);
             
             var distinctTopGames = topGamesRecs
-                .ExceptBy(userBasedRecs.Select(x => x.Id), x => x.Id);
+                .ExceptBy(userBasedRecs.Select(rg => rg.Id), rg => rg.Id);
 
             var topGamesToSupplement = distinctTopGames
                 .Take(totalCount - userBasedRecs.Count);
@@ -56,7 +61,7 @@ namespace BLL.Core.RecommendationSystem
                 .GetNearestNeighbors(targetUserDTO, usersDTO, options.MinAverageOfUserRatings, options.UsersCount);
 
             List<GameDTO> recommendedGamesDTO = await _userBasedRecommendationService
-                .RetrieveNeighborsGamesForRecommendations(currentUserId, neighbors, options.MinAverageRating);
+                .RetrieveNeighborsGamesForRecommendations(currentUserId, neighbors, options.MinAverageRating, options.EnableRandomOrder);
 
             List<RecommendedGameDTO> recommendationsDTO = SpecifyRecommendationType(recommendedGamesDTO, RecommendationType.ForYou);
 

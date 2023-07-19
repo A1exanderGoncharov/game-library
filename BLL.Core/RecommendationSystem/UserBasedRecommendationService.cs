@@ -89,7 +89,7 @@ namespace BLL.Core.RecommendationSystem
             return userDTO.Ratings.Select(x => x.GameRating).DefaultIfEmpty().Average();
         }
 
-        public async Task<List<GameDTO>> RetrieveNeighborsGamesForRecommendations(string currentUserId, List<ComparedUserModel> neighbors, double minAverageRating)
+        public async Task<List<GameDTO>> RetrieveNeighborsGamesForRecommendations(string currentUserId, List<ComparedUserModel> neighbors, double minAverageRating, bool useRandomOrder)
         {
             var ratings = _unitOfWork.RatingRepository.GetAllWithIncludes();
 
@@ -104,7 +104,14 @@ namespace BLL.Core.RecommendationSystem
 
             var gamesToRecommend = await gamesRatedByComparedUsers.Except(gamesRatedByTargetUser).ToListAsync();
 
-            return _mapper.Map<List<Game>, List<GameDTO>>(gamesToRecommend);
+            var gamesToRecommendDtos = _mapper.Map<List<Game>, List<GameDTO>>(gamesToRecommend);
+
+            if (useRandomOrder)
+            {
+                return gamesToRecommendDtos.OrderBy(g => Guid.NewGuid()).ToList();
+            }
+
+            return gamesToRecommendDtos;
         }
     }
 }

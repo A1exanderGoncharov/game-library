@@ -21,7 +21,6 @@ namespace BLL.Core.Services
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<ICollectionService, CollectionService>();
-            services.AddTransient<IRecommenderService, RecommenderService>();
             services.AddTransient<IRecommendationService, RecommendationService>();
             services.AddTransient<IUserBasedRecommendationService, UserBasedRecommendationService>();
             services.AddTransient<ITopGameRecommendationService, TopGameRecommendationService>();
